@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Forms for Angular 2</title>
+    <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic"> -->
+    <!--<link href='https://fonts.googleapis.com/css?family=Merriweather&subset=latin,cyrillic' rel='stylesheet' type='text/css'>-->
+    <style>
+      .control {flex:auto;border: solid 1px black;display: block;margin: 10px}
+    </style>
+    <!-- 0. Add magic script for router -->
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <!-- 1. Load libraries -->
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/typescript/lib/typescript.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <!--<script src="node_modules/angular2/bundles/router.dev.js"></script>-->
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        transpiler: 'typescript',
+        typescriptOptions: { emitDecoratorMetadata: true },
+        packages: {'app': {defaultExtension: 'ts'}}
+      });
+      /** Old school using js
+      System.config({
+        packages: {app: {format: 'register',defaultExtension: 'js'}}
+      });
+      **/
+      System.import('app/boot')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+  <!-- 3. Display the application -->
+  <body>
+    <my-app>Loading...</my-app>
+  </body>
+</html>
