@@ -25,7 +25,8 @@ import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
 ])
 export class AppComponent  {
   uischema:any = {
-  "type": "VerticalLayout",
+  "type": "GroupLayout",
+  "label":"myGroup",
   "elements": [
     {
       "type": "Control",

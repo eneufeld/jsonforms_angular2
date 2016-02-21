@@ -22,6 +22,6 @@ export class MyRenderer1 {
 export var MyRenderer1Tester: FormsTester;
 MyRenderer1Tester =function (element:IUISchemaElement, dataObject:any ){
   if(element.type=='Control')
-    return 1;
+    return 0;
   return NOT_FITTING;
 }

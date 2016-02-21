@@ -3,9 +3,9 @@
 import {Component, OnInit,ElementRef,DynamicComponentLoader,Inject,Injector,provide} from 'angular2/core';
 import {FormsTester,NOT_FITTING,RendererRegistry} from '../forms/forms';
 @Component({
-    selector: 'HorizontalRenderer',
-    template: `<div style="display: flex;justify-content: flex-start;"><span #children></span></div>`,
-    styles: [``],
+    selector: 'HorizontalLayoutRenderer',
+    template: `<div class="forms_horizontalLayout"><span #children></span></div>`,
+    styles: [`.forms_horizontalLayout {display: flex;justify-content: flex-start;}`],
     directives:[]
 })
 export class HorizontalLayoutRenderer implements OnInit{

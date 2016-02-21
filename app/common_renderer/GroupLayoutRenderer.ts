@@ -3,12 +3,12 @@
 import {Component, OnInit,ElementRef,DynamicComponentLoader,Inject,Injector,provide} from 'angular2/core';
 import {FormsTester,NOT_FITTING,RendererRegistry} from '../forms/forms';
 @Component({
-    selector: 'VerticalLayoutRenderer',
-    template: `<div class="forms_verticalLayout"><span #children></span></div>`,
-    styles: [``],
+    selector: 'GroupLayoutRenderer',
+    template: `<fieldset class="forms_groupLayout"><legend class="forms_groupLabel">{{_uiSchema.label}}</legend><span #children></span></fieldset>`,
+    styles: [`.forms_groupLabel {padding-left:1em;padding-right:1em;}`],
     directives:[]
 })
-export class VerticalLayoutRenderer implements OnInit{
+export class GroupLayoutRenderer implements OnInit{
     constructor(private _elementRef: ElementRef,private _rendererRegistry:RendererRegistry,private _loader: DynamicComponentLoader,@Inject('uiSchema') private _uiSchema:ILayout,@Inject('data') private _data:any) {}
     ngOnInit() {
       for (var schemaElement of this._uiSchema.elements) {
@@ -17,9 +17,9 @@ export class VerticalLayoutRenderer implements OnInit{
       }
     }
 }
-export var VerticalLayoutRendererTester: FormsTester;
-VerticalLayoutRendererTester =function (element:IUISchemaElement, dataObject:any ){
-  if('VerticalLayout'==element.type){
+export var GroupLayoutRendererTester: FormsTester;
+GroupLayoutRendererTester =function (element:IUISchemaElement, dataObject:any ){
+  if('GroupLayout'==element.type){
     return 2;
   }
   return NOT_FITTING;
