@@ -9,16 +9,16 @@ import {FormsTester,NOT_FITTING,RendererRegistry} from '../forms/forms';
     directives:[]
 })
 export class HorizontalLayoutRenderer implements OnInit{
-    constructor(private _elementRef: ElementRef,private _rendererRegistry:RendererRegistry,private _loader: DynamicComponentLoader,@Inject('uiSchema') private _uiSchema:ILayout,@Inject('data') private _data:any) {}
+    constructor(private _elementRef: ElementRef,private _rendererRegistry:RendererRegistry,private _loader: DynamicComponentLoader,@Inject('uiSchema') private _uiSchema:ILayout,@Inject('dataSchema') private _dataSchema:any,@Inject('data') private _data:any) {}
     ngOnInit() {
       for (var schemaElement of this._uiSchema.elements) {
-        this._loader.loadIntoLocation(this._rendererRegistry.getBestComponent(schemaElement,this._data), this._elementRef,'children',
-        Injector.resolve([provide('uiSchema', {useValue: schemaElement}),provide('dataSchema', {useValue: this._data})]));
+        this._loader.loadIntoLocation(this._rendererRegistry.getBestComponent(schemaElement,this._dataSchema,this._data), this._elementRef,'children',
+        Injector.resolve([provide('uiSchema', {useValue: schemaElement})]));
       }
     }
 }
 export var HorizontalLayoutRendererTester: FormsTester;
-HorizontalLayoutRendererTester =function (element:IUISchemaElement, dataObject:any ){
+HorizontalLayoutRendererTester =function (element:IUISchemaElement, dataSchema:any, dataObject:any ){
   if('HorizontalLayout'==element.type){
     return 2;
   }

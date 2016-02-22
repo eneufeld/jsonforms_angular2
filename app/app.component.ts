@@ -14,7 +14,7 @@ import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
       <h2>Test Data</h2>
       <div>{{data|json}}</div>
     </div>
-    <form-outlet [uiSchema]="uischema" [data]="data"></form-outlet>
+    <form-outlet [uiSchema]="uischema" [data]="data" [dataSchema]="dataschema"></form-outlet>
     `,
     styles:[``],
     directives:[FORM_DIRECTIVES],
@@ -25,7 +25,7 @@ import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
 ])
 export class AppComponent  {
   uischema:any = {
-  "type": "GroupLayout",
+  "type": "VerticalLayout",
   "label":"myGroup",
   "elements": [
     {
@@ -43,4 +43,16 @@ export class AppComponent  {
   ]
 };
   data:any = {name:"John Doe",firstName:"John",lastName:"Doe"};
+  dataschema:any = {
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "minLength": 10
+    },
+    "lastName": {
+      "type": "string"
+    }
+  }
+};
 }

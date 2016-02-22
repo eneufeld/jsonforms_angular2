@@ -45,27 +45,16 @@ export class RendererRegistry {
   register(rendererType:Type,tester:Function):void {
     this.renderer.push({renderer:rendererType,tester:tester});
   }
-  getBestComponent(element:IUISchemaElement,dataObject:any):Type {
+  getBestComponent(element:IUISchemaElement,dataSchema:any,dataObject:any):Type {
     var bestRenderer:Type;
     var highestSpecificity:number=-1;
     for (var rendererDef of this.renderer) {
-      var currentSpecificity:number=rendererDef.tester(element,dataObject);
+      var currentSpecificity:number=rendererDef.tester(element,dataSchema,dataObject);
       if (currentSpecificity>highestSpecificity){
         highestSpecificity=currentSpecificity;
         bestRenderer=rendererDef.renderer;
       }
     }
     return bestRenderer;
-  }
-}
-
-@Injectable()
-export class ValidationService {
-  constructor(){
-    console.log("created ValidationService");
-  }
-  init(uiSchema:IUISchemaElement,dataSchema:any):void{
-    console.log(JSON.stringify(uiSchema));
-    console.log(JSON.stringify(dataSchema));
   }
 }
