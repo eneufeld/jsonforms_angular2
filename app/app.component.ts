@@ -51,7 +51,8 @@ export class AppComponent  {
       "minLength": 10
     },
     "lastName": {
-      "type": "string"
+      "type": "string",
+      "minLength": 5
     }
   }
 };

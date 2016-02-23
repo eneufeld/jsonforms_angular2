@@ -8,9 +8,13 @@ import {CustomValidatorDirective} from './validate.directive';
 @Component({
     selector: 'TextControlRenderer',
     template: `
+    <div>
     <label class="forms_textControlLabel forms_controlLabel">{{fragment}}</label>
     <input type="text" [(ngModel)]="_modelValue[fragment]" class="forms_textControl" #control="ngForm"/>
-    <div *ngFor="#error of getValues(control.errors)">{{error}}</div>`,
+    <div *ngFor="#error of getValues(control.errors)" style="color:red">{{error|json}}</div>
+    </div>
+    `
+    ,
     styles: [``],
     directives:[CustomValidatorDirective]
 })
@@ -19,13 +23,12 @@ export class TextControlRenderer {
   private fragment:any;
   constructor( @Inject('uiSchema') private _uiSchema:IControlObject, @Inject('data') private _data:any) {
     //hack for correct resolvement
-    var fragments:Array<string> = _uiSchema.scope.$ref.split('/');
-    fragments=fragments.filter(toCheck => {return "#"!=toCheck && "properties"!==toCheck});
+    var fragments:Array<string> = PathUtil.filterNonKeywords(PathUtil.toPropertyFragments(_uiSchema.scope.$ref));
     this.fragment=fragments[fragments.length-1];
     var fragmentsToObject:Array<string> =fragments.slice(0,fragments.length-1);
-    this._modelValue=fragmentsToObject.reduce((curValue, fragment)=>{return curValue[fragment];},_data);
+    this._modelValue=PathUtil.resolveInstanceFromFragments(_data,fragmentsToObject);
   }
-  getValues(error:Object){
+  private getValues(error:Object){
     if(error==undefined || error==null)
       return [];
     var result:any[]=[];
