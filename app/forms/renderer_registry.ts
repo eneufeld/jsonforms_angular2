@@ -7,7 +7,7 @@ import {
   CONST_EXPR
 } from 'angular2/src/facade/lang';
 import {reflector} from 'angular2/src/core/reflection/reflection';
-import {RendererConfig,RendererDefinition} from './renderer_config_impl';
+import {RendererConfig,RendererDefinition,FormsTester} from './renderer_config_impl';
 
 export const FORM_PRIMARY_COMPONENT: OpaqueToken =
     CONST_EXPR(new OpaqueToken('FormPrimaryComponent'));
@@ -17,7 +17,7 @@ export const FORM_DEFAULT_RENDERER: OpaqueToken =
 @Injectable()
 export class RendererRegistry {
   private renderer : Array<RendererDefinition>;
-  constructor(@Inject(FORM_PRIMARY_COMPONENT) private _rootComponent: Type,@Inject(FORM_DEFAULT_RENDERER) _defaultRenderer: Array<RendererDefinition>) {
+  constructor(@Inject(FORM_PRIMARY_COMPONENT) private _rootComponent: Type, @Inject(FORM_DEFAULT_RENDERER) _defaultRenderer: Array<RendererDefinition>) {
     this.renderer=_defaultRenderer;
     this.configFromComponent();
   }
@@ -42,7 +42,7 @@ export class RendererRegistry {
     }
   }
 
-  register(rendererType:Type,tester:Function):void {
+  register(rendererType:Type,tester:FormsTester):void {
     this.renderer.push({renderer:rendererType,tester:tester});
   }
   getBestComponent(element:IUISchemaElement,dataSchema:any,dataObject:any):Type {

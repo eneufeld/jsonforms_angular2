@@ -12,5 +12,8 @@ export class RendererConfig {
 
 export interface RendererDefinition {
   renderer?:Type;
-  tester?:Function;
+  tester?:FormsTester;
+}
+export interface FormsTester {
+    (element:IUISchemaElement, dataSchema:any, dataObject:any ):number;
 }
