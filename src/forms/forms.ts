@@ -1,4 +1,4 @@
-/// <reference path="../typings/uischema.d.ts"/>
+/// <reference path="../../typings/uischema.d.ts"/>
 
 export * from './renderer_config_decorator';
 export * from './service_config_impl';
@@ -14,10 +14,6 @@ import {RendererDefinition} from './renderer_config_impl';
 import {FormOutlet} from './form_outlet';
 import {formCommonRendererFactory} from '../common_renderer/common_renderer';
 import {formCommonServicesFactory} from '../common_services/common_services';
-import {ServicesDirective} from '../common_renderer/services.directive';
-
-
-
 
 export const NOT_FITTING:number=-1;
 export const FORM_DIRECTIVES: any[] = CONST_EXPR([FormOutlet]);

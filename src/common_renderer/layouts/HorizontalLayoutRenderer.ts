@@ -1,7 +1,5 @@
-/// <reference path="../../typings/uischema.d.ts"/>
-
 import {Component, OnInit,ElementRef,DynamicComponentLoader,Inject,Injector,provide} from 'angular2/core';
-import {FormsTester,NOT_FITTING,RendererRegistry} from '../../forms/forms';
+import {FormsTester,NOT_FITTING,RendererRegistry} from './../../forms/forms';
 import {AbstractLayoutRenderer} from './AbstractLayoutRenderer';
 @Component({
     selector: 'HorizontalLayoutRenderer',

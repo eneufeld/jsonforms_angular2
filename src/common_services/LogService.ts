@@ -1,4 +1,4 @@
-import {FormsService,ChangeNotification} from '../forms/forms';
+import {FormsService,ChangeNotification} from './../forms/forms';
 export class MyLogService implements FormsService {
     onChange(changeNotification:ChangeNotification):void{
         console.log("changed called: "+JSON.stringify(changeNotification));

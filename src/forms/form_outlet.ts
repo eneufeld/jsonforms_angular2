@@ -1,4 +1,4 @@
-/// <reference path="../typings/uischema.d.ts"/>
+/// <reference path="../../typings/uischema.d.ts"/>
 
 import { Directive, ElementRef, DynamicComponentLoader, Input, OnInit, DoCheck, provide, Injector, KeyValueDiffers, Inject, AfterContentInit} from 'angular2/core';
 import {RendererRegistry,ChangeNotification,FormsService} from './forms';

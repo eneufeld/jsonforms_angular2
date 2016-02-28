@@ -1,7 +1,7 @@
-/// <reference path="typings/uischema.d.ts"/>
+/// <reference path="../../typings/uischema.d.ts"/>
 
 import {Component} from 'angular2/core';
-import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES} from './forms/forms';
+import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES} from '../../src/forms/forms';
 import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
 
 @Component({

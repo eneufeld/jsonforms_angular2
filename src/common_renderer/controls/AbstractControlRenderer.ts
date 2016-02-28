@@ -1,5 +1,5 @@
 import PathUtil = require('../PathUtil');
-import {FormsTester,NOT_FITTING} from '../../forms/forms';
+import {FormsTester,NOT_FITTING} from './../../forms/forms';
 
 export abstract class AbstractControlRenderer {
 

@@ -1,4 +1,4 @@
-import {FormsService,ChangeNotification} from '../forms/forms';
+import {FormsService,ChangeNotification} from './../forms/forms';
 import PathUtil = require('../common_renderer/PathUtil');
 
 declare var tv4;

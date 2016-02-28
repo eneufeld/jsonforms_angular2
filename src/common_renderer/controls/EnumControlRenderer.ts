@@ -1,8 +1,5 @@
-/// <reference path="../../typings/uischema.d.ts"/>
-
 import {Component, Inject, ChangeDetectionStrategy} from 'angular2/core';
-import {FormsTester,NOT_FITTING} from '../../forms/forms';
-import {ServicesDirective} from '../services.directive';
+import {FormsTester,NOT_FITTING} from './../../forms/forms';
 import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRenderer';
 import PathUtil = require('../PathUtil');
 

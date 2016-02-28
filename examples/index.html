@@ -20,27 +20,26 @@
     <!-- 0. Add magic script for router -->
     <script>document.write('<base href="' + document.location + '" />');</script>
     <!-- 1. Load libraries -->
-    <script src="node_modules/tv4/tv4.js"></script>
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/typescript/lib/typescript.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="../node_modules/tv4/tv4.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+    <script src="../node_modules/typescript/lib/typescript.js"></script>
+    <script src="../node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
     <!--<script src="node_modules/angular2/bundles/router.dev.js"></script>-->
     <!-- 2. Configure SystemJS -->
     <script>
       System.config({
         transpiler: 'typescript',
         typescriptOptions: { emitDecoratorMetadata: true },
-        packages: {'app': {defaultExtension: 'ts'}}
+        packages: {'app': {defaultExtension: 'ts'},'../src': {defaultExtension: 'ts'}}
       });
       /** Old school using js
       System.config({
         packages: {app: {format: 'register',defaultExtension: 'js'}}
       });
       **/
-      System.import('app/boot')
-            .then(null, console.error.bind(console));
+      System.import('app/boot').then(null, console.error.bind(console));
     </script>
   </head>
   <!-- 3. Display the application -->

@@ -1,4 +1,4 @@
-/// <reference path="../typings/uischema.d.ts"/>
+/// <reference path="../../typings/uischema.d.ts"/>
 import {Injectable, Inject, OpaqueToken} from 'angular2/core';
 import {
   isPresent,
