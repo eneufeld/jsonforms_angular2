@@ -1,6 +1,6 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import {Component, Inject} from 'angular2/core';
+import {Component, Inject, ChangeDetectionStrategy} from 'angular2/core';
 import {FormsTester,NOT_FITTING} from '../../forms/forms';
 import {ServicesDirective} from '../services.directive';
 import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRenderer';
@@ -14,12 +14,13 @@ import PathUtil = require('../PathUtil');
             <select class="forms_enumControl" [(ngModel)]="_modelValue[fragment]">
                 <option *ngFor="#option of options" [value]="option">{{option}}</option>
             </select>
-            <div *ngFor="#error of getValues(_uiSchema.validation)" style="color:red">{{error|json}}</div>
+            <div *ngFor="#error of getErrors(_uiSchema.validation)" style="color:red">{{error|json}}</div>
         </div>
     `
     ,
     styles: [``],
-    directives:[ServicesDirective]
+    directives:[],
+    changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class EnumControlRenderer extends AbstractControlRenderer{
     private _subSchema:any;

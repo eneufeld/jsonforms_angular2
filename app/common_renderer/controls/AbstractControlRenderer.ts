@@ -16,7 +16,7 @@ export abstract class AbstractControlRenderer {
 
     protected get label(){return this.fragment;}
 
-    protected getValues(error:Object){
+    protected getErrors(error:Object):any[]{
         if(error==undefined || error==null)
           return [];
         var result:any[]=[];

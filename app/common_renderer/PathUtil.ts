@@ -48,6 +48,9 @@ export function resolveInstanceFromFragments (instance:any, fragments:string[]):
                 return item[fragment];
             });
         }
+        if(!currObj.hasOwnProperty(fragment)){
+            currObj[fragment]={};
+        }
         return currObj[fragment];
     }, instance);
 };

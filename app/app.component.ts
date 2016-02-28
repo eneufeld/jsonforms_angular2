@@ -44,13 +44,25 @@ export class AppComponent  {
   {
     "type": "Control",
     "scope": {
-      "$ref": "#/properties/age"
+      "$ref": "#/properties/personalData/properties/age"
     }
   },
   {
     "type": "Control",
     "scope": {
       "$ref": "#/properties/nationality"
+    }
+  },
+  {
+    "type": "Control",
+    "scope": {
+      "$ref": "#/properties/personalData/properties/height"
+    }
+  },
+  {
+    "type": "Control",
+    "scope": {
+      "$ref": "#/properties/vegetarian"
     }
   }
   ]
@@ -67,13 +79,25 @@ export class AppComponent  {
           "type": "string",
           "minLength": 5
         },
-        "age": {
-          "type": "number"
+        "personalData": {
+            "type": "object",
+            "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "height": {
+                    "type": "number"
+                }
+            }
         },
         "nationality": {
             "type": "string",
             "enum": ["DE", "IT", "JP", "US", "RU", "Other"]
-        }
-    }
+        },
+        "vegetarian": {
+            "type": "boolean"
+        },
+    },
+    "required": ["nationality"]
 };
 }
