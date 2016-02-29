@@ -1,21 +1,24 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import { Directive, ElementRef, DynamicComponentLoader, Input, OnInit, DoCheck, provide, Injector, KeyValueDiffers, Inject, AfterContentInit} from 'angular2/core';
+import { Component, ElementRef, DynamicComponentLoader, Input, OnInit, DoCheck, provide, Injector, KeyValueDiffers, Inject, AfterContentInit} from 'angular2/core';
 import {RendererRegistry,ChangeNotification,FormsService} from './forms';
+import {FormInner} from './form_inner';
 
-@Directive({selector: 'form-outlet'})
+@Component({
+    selector: 'form-outlet',
+    template:'<div><form-inner [uiSchema]="_uiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-inner></div>',
+    directives:[FormInner]
+})
 export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     @Input("uiSchema") private _uiSchema: IUISchemaElement;
     @Input("data") private _data: any;
     @Input("dataSchema") private _dataSchema: any;
     private _differ: any;
     private _initialized=false;
-    constructor(private _elementRef: ElementRef,private _rendererRegistry:RendererRegistry,private _loader: DynamicComponentLoader,differs: KeyValueDiffers,@Inject('FormServices') private _services: Array<FormsService> ) {
+    constructor(differs: KeyValueDiffers,@Inject('FormServices') private _services: Array<FormsService> ) {
         this._differ = differs.find({}).create(null);
     }
     ngOnInit() {
-        this._loader.loadNextToLocation(this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data), this._elementRef,
-        Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema})]));
     }
 
     ngDoCheck() {

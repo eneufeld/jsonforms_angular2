@@ -1,19 +1,17 @@
 import {Component, OnInit,ElementRef,DynamicComponentLoader,Inject,Injector,provide} from 'angular2/core';
-import {FormsTester,NOT_FITTING,RendererRegistry} from './../../forms/forms';
+import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from './../../forms/forms';
 import {AbstractLayoutRenderer} from './AbstractLayoutRenderer';
 @Component({
     selector: 'HorizontalLayoutRenderer',
-    template: `<div class="forms_horizontalLayout"><span #children></span></div>`,
+    template: `<div class="forms_horizontalLayout"><form-inner *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-inner></div>`,
     styles: [`.forms_horizontalLayout {display: flex;justify-content: flex-start;}`],
-    directives:[]
+    directives:[FormInner]
 })
-export class HorizontalLayoutRenderer extends AbstractLayoutRenderer implements OnInit{
-    constructor(_elementRef:ElementRef, _rendererRegistry:RendererRegistry, _loader:DynamicComponentLoader, @Inject('uiSchema') _uiSchema:ILayout, @Inject('dataSchema') _dataSchema:any, @Inject('data') _data:any) {
-        super(_elementRef,_rendererRegistry,_loader,_uiSchema,_dataSchema,_data);
+export class HorizontalLayoutRenderer  implements OnInit{
+    constructor(@Inject('uiSchema') private _uiSchema:ILayout, @Inject('dataSchema') private _dataSchema:any, @Inject('data') private _data:any) {
     }
 
     ngOnInit() {
-        this.renderChildren('children');
     }
 }
 export var HorizontalLayoutRendererTester: FormsTester;

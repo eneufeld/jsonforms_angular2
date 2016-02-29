@@ -5,6 +5,7 @@ export * from './service_config_impl';
 export {FormsTester} from './renderer_config_impl';
 export {RendererRegistry, FORM_PRIMARY_COMPONENT} from './renderer_registry';
 export {FormOutlet} from './form_outlet';
+export {FormInner} from './form_inner';
 
 import {ApplicationRef, provide, OpaqueToken,Inject} from 'angular2/core';
 import {CONST_EXPR} from 'angular2/src/facade/lang';

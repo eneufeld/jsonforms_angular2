@@ -25,49 +25,62 @@ import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
   {renderer:MyRenderer1,tester:MyRenderer1Tester}
 ])
 export class AppComponent  {
-  uischema:any = {
-  "type": "VerticalLayout",
-  "label":"myGroup",
-  "elements": [
-    {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/firstName"
-      }
-    },
-    {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/lastName"
-      }
-  },
-  {
-    "type": "Control",
-    "scope": {
-      "$ref": "#/properties/personalData/properties/age"
-    }
-  },
-  {
-    "type": "Control",
-    "scope": {
-      "$ref": "#/properties/nationality"
-    }
-  },
-  {
-    "type": "Control",
-    "scope": {
-      "$ref": "#/properties/personalData/properties/height"
-    }
-  },
-  {
-    "type": "Control",
-    "scope": {
-      "$ref": "#/properties/vegetarian"
-    }
-  }
-  ]
+    uischema:any = {
+        "type": "VerticalLayout",
+        "label":"myGroup",
+        "elements": [
+            {
+              "type": "Control",
+              "scope": {
+                "$ref": "#/properties/firstName"
+              }
+            },
+            {
+              "type": "Control",
+              "scope": {
+                "$ref": "#/properties/lastName"
+              }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                  "$ref": "#/properties/personalData/properties/age"
+                }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                  "$ref": "#/properties/nationality"
+                }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                  "$ref": "#/properties/personalData/properties/height"
+                }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                  "$ref": "#/properties/vegetarian"
+                }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                "$ref": "#/properties/adresses"
+                }
+            }
+        ]
+    };
+data:any = {
+    firstName:"John",
+    lastName:"Doe",
+    adresses:[
+        {postalCode:"88888",street:"My Street",houseNumber:"123a"},
+        {city:"Berlin",postalCode:"12345",street:"My Street",houseNumber:"89b"}
+    ]
 };
-  data:any = {name:"John Doe",firstName:"John",lastName:"Doe"};
   dataschema:any = {
       "type": "object",
       "properties": {
@@ -97,6 +110,19 @@ export class AppComponent  {
         "vegetarian": {
             "type": "boolean"
         },
+        "adresses":{
+            "type":"array",
+            "items": {
+                "type":"object",
+                "properties": {
+                    "city": {"type": "string"},
+                    "postalCode": {"type": "string","minLength": 5,"maxLength": 5},
+                    "street": {"type": "string"},
+                    "houseNumber": {"type": "string"}
+                },
+                "required": ["city"]
+            }
+        }
     },
     "required": ["nationality"]
 };

@@ -10,6 +10,7 @@ import {NumberControlRenderer,NumberControlRendererTester} from './controls/Numb
 import {IntegerControlRenderer,IntegerControlRendererTester} from './controls/IntegerControlRenderer';
 import {BooleanControlRenderer,BooleanControlRendererTester} from './controls/BooleanControlRenderer';
 import {EnumControlRenderer,EnumControlRendererTester} from './controls/EnumControlRenderer';
+import {ArrayObjectRenderer,ArrayObjectRendererTester} from './controls/ArrayObjectRenderer';
 
 export function formCommonRendererFactory() {
   var renderer : Array<RendererDefinition>=new Array<RendererDefinition>();
@@ -21,5 +22,6 @@ export function formCommonRendererFactory() {
   renderer.push({renderer:IntegerControlRenderer,tester:IntegerControlRendererTester});
   renderer.push({renderer:BooleanControlRenderer,tester:BooleanControlRendererTester});
   renderer.push({renderer:EnumControlRenderer,tester:EnumControlRendererTester});
+  renderer.push({renderer:ArrayObjectRenderer,tester:ArrayObjectRendererTester});
   return renderer;
 }
