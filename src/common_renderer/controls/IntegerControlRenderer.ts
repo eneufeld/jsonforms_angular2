@@ -7,8 +7,8 @@ import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRe
     template: `
         <div class="forms_control">
             <label class="forms_integerControlLabel forms_controlLabel">{{label}}</label>
-            <input type="number" step="1" [(ngModel)]="_modelValue[fragment]" class="forms_integerControl"/>
-            <div *ngFor="#error of getErrors(_uiSchema.validation)" style="color:red">{{error|json}}</div>
+            <input type="number" step="1" [(ngModel)]="_modelValue[fragment]" class="forms_integerControl forms_controlInput"/>
+            <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>
     `
     ,

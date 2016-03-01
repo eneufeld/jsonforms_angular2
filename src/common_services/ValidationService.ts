@@ -1,12 +1,17 @@
-import {FormsService,ChangeNotification} from './../forms/forms';
+import {FormServiceFactory,FormsService,ChangeNotification} from './../forms/forms';
 import PathUtil = require('../common_renderer/PathUtil');
 
 declare var tv4;
-
-export class ValidationService implements FormsService {
-    private _data:any;
-    private _dataSchema:any;
-    private _uiSchema:IUISchemaElement;
+export class ValidationServiceFactory implements FormServiceFactory{
+    createFormService(dataSchema:any,uiSchema:IUISchemaElement, data:any):FormsService{
+        return new ValidationService(dataSchema, uiSchema, data);
+    }
+}
+class ValidationService extends FormsService {
+    constructor(dataSchema:any,uiSchema:IUISchemaElement, data:any){
+        super(dataSchema, uiSchema, data);
+        this.validate(null);
+    }
     onChange(changeNotification:ChangeNotification):void{
         this.validate(changeNotification);
     }
@@ -15,12 +20,6 @@ export class ValidationService implements FormsService {
     }
     onRemove(changeNotification:ChangeNotification):void{
         this.validate(changeNotification);
-    }
-    init(dataSchema:any,uiSchema:IUISchemaElement, data:any):void{
-        this._dataSchema=dataSchema;
-        this._uiSchema=uiSchema;
-        this._data=data;
-        this.validate(null);
     }
     private validate(changeNotification:ChangeNotification):void{
         let results = tv4.validateMultiple(

@@ -1,11 +1,11 @@
-import {FormsService} from './../forms/forms';
+import {FormServiceFactory} from './../forms/forms';
 
-import {MyLogService} from './LogService';
-import {ValidationService} from './ValidationService';
+import {MyLogServiceFactory} from './LogService';
+import {ValidationServiceFactory} from './ValidationService';
 
 export function formCommonServicesFactory() {
-  var services : Array<FormsService>=new Array<FormsService>();
-  services.push(new MyLogService());
-  services.push(new ValidationService());
+  var services : Array<FormServiceFactory>=new Array<FormServiceFactory>();
+  services.push(new MyLogServiceFactory());
+  services.push(new ValidationServiceFactory());
   return services;
 }

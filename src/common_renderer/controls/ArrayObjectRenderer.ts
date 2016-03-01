@@ -1,6 +1,7 @@
 import {Component, Inject, ChangeDetectionStrategy,ElementRef,DynamicComponentLoader,Injector,provide,OnInit,ChangeDetectorRef,ApplicationRef} from 'angular2/core';
-import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from '../../forms/forms';
+import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from '../../forms/forms';
 import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRenderer';
+import {ViewGenerator} from '../../common_services/ViewGenerator';
 import PathUtil = require('../PathUtil');
 
 @Component({
@@ -8,36 +9,47 @@ import PathUtil = require('../PathUtil');
     template: `
         <div class="forms_control">
             <label class="forms_textControlLabel forms_controlLabel">{{label}}</label>
-            <div style="display: inline-block;">
+            <div style="display: inline-block;width:100%;">
+                <button (click)="addItem()">Add</button>
                 <fieldset *ngFor="#item of _modelValue[fragment]; #i = index">
-                    <legend #{{label}}_{{i}}>{{label}}_{{i}}</legend>
-                    <form-inner [uiSchema]="subUiSchema" [data]="item" [dataSchema]="_subSchema"></form-inner>
+                    <legend>{{label}}_{{i}} <button (click)="removeItem(item)">Remove</button></legend>
+                    <form-outlet [uiSchema]="getSubUiSchema(i)" [data]="item" [dataSchema]="_subSchema"></form-outlet>
                 </fieldset>
             </div>
-            <div *ngFor="#error of getErrors(_uiSchema.validation)" style="color:red">{{error|json}}</div>
+            <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>
     `
     ,
     styles: [``],
-    directives:[FormInner]
+    directives:[FormOutlet]
 })
 export class ArrayObjectRenderer extends AbstractControlRenderer implements OnInit{
     private _subSchema:any;
     private _subUiSchema:ILayout;
+    private _itemSchemaMap:{[key:number]:any}={};
     constructor(private _elementRef:ElementRef, private _rendererRegistry:RendererRegistry, private _loader:DynamicComponentLoader, @Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any,@Inject('dataSchema') private _dataSchema:any) {
         super(_uiSchema,_data);
-
     }
-    get subUiSchema(){return JSON.parse(JSON.stringify(this._subUiSchema))}
+    getSubUiSchema(index:number){
+        if(this._itemSchemaMap[index]){
+            return this._itemSchemaMap[index];
+        }
+        let clone= JSON.parse(JSON.stringify(this._subUiSchema));
+        this._itemSchemaMap[index]=clone;
+        return clone;
+    }
     ngOnInit() {
         this._subSchema=PathUtil.resolveSchema(this._dataSchema,this._uiSchema['scope']['$ref']).items;
-        //get or create a sub schema -> ui schema providers
-        let subUiSchema:ILayout={type:'VerticalLayout',elements:[]};
-        Object.keys(this._subSchema.properties).forEach(key => {
-            let control:IControlObject={type:"Control",label:key,scope:{$ref:"#/properties/"+key}};
-            subUiSchema.elements.push(control);
-        });
-        this._subUiSchema=subUiSchema;
+        this._subUiSchema=ViewGenerator.generate(this._subSchema);
+    }
+
+
+    addItem():void{
+        this._modelValue[this.fragment].push({});
+    }
+    removeItem(item:any):void{
+        let index=this._modelValue[this.fragment].indexOf(item);
+        this._modelValue[this.fragment].splice(index, 1);
     }
 
 }

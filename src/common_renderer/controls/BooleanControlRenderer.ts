@@ -7,8 +7,8 @@ import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRe
     template: `
         <div class="forms_control">
             <label class="forms_booleanControlLabel forms_controlLabel">{{label}}</label>
-            <input type="checkbox" [(ngModel)]="_modelValue[fragment]" class="forms_booleanControl"/>
-            <div *ngFor="#error of getErrors(_uiSchema.validation)" style="color:red">{{error|json}}</div>
+            <input type="checkbox" [(ngModel)]="_modelValue[fragment]" class="forms_booleanControl forms_controlInput"/>
+            <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>
     `
     ,

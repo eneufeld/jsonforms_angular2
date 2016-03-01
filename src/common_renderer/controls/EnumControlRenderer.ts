@@ -8,10 +8,10 @@ import PathUtil = require('../PathUtil');
     template: `
         <div class="forms_control">
             <label class="forms_enumControlLabel forms_controlLabel">{{label}}</label>
-            <select class="forms_enumControl" [(ngModel)]="_modelValue[fragment]">
+            <select class="forms_enumControl forms_controlInput" [(ngModel)]="_modelValue[fragment]">
                 <option *ngFor="#option of options" [value]="option">{{option}}</option>
             </select>
-            <div *ngFor="#error of getErrors(_uiSchema.validation)" style="color:red">{{error|json}}</div>
+            <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>
     `
     ,

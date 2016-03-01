@@ -24,7 +24,7 @@ export const FORM_PROVIDERS: any[] = CONST_EXPR([
     RendererRegistry,
     CONST_EXPR(provide(FORM_PRIMARY_COMPONENT, {useFactory: formPrimaryComponentFactory,    deps:CONST_EXPR([ApplicationRef])})),
     CONST_EXPR(provide(FORM_DEFAULT_RENDERER, {useFactory: formCommonRendererFactory})),
-    CONST_EXPR(provide('FormServices', {useFactory: formCommonServicesFactory}))
+    CONST_EXPR(provide('FormServiceFactories', {useFactory: formCommonServicesFactory}))
 ]);
 
 function formPrimaryComponentFactory(app:ApplicationRef) {

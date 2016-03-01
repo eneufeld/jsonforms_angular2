@@ -1,7 +1,7 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import { Component, ElementRef, DynamicComponentLoader, Input, OnInit, DoCheck, provide, Injector, KeyValueDiffers, Inject, AfterContentInit} from 'angular2/core';
-import {RendererRegistry,ChangeNotification,FormsService} from './forms';
+import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory} from './forms';
 import {FormInner} from './form_inner';
 
 @Component({
@@ -15,10 +15,15 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     @Input("dataSchema") private _dataSchema: any;
     private _differ: any;
     private _initialized=false;
-    constructor(differs: KeyValueDiffers,@Inject('FormServices') private _services: Array<FormsService> ) {
+    private _services:Array<FormsService>=[];
+    constructor(differs: KeyValueDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
         this._differ = differs.find({}).create(null);
     }
     ngOnInit() {
+        let that=this;
+        this._serviceFactories.forEach(serviceFactory=>{
+            that._services.push(serviceFactory.createFormService(that._dataSchema,that._uiSchema,that._data));
+        });
     }
 
     ngDoCheck() {
@@ -39,6 +44,5 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     }
     ngAfterContentInit(): any {
         this._initialized=true;
-        this._services.forEach(service =>service.init(this._dataSchema, this._uiSchema, this._data));
     }
 }

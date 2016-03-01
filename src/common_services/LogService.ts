@@ -1,5 +1,5 @@
-import {FormsService,ChangeNotification} from './../forms/forms';
-export class MyLogService implements FormsService {
+import {FormServiceFactory,FormsService,ChangeNotification} from './../forms/forms';
+class MyLogService extends FormsService {
     onChange(changeNotification:ChangeNotification):void{
         console.log("changed called: "+JSON.stringify(changeNotification));
     }
@@ -9,7 +9,13 @@ export class MyLogService implements FormsService {
     onRemove(changeNotification:ChangeNotification):void{
         console.log("remove called: "+JSON.stringify(changeNotification));
     }
-    init(dataSchema:any,uiSchema:IUISchemaElement, data:any):void{
+    constructor(dataSchema:any,uiSchema:IUISchemaElement, data:any){
+        super(dataSchema, uiSchema, data);
         console.log("init called: ");
+    }
+}
+export class MyLogServiceFactory implements FormServiceFactory{
+    createFormService(dataSchema:any,uiSchema:IUISchemaElement, data:any):FormsService{
+        return new MyLogService(dataSchema, uiSchema, data);
     }
 }

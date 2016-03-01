@@ -1,10 +1,14 @@
 import PathUtil = require('../common_renderer/PathUtil');
 
-export interface FormsService {
-  onChange(changeNotification:ChangeNotification):void;
-  onAdd(changeNotification:ChangeNotification):void;
-  onRemove(changeNotification:ChangeNotification):void;
-  init(_dataSchema:any,_uiSchema:IUISchemaElement, _data:any):void;
+export interface FormServiceFactory{
+    createFormService(dataSchema:any,uiSchema:IUISchemaElement, data:any):FormsService;
+}
+export abstract class FormsService {
+    constructor(protected _dataSchema:any,protected _uiSchema:IUISchemaElement, protected _data:any){};
+    abstract onChange(changeNotification:ChangeNotification):void;
+    abstract onAdd(changeNotification:ChangeNotification):void;
+    abstract onRemove(changeNotification:ChangeNotification):void;
+
 }
 export class ChangeNotification{
     constructor(private _key:string, private _previousValue:any, private _currentValue:any){}
