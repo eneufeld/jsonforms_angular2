@@ -44,19 +44,13 @@ export class AppComponent  {
             {
                 "type": "Control",
                 "scope": {
-                  "$ref": "#/properties/personalData/properties/age"
+                  "$ref": "#/properties/personalData"
                 }
             },
             {
                 "type": "Control",
                 "scope": {
                   "$ref": "#/properties/nationality"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                  "$ref": "#/properties/personalData/properties/height"
                 }
             },
             {
@@ -96,7 +90,8 @@ data:any = {
             "type": "object",
             "properties": {
                 "age": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum":3,
                 },
                 "height": {
                     "type": "number"
@@ -121,7 +116,8 @@ data:any = {
                     "houseNumber": {"type": "string"}
                 },
                 "required": ["city"]
-            }
+            },
+            "minItems":3
         }
     },
     "required": ["nationality"]

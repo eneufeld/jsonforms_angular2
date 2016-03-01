@@ -11,6 +11,7 @@ import {IntegerControlRenderer,IntegerControlRendererTester} from './controls/In
 import {BooleanControlRenderer,BooleanControlRendererTester} from './controls/BooleanControlRenderer';
 import {EnumControlRenderer,EnumControlRendererTester} from './controls/EnumControlRenderer';
 import {ArrayObjectRenderer,ArrayObjectRendererTester} from './controls/ArrayObjectRenderer';
+import {ObjectRenderer,ObjectRendererTester} from './controls/ObjectRenderer';
 
 export function formCommonRendererFactory() {
   var renderer : Array<RendererDefinition>=new Array<RendererDefinition>();
@@ -23,5 +24,6 @@ export function formCommonRendererFactory() {
   renderer.push({renderer:BooleanControlRenderer,tester:BooleanControlRendererTester});
   renderer.push({renderer:EnumControlRenderer,tester:EnumControlRendererTester});
   renderer.push({renderer:ArrayObjectRenderer,tester:ArrayObjectRendererTester});
+  renderer.push({renderer:ObjectRenderer,tester:ObjectRendererTester});
   return renderer;
 }
