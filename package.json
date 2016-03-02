@@ -16,11 +16,12 @@
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "0.5.15",
-    "tv4":"1.2.7"
+    "tv4":"1.2.7",
+    "json-refs":"2.1.5"
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
     "lite-server": "^2.1.0",
-    "typescript": "^1.7.3"
+    "typescript": "^1.8.7"
   }
 }
