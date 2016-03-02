@@ -3,18 +3,20 @@
 import {Component} from 'angular2/core';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES} from '../../src/forms/forms';
 import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
-
+import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
 @Component({
     selector: 'my-app',
     template:`
         <h1>Form Test</h1>
+<!--
         <h2>Test UI Schema</h2>
         <div>{{uischema|json}}</div>
+-->
         <h2>Test Data</h2>
-        <div>{{data|json}}</div>
+        <div>{{data2|json}}</div>
         <h2>Rendered Form</h2>
         <div style="border:1px solid black">
-            <form-outlet [uiSchema]="uischema" [data]="data" [dataSchema]="dataschema"></form-outlet>
+            <form-outlet [uiSchema]="uischema2" [data]="data2" [dataSchema]="dataschema2"></form-outlet>
         </div>
     `,
     styles:[``],
@@ -25,6 +27,9 @@ import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
   {renderer:MyRenderer1,tester:MyRenderer1Tester}
 ])
 export class AppComponent  {
+  uischema2:any=GEDCOMX_PERSON_UISCHEMA;
+  dataschema2:any=GEDCOMX_PERSON_SCHEMA;
+  data2:any=GEDCOMX_PERSON_DATA;
     uischema:any = {
         "type": "VerticalLayout",
         "label":"myGroup",

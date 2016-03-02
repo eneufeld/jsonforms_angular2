@@ -20,18 +20,19 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
     }
     ngOnInit() {
-        this._serviceFactories.forEach(serviceFactory=>{
-            this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
-        });
-        this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
-        let properties=this._dataSchema.properties;
-        Object.keys(properties).forEach(key => {
-            let property=properties[key];
-            if(property.type=='array'){
-                let differ = this._iterableDifferFactory.find([]).create(null);
-                this._iterableDiffer[key]=differ;
-            }
-        });
+      this._serviceFactories.forEach(serviceFactory=>{
+          this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
+      });
+      this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
+      let properties=this._dataSchema.properties;
+      if(properties!=null)
+      Object.keys(properties).forEach(key => {
+          let property=properties[key];
+          if(property.type=='array'){
+              let differ = this._iterableDifferFactory.find([]).create(null);
+              this._iterableDiffer[key]=differ;
+          }
+      });
     }
 
     ngDoCheck() {

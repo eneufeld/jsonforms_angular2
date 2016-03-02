@@ -40,8 +40,12 @@ export abstract class AbstractControlRenderer {
 }
 export var ControlRendererTester=function(type:string,specificity:number):FormsTester{
     return function (element:IUISchemaElement, dataSchema:any, dataObject:any ){
-        if(element.type=='Control' && PathUtil.resolveSchema(dataSchema,element['scope']['$ref']).type==type)
-            return specificity;
-        return NOT_FITTING;
+        if(element.type!='Control')
+            return NOT_FITTING;
+        let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
+        if((currentDataSchema.type==undefined || currentDataSchema.type!=type) &&
+          (currentDataSchema.allOf==undefined || currentDataSchema.allOf.every(element=>{return element.type!=type})))
+            return NOT_FITTING;
+        return specificity;
     }
 }

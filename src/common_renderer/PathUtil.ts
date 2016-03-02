@@ -1,4 +1,4 @@
-var Keywords:string[] = ["items", "properties", "#"];
+var Keywords:string[] = ["items", "properties", "#","allOf"];
 
 export function toPropertyFragments (path:string):string[] {
   if (path === undefined) {
@@ -18,7 +18,7 @@ export function normalize (path:string):string {
 
 export function filterNonKeywords (fragments:string[]):string[]  {
     return fragments.filter(function (fragment) {
-        return !(Keywords.indexOf(fragment) !== -1);
+        return Keywords.indexOf(fragment) === -1 && isNaN(Number(fragment));
     });
 };
 export function resolveSchema (schema: any, path: string): any  {
@@ -26,11 +26,9 @@ export function resolveSchema (schema: any, path: string): any  {
     var fragments = toPropertyFragments(path);
     return fragments.reduce(function (subSchema, fragment) {
           if (fragment == "#") {
-              return subSchema
+              return subSchema;
           } else if (subSchema instanceof Array) {
-              return subSchema.map(function (item) {
-                  return item[fragment];
-              });
+              return subSchema[fragment];
           }
           return subSchema[fragment];
       }, schema);

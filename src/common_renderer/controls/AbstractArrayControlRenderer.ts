@@ -32,7 +32,8 @@ export var ArrayControlRendererTester=function(type:string,specificity:number):F
             return NOT_FITTING;
         if(Array.isArray(currentDataSchema.items))
             return NOT_FITTING;
-        if(currentDataSchema.items.type!=type)
+        if((currentDataSchema.items.type==undefined || currentDataSchema.items.type!=type) &&
+          (currentDataSchema.items.allOf==undefined || currentDataSchema.items.allOf.every(element=>{return element.type!=type})))
             return NOT_FITTING;
         return specificity;
     }
