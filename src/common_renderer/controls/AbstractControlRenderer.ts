@@ -1,5 +1,6 @@
 import PathUtil = require('../PathUtil');
 import {FormsTester,NOT_FITTING} from './../../forms/forms';
+import {isJsObject} from 'angular2/src/facade/lang';
 
 export abstract class AbstractControlRenderer {
 
@@ -16,14 +17,25 @@ export abstract class AbstractControlRenderer {
 
     protected get label(){return this.fragment;}
 
-    protected getErrors(error:Object):any[]{
+    protected getErrors(error:Object,index:number):any[]{
         if(error==undefined || error==null)
           return [];
         var result:any[]=[];
-        Object.keys(error).forEach((currentKey)=> {
-          return result.push(error[currentKey]);
+        Object.keys(error).forEach(currentKey=> {
+            let value=error[currentKey];
+            if(Array.isArray(value) && index==undefined){
+                result=this.addFlattenedErrors(value,result);
+            }
+            else if(isJsObject(value)&&index!=undefined&&value.index==index)
+                result=this.addFlattenedErrors(value.error,result);
         },[]);
         return result;
+    }
+
+    private addFlattenedErrors(errorValues:any,result:any[]):any[]{
+        if(Array.isArray(errorValues))
+            return errorValues.reduce((a, b) =>{return a.concat(b)}, result);
+        return result.concat(errorValues);
     }
 }
 export var ControlRendererTester=function(type:string,specificity:number):FormsTester{

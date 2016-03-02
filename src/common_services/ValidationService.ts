@@ -67,9 +67,25 @@ class ValidationService extends FormsService {
         }
         else if(fullSchema.hasOwnProperty('scope')){
             let path=PathUtil.normalize(fullSchema['scope']['$ref']);
-            if(errors.hasOwnProperty(path)){
-                fullSchema['validation']= errors[path];
+            let keys=Object.keys(errors);
+            let relevantKeys=keys.filter(value=>{
+                return value.indexOf(path)!=-1 &&
+                value.substr(path.length+1).indexOf("/")==-1
+            });
+            if(relevantKeys.length==0){
+                return;
             }
+            let allErrors:Array<any>=[];
+            relevantKeys.forEach(key =>{
+                let indexOfSlash=key.indexOf("/");
+                if(indexOfSlash==-1)
+                    allErrors.push(errors[key]);
+                else{
+                    let position=key.substr(indexOfSlash+1);
+                    allErrors.push({"index":position,"error":errors[key]});
+                }
+            });
+            fullSchema['validation']= allErrors;
         }
     }
 }

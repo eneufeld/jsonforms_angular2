@@ -64,6 +64,12 @@ export class AppComponent  {
                 "scope": {
                 "$ref": "#/properties/adresses"
                 }
+            },
+            {
+                "type": "Control",
+                "scope": {
+                "$ref": "#/properties/numberArray"
+                }
             }
         ]
     };
@@ -118,6 +124,14 @@ data:any = {
                 "required": ["city"]
             },
             "minItems":3
+        },
+        "numberArray":{
+            "type":"array",
+            "items": {
+                "type":"number",
+                "minimum":0.1
+            },
+            "minItems":1
         }
     },
     "required": ["nationality"]

@@ -5,12 +5,12 @@ import {ViewGenerator} from '../../common_services/ViewGenerator';
 import PathUtil = require('../PathUtil');
 
 @Component({
-    selector: 'ObjectRenderer',
+    selector: 'ObjectControlRenderer',
     template: `
         <div class="forms_control">
             <label class="forms_objectControlLabel forms_controlLabel">{{label}}</label>
             <button (click)="createInstance()" *ngIf="!_modelValue[fragment]">Create {{label}}</button>
-            <fieldset style="width:100%;" *ngIf="_modelValue[fragment]">
+            <fieldset *ngIf="_modelValue[fragment]">
                 <form-outlet [uiSchema]="_subUiSchema" [data]="_modelValue[fragment]" [dataSchema]="_subSchema"></form-outlet>
             </fieldset>
             <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
@@ -20,7 +20,7 @@ import PathUtil = require('../PathUtil');
     styles: [``],
     directives:[FormOutlet]
 })
-export class ObjectRenderer extends AbstractControlRenderer implements OnInit{
+export class ObjectControlRenderer extends AbstractControlRenderer implements OnInit{
     private _subSchema:any;
     private _subUiSchema:ILayout;
     constructor(@Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any,@Inject('dataSchema') private _dataSchema:any) {
@@ -35,11 +35,4 @@ export class ObjectRenderer extends AbstractControlRenderer implements OnInit{
     }
 
 }
-export var ObjectRendererTester: FormsTester = function (element:IUISchemaElement, dataSchema:any, dataObject:any ){
-    if(element.type!='Control')
-        return NOT_FITTING;
-    let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
-    if(currentDataSchema.type!='object')
-        return NOT_FITTING;
-    return 2;
-}
+export var ObjectControlRendererTester: FormsTester = ControlRendererTester('object',1);
