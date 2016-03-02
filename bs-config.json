@@ -3,6 +3,7 @@
     "baseDir": "./examples",
     "routes": {
         "/node_modules": "node_modules",
+        "/bower_components": "bower_components",
         "/src": "src"
     }
   }

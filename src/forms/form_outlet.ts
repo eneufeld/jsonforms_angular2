@@ -20,9 +20,8 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
     }
     ngOnInit() {
-        let that=this;
         this._serviceFactories.forEach(serviceFactory=>{
-            that._services.push(serviceFactory.createFormService(that._dataSchema,that._uiSchema,that._data));
+            this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
         });
         this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
         let properties=this._dataSchema.properties;

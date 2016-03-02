@@ -81,17 +81,8 @@ data:any = {
         {city:"Berlin",postalCode:"12345",street:"My Street",houseNumber:"89b"}
     ]
 };
-  dataschema:any = {
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "minLength": 10
-        },
-        "lastName": {
-          "type": "string",
-          "minLength": 5
-        },
+dataschema:any = {
+    "definitions": {
         "personalData": {
             "type": "object",
             "properties": {
@@ -103,7 +94,20 @@ data:any = {
                     "type": "number"
                 }
             }
+        }
+    },
+
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "minLength": 10
         },
+        "lastName": {
+          "type": "string",
+          "minLength": 5
+        },
+        "personalData":{ "$ref": "#/definitions/personalData" },
         "nationality": {
             "type": "string",
             "enum": ["DE", "IT", "JP", "US", "RU", "Other"]

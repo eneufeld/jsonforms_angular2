@@ -4,7 +4,7 @@ import {Component, OnInit,Inject,HostBinding} from 'angular2/core';
 import {FormsTester,NOT_FITTING} from '../../../src/forms/forms';
 @Component({
     selector: 'myrend',
-    template: `<label><input type="text" [(ngModel)]="_data[fragment]"/></label><br/>`,
+    template: `<label>Custom Renderer<input type="text" [(ngModel)]="_data[fragment]"/></label><br/>`,
     styles: [``],
     directives:[]
 })

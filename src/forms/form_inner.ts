@@ -2,6 +2,7 @@
 
 import { Directive, ElementRef, DynamicComponentLoader, Input, OnInit, provide, Injector, Inject} from 'angular2/core';
 import {RendererRegistry,ChangeNotification,FormsService} from './forms';
+declare var JsonRefs;
 
 @Directive({selector: 'form-inner'})
 export class FormInner implements OnInit{
@@ -12,9 +13,19 @@ export class FormInner implements OnInit{
 
     }
     ngOnInit() {
-        this.render();
+        JsonRefs.resolveRefs(this._dataSchema)
+            .then(res =>{
+                // Do something with the response
+                // res.refs: JSON Reference locations and details
+                // res.resolved: The document with the appropriate JSON References resolved
+                this._dataSchema=res.resolved;
+                this.render();
+            }, err => {console.log(err.stack);}
+        );
+
+
     }
-    private render():void{
+    render():void{
         this._loader.loadNextToLocation(this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data), this._elementRef,
         Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema})]));
     }
