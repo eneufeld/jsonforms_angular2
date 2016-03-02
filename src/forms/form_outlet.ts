@@ -1,6 +1,6 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import { Component, ElementRef, DynamicComponentLoader, Input, OnInit, DoCheck, provide, Injector, KeyValueDiffers, Inject, AfterContentInit} from 'angular2/core';
+import { Component, Input, OnInit, DoCheck, KeyValueDiffers,IterableDiffers, Inject, AfterContentInit} from 'angular2/core';
 import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory} from './forms';
 import {FormInner} from './form_inner';
 
@@ -13,34 +13,61 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     @Input("uiSchema") private _uiSchema: IUISchemaElement;
     @Input("data") private _data: any;
     @Input("dataSchema") private _dataSchema: any;
-    private _differ: any;
+    private _keyValueDiffer: any;
+    private _iterableDiffer: {[key:string]:any}={};
     private _initialized=false;
     private _services:Array<FormsService>=[];
-    constructor(differs: KeyValueDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
-        this._differ = differs.find({}).create(null);
+    constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
     }
     ngOnInit() {
         let that=this;
         this._serviceFactories.forEach(serviceFactory=>{
             that._services.push(serviceFactory.createFormService(that._dataSchema,that._uiSchema,that._data));
         });
+        this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
+        let properties=this._dataSchema.properties;
+        Object.keys(properties).forEach(key => {
+            let property=properties[key];
+            if(property.type=='array'){
+                let differ = this._iterableDifferFactory.find([]).create(null);
+                this._iterableDiffer[key]=differ;
+            }
+        });
     }
 
     ngDoCheck() {
         if(!this._initialized)
             return;
-        var changes = this._differ.diff(this._data);
-        if (changes) {
-            changes.forEachAddedItem(r => {
+        var keyValueChanges = this._keyValueDiffer.diff(this._data);
+        if (keyValueChanges) {
+            keyValueChanges.forEachAddedItem(r => {
                 this._services.forEach(service =>service.onAdd(new ChangeNotification( r.key, r.previousValue, r.currentValue)));
             });
-            changes.forEachRemovedItem(r => {
+            keyValueChanges.forEachRemovedItem(r => {
                 this._services.forEach(service =>service.onRemove(new ChangeNotification(r.key, r.previousValue, r.currentValue)));
             });
-            changes.forEachChangedItem(r => {
+            keyValueChanges.forEachChangedItem(r => {
                 this._services.forEach(service =>service.onChange(new ChangeNotification(r.key, r.previousValue, r.currentValue)));
             });
         }
+        //check all arrays in data schema and validate them
+        Object.keys(this._iterableDiffer).forEach(key =>{
+            var iterableChanges = this._iterableDiffer[key].diff(this._data[key]);
+            if (iterableChanges) {
+                iterableChanges.forEachAddedItem(r => {
+                    this._services.forEach(service =>service.onAdd(new ChangeNotification( r.key, r.previousValue, r.currentValue)));
+                });
+                iterableChanges.forEachRemovedItem(r => {
+                    this._services.forEach(service =>service.onRemove(new ChangeNotification(r.key, r.previousValue, r.currentValue)));
+                });
+                iterableChanges.forEachIdentityChange(r => {
+                    this._services.forEach(service =>service.onChange(new ChangeNotification(r.key, r.previousValue, r.currentValue)));
+                });
+                iterableChanges.forEachMovedItem(r => {
+                    this._services.forEach(service =>service.onChange(new ChangeNotification(r.key, r.previousValue, r.currentValue)));
+                });
+            }
+        });
     }
     ngAfterContentInit(): any {
         this._initialized=true;
