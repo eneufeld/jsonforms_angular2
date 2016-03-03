@@ -1,0 +1,63 @@
+body {
+  font-family: 'Merriweather', serif;
+}
+
+fieldset {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0.5em;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  background-color: #F2EFE9;
+  background: linear-gradient(#FFF 0.25em,#F2EFE9); /* Standard syntax */
+  border: 1px solid #BFBAB0;
+  border-radius:4px;
+}
+/*old
+fieldset {
+    margin-left: 0;
+    border: solid 1px black;
+}
+*/
+legend {
+  margin-left: 0.75em;
+  margin-bottom: 0.25em;
+  color: #000000;
+  font-weight: bold;
+  padding:0;
+}
+legend::before {
+  content: "\2003";
+}
+label {
+  display: block;
+  margin-left: 0.75em;
+}
+label >*{
+  display:block;
+}
+
+.forms_controlLabel {
+    width:10em;
+    margin-right:0.5em;
+    padding-top:0.2em;
+    text-align: right;
+    font-weight:bold;
+}
+.forms_control{
+    margin:0.25em;
+    display: flex;
+}
+.forms_controlInput{
+    width: 256px;
+}
+.forms_controlValidation{
+    color:red;
+    margin-left: 16px;
+}
+.forms_ArrayControls{
+    margin-top: 0.25em;
+}

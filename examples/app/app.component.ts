@@ -25,7 +25,7 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
         <div>{{data2|json}}</div>
         <h2>Rendered Form</h2>
         <div style="border:1px solid black">
-            <form-outlet  [data]="data2" [dataSchema]="dataschema2"></form-outlet>
+            <form-outlet  [data]="data3" [dataSchema]="dataschema2"></form-outlet>
         </div>
     `,
     styles:[``],
@@ -49,6 +49,7 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
 export class AppComponent  {
   uischema2:any=GEDCOMX_PERSON_UISCHEMA;
   dataschema2:any=GEDCOMX_PERSON_SCHEMA;
+  data3:any={};
   data2:any=GEDCOMX_PERSON_DATA;
     uischema:any = {
         "type": "VerticalLayout",
