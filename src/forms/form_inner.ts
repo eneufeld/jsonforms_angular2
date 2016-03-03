@@ -1,7 +1,7 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import { Directive, ElementRef, DynamicComponentLoader, Input, OnInit, provide, Injector, Inject} from 'angular2/core';
-import {RendererRegistry,ChangeNotification,FormsService} from './forms';
+import {RendererRegistry,ChangeNotification} from './forms';
 declare var JsonRefs;
 
 @Directive({selector: 'form-inner'})

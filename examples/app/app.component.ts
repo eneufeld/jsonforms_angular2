@@ -1,9 +1,18 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import {Component} from 'angular2/core';
-import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES} from '../../src/forms/forms';
+import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
-import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
+import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
+
+declare var JsonRefs;
+/* ugly hack as model must be completly resolved ...
+var genderSchema;
+JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
+    .then(
+        res =>{genderSchema=res.resolved.definitions.gender},
+        err => {console.log(err)});
+*/
 @Component({
     selector: 'my-app',
     template:`
@@ -16,7 +25,7 @@ import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_PERSON_DATA} from 
         <div>{{data2|json}}</div>
         <h2>Rendered Form</h2>
         <div style="border:1px solid black">
-            <form-outlet [uiSchema]="uischema2" [data]="data2" [dataSchema]="dataschema2"></form-outlet>
+            <form-outlet  [data]="data2" [dataSchema]="dataschema2"></form-outlet>
         </div>
     `,
     styles:[``],
@@ -25,6 +34,17 @@ import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_PERSON_DATA} from 
 })
 @RendererConfig([
   {renderer:MyRenderer1,tester:MyRenderer1Tester}
+])
+@UISchemaProviderConfig([
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}}
+    /** see first comment
+    ,
+    {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:dataSchema=>{
+        if(JSON.stringify(dataSchema) === JSON.stringify(genderSchema))
+            return 10;
+        return -1;
+    }}
+    */
 ])
 export class AppComponent  {
   uischema2:any=GEDCOMX_PERSON_UISCHEMA;

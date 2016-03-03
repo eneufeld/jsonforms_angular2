@@ -1,4 +1,3 @@
-/// <reference path="../../typings/uischema.d.ts"/>
 import {Injectable, Inject, OpaqueToken} from 'angular2/core';
 import {
   isPresent,
@@ -9,15 +8,13 @@ import {
 import {reflector} from 'angular2/src/core/reflection/reflection';
 import {RendererConfig,RendererDefinition,FormsTester} from './renderer_config_impl';
 
-export const FORM_PRIMARY_COMPONENT: OpaqueToken =
-    CONST_EXPR(new OpaqueToken('FormPrimaryComponent'));
 export const FORM_DEFAULT_RENDERER: OpaqueToken =
         CONST_EXPR(new OpaqueToken('FormDefaultRenderer'));
 
 @Injectable()
 export class RendererRegistry {
   private renderer : Array<RendererDefinition>;
-  constructor(@Inject(FORM_PRIMARY_COMPONENT) private _rootComponent: Type, @Inject(FORM_DEFAULT_RENDERER) _defaultRenderer: Array<RendererDefinition>) {
+  constructor(@Inject('FormPrimaryComponent') private _rootComponent: Type, @Inject(FORM_DEFAULT_RENDERER) _defaultRenderer: Array<RendererDefinition>) {
     this.renderer=_defaultRenderer;
     this.configFromComponent();
   }

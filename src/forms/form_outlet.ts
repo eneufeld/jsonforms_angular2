@@ -1,7 +1,7 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import { Component, Input, OnInit, DoCheck, KeyValueDiffers,IterableDiffers, Inject, AfterContentInit} from 'angular2/core';
-import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory} from './forms';
+import {ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService} from './forms';
 import {FormInner} from './form_inner';
 
 @Component({
@@ -17,9 +17,12 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     private _iterableDiffer: {[key:string]:any}={};
     private _initialized=false;
     private _services:Array<FormsService>=[];
-    constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory> ) {
+    constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers, private _uiSchemaProvider:UISchemaProviderService ,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory>) {
     }
     ngOnInit() {
+        if(this._uiSchema==null){
+            this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema);
+        }
       this._serviceFactories.forEach(serviceFactory=>{
           this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
       });

@@ -247,6 +247,14 @@ export var GEDCOMX_PERSON_UISCHEMA: any =
   ]
 }
 
+export var GEDCOMX_GENDER_UISCHEMA: any =
+{
+	"type": "Control",
+    "scope": {
+  	"$ref": "/allOf/1/properties/type"
+    }
+}
+
 export var GEDCOMX_PERSON_DATA: any =
 {
 	"names": [
