@@ -3,10 +3,12 @@
 import {Component} from 'angular2/core';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
+import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
+import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 
-declare var JsonRefs;
 /* ugly hack as model must be completly resolved ...
+declare var JsonRefs;
 var genderSchema;
 JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
     .then(
@@ -30,10 +32,11 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
     `,
     styles:[``],
     directives:[FORM_DIRECTIVES],
-    providers: [FORM_PROVIDERS]
+    providers: [FORM_PROVIDERS,DatalistIdProvider]
 })
 @RendererConfig([
-  {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester}
+  {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester},
+  {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester}
 ])
 @UISchemaProviderConfig([
     {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}}

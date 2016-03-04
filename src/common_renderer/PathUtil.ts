@@ -1,6 +1,6 @@
 export class PathUtil{
 
-private static Keywords:string[] = ["items", "properties", "#","allOf"];
+private static Keywords:string[] = ["items", "properties", "#","allOf","anyOf"];
 
 static toPropertyFragments=function (path:string):string[] {
   if (path === undefined) {

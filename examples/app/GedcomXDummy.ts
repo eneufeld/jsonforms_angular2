@@ -3,6 +3,9 @@ export var GEDCOMX_PERSON_SCHEMA: any =
 	"$schema": "http://json-schema.org/schema#",
 
 	"definitions": {
+		"genderTypes":{
+			 "enum": ["http://gedcomx.org/Male", "http://gedcomx.org/Female", "http://gedcomx.org/Unknown"]
+		},
 		"uri": {
 			"type": "string"
 		},
@@ -98,14 +101,19 @@ export var GEDCOMX_PERSON_SCHEMA: any =
       ]
 		},
 		"gender": {
-      "allOf": [
-        { "$ref": "#/definitions/conclusion" },
-        { "properties":{
-            "type": {"$ref": "#/definitions/uri"}
-          },
-          "required": ["type"]
-        }
-      ]
+	      "allOf": [
+	        { "$ref": "#/definitions/conclusion" },
+	        { "properties":{
+				"type":{
+					"anyOf": [
+					    { "$ref": "#/definitions/uri"},
+					    { "$ref": "#/definitions/genderTypes" }
+					  ]
+			  	}
+	          },
+	          "required": ["type"]
+	        }
+	      ]
 		},
 		"date": {
 			"type": "object",

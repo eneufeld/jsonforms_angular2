@@ -27,11 +27,32 @@ export class EnumControlRenderer extends AbstractControlRenderer{
     }
 
     private get options(){
-        return this._subSchema.enum;
+        if(this._subSchema.hasOwnProperty('enum'))
+            return this._subSchema.enum;
+        if(this._subSchema.allOf!=undefined){
+            return this._subSchema.allOf.reduce((prev,element)=>{return prev.concat(element.enum)},[]);
+        }
+        if(this._subSchema.anyOf!=undefined){
+            return this._subSchema.anyOf.reduce(
+                (prev,element)=>{
+                if(element.hasOwnProperty('enum'))
+                    return prev.concat(element.enum);
+                return prev;
+            },[]);
+        }
+        return [];
     }
 }
 export var EnumControlRendererTester: FormsTester = function (element:IUISchemaElement, dataSchema:any, dataObject:any ){
-    if(element.type=='Control' && PathUtil.resolveSchema(dataSchema,element['scope']['$ref']).hasOwnProperty('enum'))
-        return 2;
-    return NOT_FITTING;
+
+    if(element.type!='Control')
+        return NOT_FITTING;
+    let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
+    if(
+        (!currentDataSchema.hasOwnProperty('enum')) &&
+        (currentDataSchema.allOf==undefined || currentDataSchema.allOf.every(element=>{return !element.hasOwnProperty('enum')})) &&
+        (currentDataSchema.anyOf==undefined || !currentDataSchema.anyOf.some(element=>{return element.hasOwnProperty('enum')}))
+    )
+        return NOT_FITTING;
+    return 2;
 }
