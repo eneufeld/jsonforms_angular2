@@ -1,5 +1,5 @@
 import {FormServiceFactory,FormsService,ChangeNotification} from './../forms/forms';
-import PathUtil = require('../common_renderer/PathUtil');
+import {PathUtil} from '../common_renderer/PathUtil';
 
 declare var tv4;
 export class ValidationServiceFactory implements FormServiceFactory{

@@ -1,4 +1,4 @@
-import PathUtil = require('../PathUtil');
+import {PathUtil} from '../PathUtil';
 import {FormsTester,NOT_FITTING} from './../../forms/forms';
 import {isJsObject} from 'angular2/src/facade/lang';
 
@@ -15,7 +15,7 @@ export abstract class AbstractControlRenderer {
         this._modelValue=PathUtil.resolveInstanceFromFragments(_data,fragmentsToObject);
     }
 
-    protected get label(){return this.fragment;}
+    protected get label(){return PathUtil.beautify(this.fragment);}
 
     protected getErrors(error:Object,index:number):any[]{
         if(error==undefined || error==null)

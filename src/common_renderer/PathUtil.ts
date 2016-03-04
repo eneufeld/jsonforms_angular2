@@ -1,6 +1,8 @@
-var Keywords:string[] = ["items", "properties", "#","allOf"];
+export class PathUtil{
 
-export function toPropertyFragments (path:string):string[] {
+private static Keywords:string[] = ["items", "properties", "#","allOf"];
+
+static toPropertyFragments=function (path:string):string[] {
   if (path === undefined) {
       return [];
   }
@@ -8,22 +10,22 @@ export function toPropertyFragments (path:string):string[] {
       return fragment.length > 0;
   })
 };
-export function toInstancePath (path:string):string {
-    return normalize(path);
+static toInstancePath=function  (path:string):string {
+    return PathUtil.normalize(path);
 };
 
-export function normalize (path:string):string {
-    return filterNonKeywords(toPropertyFragments(path)).join("/");
+static normalize=function  (path:string):string {
+    return PathUtil.filterNonKeywords(PathUtil.toPropertyFragments(path)).join("/");
 };
 
-export function filterNonKeywords (fragments:string[]):string[]  {
+static filterNonKeywords=function  (fragments:string[]):string[]  {
     return fragments.filter(function (fragment) {
-        return Keywords.indexOf(fragment) === -1 && isNaN(Number(fragment));
+        return PathUtil.Keywords.indexOf(fragment) === -1 && isNaN(Number(fragment));
     });
 };
-export function resolveSchema (schema: any, path: string): any  {
+static resolveSchema=function  (schema: any, path: string): any  {
   try {
-    var fragments = toPropertyFragments(path);
+    var fragments = PathUtil.toPropertyFragments(path);
     return fragments.reduce(function (subSchema, fragment) {
           if (fragment == "#") {
               return subSchema;
@@ -36,10 +38,10 @@ export function resolveSchema (schema: any, path: string): any  {
         return undefined;
     }
 };
-export function resolveInstanceFromPath (instance:any, schemaPath:string):any  {
-    return resolveInstanceFromFragments(instance,toPropertyFragments(toInstancePath(schemaPath)));
+static resolveInstanceFromPath=function  (instance:any, schemaPath:string):any  {
+    return PathUtil.resolveInstanceFromFragments(instance,PathUtil.toPropertyFragments(PathUtil.toInstancePath(schemaPath)));
 };
-export function resolveInstanceFromFragments (instance:any, fragments:string[]):any  {
+static resolveInstanceFromFragments=function  (instance:any, fragments:string[]):any  {
     return fragments.reduce(function (currObj, fragment) {
         if (currObj instanceof Array) {
             return currObj.map(function (item) {
@@ -52,3 +54,20 @@ export function resolveInstanceFromFragments (instance:any, fragments:string[]):
         return currObj[fragment];
     }, instance);
 };
+
+/**
+ * Beautifies by performing the following steps (if applicable)
+ * 1. split on uppercase letters
+ * 2. transform uppercase letters to lowercase
+ * 3. transform first letter uppercase
+ */
+static beautify = (text: string): string => {
+    if(text && text.length > 0){
+        var textArray = text.split(/(?=[A-Z])/).map((x)=>{return x.toLowerCase()});
+        textArray[0] = textArray[0].charAt(0).toUpperCase() + textArray[0].slice(1);
+        return textArray.join(' ');
+    }
+    return text;
+};
+
+}

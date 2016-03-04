@@ -2,7 +2,7 @@
 
 import {Component} from 'angular2/core';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
-import {MyRenderer1,MyRenderer1Tester} from './custom_renderer/MyRender1'
+import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
 
 declare var JsonRefs;
@@ -17,15 +17,15 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
     selector: 'my-app',
     template:`
         <h1>Form Test</h1>
-<!--
+        <!--
         <h2>Test UI Schema</h2>
         <div>{{uischema|json}}</div>
--->
         <h2>Test Data</h2>
         <div>{{data2|json}}</div>
+        -->
         <h2>Rendered Form</h2>
-        <div style="border:1px solid black">
-            <form-outlet  [data]="data3" [dataSchema]="dataschema2"></form-outlet>
+        <div>
+            <form-outlet  [data]="data2" [dataSchema]="dataschema2"></form-outlet>
         </div>
     `,
     styles:[``],
@@ -33,7 +33,7 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
     providers: [FORM_PROVIDERS]
 })
 @RendererConfig([
-  {renderer:MyRenderer1,tester:MyRenderer1Tester}
+  {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester}
 ])
 @UISchemaProviderConfig([
     {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}}

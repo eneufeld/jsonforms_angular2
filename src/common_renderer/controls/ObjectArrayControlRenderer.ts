@@ -1,21 +1,21 @@
 import {Component, Inject, OnInit} from 'angular2/core';
 import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from '../../forms/forms';
 import {AbstractArrayControlRenderer,ArrayControlRendererTester} from './AbstractArrayControlRenderer';
-import PathUtil = require('../PathUtil');
+import {PathUtil} from '../PathUtil';
 
 @Component({
     selector: 'ObjectArrayControlRenderer',
     template: `
         <div class="forms_control">
             <label class="forms_objectArrayControlLabel forms_controlLabel">{{label}}</label>
-            <div>
-                <button (click)="addItem()">Add</button>
+            <fieldset>
+                <legend><button (click)="addItem()">Add</button></legend>
                 <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation" style="display:inline-block;">{{error|json}}</div>
                 <fieldset *ngFor="#item of _modelValue[fragment]; #i = index" class="forms_objectArrayControls forms_ArrayControls">
-                    <legend>{{label}}_{{i}} <button (click)="removeItem(item)">Remove</button></legend>
+                    <legend>{{itemLabel}}_{{i}} <button (click)="removeItem(item)">Remove</button></legend>
                     <form-outlet [data]="item" [dataSchema]="_subSchema"></form-outlet>
                 </fieldset>
-            </div>
+            </fieldset>
         </div>
     `
     ,
@@ -33,6 +33,12 @@ export class ObjectArrayControlRenderer extends AbstractArrayControlRenderer imp
     }
     getDefaultValue():any{
         return {};
+    }
+    private get itemLabel(){
+        let itemLabel=PathUtil.beautify(this.fragment);
+        if(itemLabel.charAt(itemLabel.length-1)=='s')
+            return itemLabel.substring(0,itemLabel.length-1);
+        return itemLabel;
     }
 }
 export var ObjectArrayControlRendererTester: FormsTester = ArrayControlRendererTester('object',1);

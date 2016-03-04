@@ -1,4 +1,4 @@
-import PathUtil = require('../PathUtil');
+import {PathUtil} from '../PathUtil';
 import {FormsTester,NOT_FITTING} from './../../forms/forms';
 import {AbstractControlRenderer} from './AbstractControlRenderer';
 

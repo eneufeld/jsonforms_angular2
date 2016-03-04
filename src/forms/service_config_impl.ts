@@ -1,4 +1,4 @@
-import PathUtil = require('../common_renderer/PathUtil');
+import {PathUtil} from '../common_renderer/PathUtil';
 
 export interface FormServiceFactory{
     createFormService(dataSchema:any,uiSchema:IUISchemaElement, data:any):FormsService;

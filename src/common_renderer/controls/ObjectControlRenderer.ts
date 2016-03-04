@@ -1,7 +1,7 @@
 import {Component, Inject,OnInit} from 'angular2/core';
 import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from '../../forms/forms';
 import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRenderer';
-import PathUtil = require('../PathUtil');
+import {PathUtil} from '../PathUtil';
 
 @Component({
     selector: 'ObjectControlRenderer',

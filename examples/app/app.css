@@ -3,11 +3,10 @@ body {
 }
 
 fieldset {
-  margin-top: 1em;
   margin-bottom: 0.5em;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-left: 0;
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
@@ -16,12 +15,6 @@ fieldset {
   border: 1px solid #BFBAB0;
   border-radius:4px;
 }
-/*old
-fieldset {
-    margin-left: 0;
-    border: solid 1px black;
-}
-*/
 legend {
   margin-left: 0.75em;
   margin-bottom: 0.25em;
@@ -29,15 +22,8 @@ legend {
   font-weight: bold;
   padding:0;
 }
-legend::before {
-  content: "\2003";
-}
 label {
-  display: block;
   margin-left: 0.75em;
-}
-label >*{
-  display:block;
 }
 
 .forms_controlLabel {
@@ -48,7 +34,10 @@ label >*{
     font-weight:bold;
 }
 .forms_control{
-    margin:0.25em;
+    margin-top:0.25em;
+    margin-bottom:0.25em;
+    margin-left:0.5em;
+    margin-right:0.5em;
     display: flex;
 }
 .forms_controlInput{
