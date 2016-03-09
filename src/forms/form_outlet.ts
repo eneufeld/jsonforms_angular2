@@ -1,47 +1,93 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import { Component, Input, OnInit, DoCheck, KeyValueDiffers,IterableDiffers, Inject, AfterContentInit} from 'angular2/core';
-import {ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService} from './forms';
-import {FormInner} from './form_inner';
+import { Directive, ElementRef, DynamicComponentLoader,ComponentRef, Input, OnInit, provide, Injector, Inject,Optional,KeyValueDiffers,IterableDiffers,AfterContentInit,DoCheck,OnChanges } from 'angular2/core';
+import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService} from './forms';
+declare var JsonRefs;
 
-@Component({
-    selector: 'form-outlet',
-    template:'<div><form-inner [uiSchema]="_uiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-inner></div>',
-    directives:[FormInner]
-})
-export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
+@Directive({selector: 'form-outlet'})
+export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
     @Input("uiSchema") private _uiSchema: IUISchemaElement;
     @Input("data") private _data: any;
     @Input("dataSchema") private _dataSchema: any;
     @Input("refUri") private _refUri: string;
-
+    @Input("root") private _root: boolean;
+    private _refs:any;
     private _keyValueDiffer: any;
     private _iterableDiffer: {[key:string]:any}={};
     private _initialized=false;
     private _services:Array<FormsService>=[];
-    constructor(private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers, private _uiSchemaProvider:UISchemaProviderService ,@Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory>) {
+    private _renderedChild:ComponentRef;
+
+    constructor(private _elementRef: ElementRef, private _rendererRegistry:RendererRegistry, private _loader:DynamicComponentLoader,
+        private _keyValueDifferFactory: KeyValueDiffers, private _iterableDifferFactory: IterableDiffers, private _uiSchemaProvider:UISchemaProviderService ,
+        @Inject('FormServiceFactories') private _serviceFactories: Array<FormServiceFactory>,
+        @Optional()  @Inject('uiSchema') private _oldUiSchema:ILayout,
+         @Optional() @Inject('dataSchema') private _oldDataSchema:any,
+         @Optional() @Inject('data') private _oldData:any,
+         @Optional() @Inject('uiSchemaRefs') private _oldUiSchemaRefs:any ) {
+             this._root=false;
     }
+
+
+
     ngOnInit() {
+        if(this._root){
+            this.initRoot();
+        }
+        if(this._dataSchema!=null){
+            JsonRefs.resolveRefs(this._dataSchema)
+                .then(res =>{
+                    // Do something with the response
+                    // res.refs: JSON Reference locations and details
+                    // res.resolved: The document with the appropriate JSON References resolved
+                    this._dataSchema=res.resolved;
+                    if(Object.keys(res.refs).length!=0)
+                        this._refs=res.refs;
+                    this.render();
+                }, err => {console.log(err.stack);}
+            );
+        }
+        else{
+            this._dataSchema=this._oldDataSchema;
+            this.render();
+        }
+
+    }
+    private initRoot(){
         if(this._uiSchema==null){
             this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema,this._refUri);
         }
-      this._serviceFactories.forEach(serviceFactory=>{
+        this._serviceFactories.forEach(serviceFactory=>{
           this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
-      });
-      this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
-      let properties=this._dataSchema.properties;
-      if(properties!=null)
-      Object.keys(properties).forEach(key => {
-          let property=properties[key];
-          if(property.type=='array'){
-              let differ = this._iterableDifferFactory.find([]).create(null);
-              this._iterableDiffer[key]=differ;
-          }
-      });
+        });
+        this._keyValueDiffer = this._keyValueDifferFactory.find({}).create(null);
+        let properties=this._dataSchema.properties;
+        if(properties!=null)
+            Object.keys(properties).forEach(key => {
+              let property=properties[key];
+              if(property.type=='array'){
+                  let differ = this._iterableDifferFactory.find([]).create(null);
+                  this._iterableDiffer[key]=differ;
+              }
+            });
+    }
+    private render():void{
+        if(this._renderedChild!=null)
+            this._renderedChild.dispose();
+        if(this._uiSchema==null)
+            this._uiSchema=this._oldUiSchema;
+        if(this._data==null)
+            this._data=this._oldData;
+        if(this._oldUiSchemaRefs!=null)
+            this._refs=this._oldUiSchemaRefs;
+
+        let promise=this._loader.loadNextToLocation(this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data), this._elementRef,
+        Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema}),provide('uiSchemaRefs', {useValue: this._refs})]));
+        promise.then(result=>{this._renderedChild=result;})
     }
 
     ngDoCheck() {
-        if(!this._initialized)
+        if(!this._initialized || !this._root)
             return;
         var keyValueChanges = this._keyValueDiffer.diff(this._data);
         if (keyValueChanges) {
@@ -76,5 +122,10 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     }
     ngAfterContentInit(): any {
         this._initialized=true;
+    }
+    ngOnChanges(){
+        if(!this._initialized || !this._root)
+            return;
+        this.render();
     }
 }

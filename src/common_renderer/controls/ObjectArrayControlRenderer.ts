@@ -13,7 +13,7 @@ import {PathUtil} from '../PathUtil';
                 <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation" style="display:inline-block;">{{error|json}}</div>
                 <fieldset *ngFor="#item of _modelValue[fragment]; #i = index" class="forms_objectArrayControls forms_ArrayControls">
                     <legend>{{itemLabel}}_{{i}} <button (click)="removeItem(item)">Remove</button></legend>
-                    <form-outlet [data]="item" [dataSchema]="_subSchema"></form-outlet>
+                    <form-outlet [data]="item" [dataSchema]="_subSchema" [root]="true"></form-outlet>
                 </fieldset>
             </fieldset>
         </div>

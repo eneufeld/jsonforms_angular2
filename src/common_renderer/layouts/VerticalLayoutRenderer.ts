@@ -1,11 +1,11 @@
 import {Component, OnInit,ElementRef,DynamicComponentLoader,Inject,Injector,provide} from 'angular2/core';
-import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from './../../forms/forms';
+import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from './../../forms/forms';
 
 @Component({
     selector: 'VerticalLayoutRenderer',
-    template: `<div class="forms_verticalLayout forms_layout"><form-inner *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema"></form-inner></div>`,
+    template: `<div class="forms_verticalLayout forms_layout"><form-outlet *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema"></form-outlet></div>`,
     styles: [``],
-    directives:[FormInner]
+    directives:[FormOutlet]
 })
 export class VerticalLayoutRenderer implements OnInit{
     constructor( @Inject('uiSchema') private _uiSchema:ILayout) {

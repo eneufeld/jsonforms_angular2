@@ -10,7 +10,7 @@ import {PathUtil} from '../PathUtil';
             <label class="forms_objectControlLabel forms_controlLabel">{{label}}</label>
             <button (click)="createInstance()" *ngIf="!_modelValue[fragment]">Create {{label}}</button>
             <fieldset *ngIf="_modelValue[fragment]">
-                <form-outlet [data]="_modelValue[fragment]" [dataSchema]="_subSchema" [refUri]="_refUri"></form-outlet>
+                <form-outlet [data]="_modelValue[fragment]" [dataSchema]="_subSchema" [refUri]="_refUri" [root]="true"></form-outlet>
             </fieldset>
             <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>

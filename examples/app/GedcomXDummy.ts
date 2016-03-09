@@ -469,3 +469,49 @@ export var GEDCOMX_PERSON_DATA: any =
     ],
     "id": "BBB-BBBB"
 }
+export var GEDCOMX_PERSON_DATA2:any =
+{
+    "names" : [ {
+      "nameForms" : [ {
+        "fullText" : "Martha Dandridge Custis",
+        "parts" : [ {
+          "value" : "Martha Dandridge",
+          "type" : "http://gedcomx.org/Given"
+        }, {
+          "value" : "Custis",
+          "type" : "http://gedcomx.org/Surname"
+        } ]
+      } ],
+      "id" : "987"
+    } ],
+    "gender" : {
+      "type" : "http://gedcomx.org/Female"
+    },
+    "facts" : [ {
+      "type" : "http://gedcomx.org/Birth",
+      "date" : {
+        "original" : "June 2, 1731",
+        "formal" : "+1731-06-02"
+      },
+      "place" : {
+        "original" : "chestnut grove, new kent, virginia, united states",
+        "description" : "#KKK"
+      },
+      "id" : "321"
+    }, {
+      "type" : "http://gedcomx.org/Death",
+      "date" : {
+        "original" : "May 22, 1802",
+        "formal" : "+1802-05-22"
+      },
+      "place" : {
+        "original" : "mount vernon, fairfax county, virginia, united states",
+        "description" : "#999"
+      },
+      "id" : "654"
+    } ],
+    "sources" : [ {
+      "description" : "#FFF-FFFF"
+    } ],
+    "id" : "CCC-CCCC"
+};

@@ -4,17 +4,9 @@ import {Component} from 'angular2/core';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
-import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA} from './GedcomXDummy';
+import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2} from './GedcomXDummy';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 
-/* ugly hack as model must be completly resolved ...
-declare var JsonRefs;
-var genderSchema;
-JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
-    .then(
-        res =>{genderSchema=res.resolved.definitions.gender},
-        err => {console.log(err)});
-*/
 @Component({
     selector: 'my-app',
     template:`
@@ -23,14 +15,20 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
         <h2>Test UI Schema</h2>
         <div>{{uischema|json}}</div>
         <h2>Test Data</h2>
-        <div>{{data2|json}}</div>
+        <div>{{data3|json}}</div>
         -->
+        <ul style="list-style-type:none;">
+        <li *ngFor="#person of persons" (click)="data3=person" class="personEntry"  [ngClass]="{selected: data3==person}">
+            <span>{{person.names[0].nameForms[0].fullText}}</span>
+        </li>
+        </ul>
         <h2>Rendered Form</h2>
-        <div>
-            <form-outlet  [data]="data2" [dataSchema]="dataschema2" [uiSchema]="uischema2"></form-outlet>
+        <div *ngIf="data3!=null">
+            <form-outlet  [data]="data3" [dataSchema]="dataschema2" [uiSchema]="uischema2" [root]="true"></form-outlet>
         </div>
+        <span *ngIf="data3==null">No person selected!</span>
     `,
-    styles:[``],
+    styles:[`.personEntry:hover{font-weight:bold;cursor:pointer} .selected{font-weight:bold;}`],
     directives:[FORM_DIRECTIVES],
     providers: [FORM_PROVIDERS,DatalistIdProvider]
 })
@@ -48,12 +46,12 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
             return 10;
         return -1;
     }}
-
 ])
 export class AppComponent  {
   uischema2:any=GEDCOMX_PERSON_UISCHEMA;
   dataschema2:any=GEDCOMX_PERSON_SCHEMA;
-  data3:any={};
+  persons:any[]=[GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2];
+  data3:any;
   data2:any=GEDCOMX_PERSON_DATA;
     uischema:any = {
         "type": "VerticalLayout",

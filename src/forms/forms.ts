@@ -8,7 +8,6 @@ export {RendererRegistry} from './renderer_registry';
 export {UISchemaProviderService} from './uischema_service/uischema_registry';
 export {UISchemaProviderTester} from './uischema_service/uischema_config_impl';
 export {FormOutlet} from './form_outlet';
-export {FormInner} from './form_inner';
 
 
 

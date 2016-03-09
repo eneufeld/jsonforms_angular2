@@ -1,5 +1,5 @@
 import {Component, OnInit,Inject} from 'angular2/core';
-import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from '../../../src/forms/forms';
+import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from '../../../src/forms/forms';
 
 @Component({
     selector: 'CollapsibleGroupLayoutRenderer',
@@ -7,7 +7,7 @@ import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from '../../../src/f
     <fieldset class="forms_groupLayout forms_layout">
         <legend (click)="hidden=!hidden" [ngClass]="{hidden: hidden}" class="forms_groupLabel">{{_uiSchema.label}}</legend>
         <div [ngClass]="{hidden: hidden}">
-        <form-inner *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-inner>
+        <form-outlet *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-outlet>
         </div>
     </fieldset>
     `,
@@ -23,7 +23,7 @@ import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from '../../../src/f
           content:"\\2003 \\25B6"
         }
     `],
-    directives:[FormInner]
+    directives:[FormOutlet]
 })
 export class CollapsibleGroupLayoutRenderer implements OnInit{
     hidden:boolean=false;
