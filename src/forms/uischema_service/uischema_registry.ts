@@ -39,11 +39,11 @@ export class UISchemaProviderService {
   register(uischemaElement:IUISchemaElement,tester:UISchemaProviderTester):void {
     this.uiSchemaProviders.push({uischemaElement:uischemaElement,tester:tester});
   }
-  getBestComponent(dataSchema:any):IUISchemaElement {
+  getBestComponent(dataSchema:any,refUri:string):IUISchemaElement {
     var bestUISchema:IUISchemaElement;
     var highestSpecificity:number=-1;
     for (var uiSchemaProvider of this.uiSchemaProviders) {
-      var currentSpecificity:number=uiSchemaProvider.tester(dataSchema);
+      var currentSpecificity:number=uiSchemaProvider.tester(dataSchema,refUri);
       if (currentSpecificity>highestSpecificity){
         highestSpecificity=currentSpecificity;
         bestUISchema=uiSchemaProvider.uischemaElement;

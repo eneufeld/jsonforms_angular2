@@ -3,12 +3,12 @@ import {FormsTester,NOT_FITTING,RendererRegistry,FormInner} from './../../forms/
 
 @Component({
     selector: 'GroupLayoutRenderer',
-    template: `<fieldset class="forms_groupLayout forms_layout"><legend class="forms_groupLabel">{{_uiSchema.label}}</legend><form-inner *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema" [data]="_data" [dataSchema]="_dataSchema"></form-inner></fieldset>`,
+    template: `<fieldset class="forms_groupLayout forms_layout"><legend class="forms_groupLabel">{{_uiSchema.label}}</legend><form-inner *ngFor="#subUiSchema of _uiSchema.elements" [uiSchema]="subUiSchema"></form-inner></fieldset>`,
     styles: [`.forms_groupLabel {padding-left:1em;padding-right:1em;}`],
     directives:[FormInner]
 })
 export class GroupLayoutRenderer implements OnInit{
-    constructor( @Inject('uiSchema') private _uiSchema:ILayout, @Inject('dataSchema') private _dataSchema:any, @Inject('data') private _data:any) {
+    constructor( @Inject('uiSchema') private _uiSchema:ILayout) {
     }
 
     ngOnInit() {

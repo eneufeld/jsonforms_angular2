@@ -63,8 +63,9 @@ static resolveInstanceFromFragments=function  (instance:any, fragments:string[])
  */
 static beautify = (text: string): string => {
     if(text && text.length > 0){
-        var textArray = text.split(/(?=[A-Z])/).map((x)=>{return x.toLowerCase()});
-        textArray[0] = textArray[0].charAt(0).toUpperCase() + textArray[0].slice(1);
+        let textArray = text.split(/(?=[A-Z])/).map((x)=>{return x.toLowerCase()});
+        //textArray[0] = textArray[0].charAt(0).toUpperCase() + textArray[0].slice(1);
+        textArray=textArray.map(value=>{return value.charAt(0).toUpperCase() + value.slice(1)});
         return textArray.join(' ');
     }
     return text;

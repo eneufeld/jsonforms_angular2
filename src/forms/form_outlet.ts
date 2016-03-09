@@ -13,6 +13,8 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     @Input("uiSchema") private _uiSchema: IUISchemaElement;
     @Input("data") private _data: any;
     @Input("dataSchema") private _dataSchema: any;
+    @Input("refUri") private _refUri: string;
+
     private _keyValueDiffer: any;
     private _iterableDiffer: {[key:string]:any}={};
     private _initialized=false;
@@ -21,7 +23,7 @@ export class FormOutlet implements OnInit, DoCheck,AfterContentInit{
     }
     ngOnInit() {
         if(this._uiSchema==null){
-            this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema);
+            this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema,this._refUri);
         }
       this._serviceFactories.forEach(serviceFactory=>{
           this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));

@@ -27,7 +27,7 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
         -->
         <h2>Rendered Form</h2>
         <div>
-            <form-outlet  [data]="data2" [dataSchema]="dataschema2"></form-outlet>
+            <form-outlet  [data]="data2" [dataSchema]="dataschema2" [uiSchema]="uischema2"></form-outlet>
         </div>
     `,
     styles:[``],
@@ -39,15 +39,16 @@ JsonRefs.resolveRefs(GEDCOMX_PERSON_SCHEMA)
   {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester}
 ])
 @UISchemaProviderConfig([
-    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}}
-    /** see first comment
-    ,
-    {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:dataSchema=>{
-        if(JSON.stringify(dataSchema) === JSON.stringify(genderSchema))
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:(dataSchema,uriRef)=>{
+        if(uriRef==undefined || uriRef==null)
+        return -1;
+        let suffix="gender";
+        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
             return 10;
         return -1;
     }}
-    */
+
 ])
 export class AppComponent  {
   uischema2:any=GEDCOMX_PERSON_UISCHEMA;
