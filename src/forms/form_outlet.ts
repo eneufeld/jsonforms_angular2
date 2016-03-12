@@ -83,6 +83,8 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
             this._data=this._oldData;
         if(this._oldUiSchemaRefs!=null)
             this._refs=this._oldUiSchemaRefs;
+        if(this._data==null)
+          return;
         let curcomponent=this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data);
         if(curcomponent){
             let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,

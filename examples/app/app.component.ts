@@ -1,38 +1,52 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import {Component,OnInit} from 'angular2/core';
+import {RouteConfig,ROUTER_DIRECTIVES,ROUTER_PROVIDERS } from 'angular2/router';
+
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2,GEDCOMX_DATA} from './GedcomXDummy';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
-
-declare var JsonRefs;
+import {DataProviderService} from './DataProviderService';
+import {PersonsComponent} from './person/persons.component';
+import {PersonDetailComponent} from './person/person-detail.component';
 
 @Component({
     selector: 'my-app',
     template:`
-        <h1>Form Test</h1>
-        <!--
-        <h2>Test UI Schema</h2>
-        <div>{{uischema|json}}</div>
-        <h2>Test Data</h2>
-        <div>{{data3|json}}</div>
-        -->
-        <ul style="list-style-type:none;">
-        <li *ngFor="#person of persons" (click)="data3=person" class="personEntry"  [ngClass]="{selected: data3==person}">
-            <span>{{person.names[0].nameForms[0].fullText}}</span>
-        </li>
-        </ul>
-        <h2>Rendered Form</h2>
-        <div *ngIf="data3!=null">
-            <form-outlet  [data]="data3" [dataSchema]="dataschema2.definitions.person" [uiSchema]="uischema2" [root]="true" [refs]="refs"></form-outlet><!--   -->
-        </div>
-        <span *ngIf="data3==null">No person selected!</span>
+    <div>
+      <a [routerLink]="['Persons']">List of Persons</a>
+      <button (click)="goBack()">Back</button>
+    </div>
+    <router-outlet></router-outlet>
     `,
-    styles:[`.personEntry:hover{font-weight:bold;cursor:pointer} .selected{font-weight:bold;}`],
-    directives:[FORM_DIRECTIVES],
-    providers: [FORM_PROVIDERS,DatalistIdProvider]
+    styles:[`
+      a,button {
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-top: 10px;
+        display: inline-block;
+        background-color: #eee;
+        border-radius: 4px;
+        color: #0387c7;
+        border:none;
+        font-family: 'Merriweather', serif;
+        font-size:16px;
+      }
+      a:visited, a:link {
+        color: #607D8B;
+      }
+      a:hover,button:hover {
+        color: #039be5;
+        background-color: #CFD8DC;
+      }
+      a.router-link-active {
+        color: #039be5;
+      }
+    `],
+    directives:[ROUTER_DIRECTIVES],
+    providers: [ROUTER_PROVIDERS,FORM_PROVIDERS,DatalistIdProvider,DataProviderService]
 })
 @RendererConfig([
   {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester},
@@ -57,6 +71,10 @@ declare var JsonRefs;
         return -1;
     }}
 ])
+@RouteConfig([
+  { path: '/personlist', component: PersonsComponent, name: 'Persons',useAsDefault: true },
+  {path: '/person/:id', name: 'PersonDetail', component: PersonDetailComponent},
+])
 export class AppComponent implements OnInit  {
     uischema2:any=GEDCOMX_PERSON_UISCHEMA;
     dataschema2:any=GEDCOMX_PERSON_SCHEMA;
@@ -67,14 +85,9 @@ export class AppComponent implements OnInit  {
 
 
 ngOnInit() {
-    JsonRefs.resolveRefs(this.dataschema2)
-        .then(res =>{
-            // Do something with the response
-            // res.refs: JSON Reference locations and details
-            // res.resolved: The document with the appropriate JSON References resolved
-            this.dataschema2=res.resolved;
-            this.refs=res.refs;
-        }, err => {console.log(err.stack);}
-    );
+
 }
+goBack() {
+      window.history.back();
+  }
 }

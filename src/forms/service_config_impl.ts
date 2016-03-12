@@ -14,7 +14,7 @@ export class ChangeNotification{
     constructor(private _key:string, private _previousValue:any, private _currentValue:any){}
     get schemaPath():string{return this._key}
     newData(oldData:any):any {
-        let clone=JSON.parse(JSON.stringify(oldData));
+        let clone=oldData==null?{}:JSON.parse(JSON.stringify(oldData));
         var fragments:Array<string> = PathUtil.filterNonKeywords(PathUtil.toPropertyFragments(this._key));
         var fragment=fragments[fragments.length-1];
         var fragmentsToObject:Array<string> =fragments.slice(0,fragments.length-1);

@@ -50,3 +50,34 @@ label {
 .forms_ArrayControls{
     margin-top: 0.25em;
 }
+
+.male {
+  background-color: #2175bc;
+  border-color: #2175bc;
+}
+.male:hover {
+  background-color: #2586d7;
+}
+.male:active {
+  background-color: #3b94dd;
+}
+.female{
+  background-color: #bc2121;
+  border-color: #bc2121;
+}
+.female:hover {
+  background-color: #d72525;
+}
+.female:active {
+  background-color: #dd3b3b;
+}
+.unknown{
+  background-color: #6e6e6e;
+  border-color: #6e6e6e;
+}
+.unknown:hover {
+  background-color: #7e7e7e;
+}
+.unknown:active {
+  background-color: #8c8c8c;
+}
