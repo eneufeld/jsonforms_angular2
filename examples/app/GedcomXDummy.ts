@@ -299,27 +299,37 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 "description": { "$ref": "#/definitions/uri" }
             },
             "required": []
-        }
+        },
+		"person":{
+			"allOf": [
+		        { "$ref": "#/definitions/subject" },
+		        {	"type": "object",
+		            "properties": {
+		                "private": { "type": "boolean" },
+		                "gender": { "$ref": "#/definitions/gender" },
+		                "names": {
+		                    "type": "array",
+		                    "items": { "$ref": "#/definitions/name" }
+		                },
+		                "facts": {
+		                    "type": "array",
+		                    "items": { "$ref": "#/definitions/fact" }
+		                }
+		            },
+		            "required": []
+		        }
+		    ]
+		}
     },
+	"type": "object",
+	"properties": {
+		"persons":
+		{
+			"type": "array",
+			"items": { "$ref": "#/definitions/person" }
+		}
+	}
 
-    "allOf": [
-        { "$ref": "#/definitions/subject" },
-        {
-            "properties": {
-                "private": { "type": "boolean" },
-                "gender": { "$ref": "#/definitions/gender" },
-                "names": {
-                    "type": "array",
-                    "items": { "$ref": "#/definitions/name" }
-                },
-                "facts": {
-                    "type": "array",
-                    "items": { "$ref": "#/definitions/fact" }
-                }
-            },
-            "required": []
-        }
-    ]
 }
 
 export var GEDCOMX_PERSON_UISCHEMA: any =
@@ -329,25 +339,25 @@ export var GEDCOMX_PERSON_UISCHEMA: any =
         {
             "type": "Control",
             "scope": {
-                "$ref": "#/allOf/1/properties/private"
+                "$ref": "/allOf/1/properties/private"
             }
         },
         {
 	        "type": "Control",
 	        "scope": {
-	            "$ref": "#/allOf/1/properties/gender"
+	            "$ref": "/allOf/1/properties/gender"
 	        }
         },
         {
             "type": "Control",
             "scope": {
-                "$ref": "#/allOf/1/properties/names"
+                "$ref": "/allOf/1/properties/names"
             }
         },
         {
             "type": "Control",
             "scope": {
-                "$ref": "#/allOf/1/properties/facts"
+                "$ref": "/allOf/1/properties/facts"
             }
         }
     ]
@@ -514,4 +524,7 @@ export var GEDCOMX_PERSON_DATA2:any =
       "description" : "#FFF-FFFF"
     } ],
     "id" : "CCC-CCCC"
+};
+export var GEDCOMX_DATA:any={
+	"persons":[GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2]
 };

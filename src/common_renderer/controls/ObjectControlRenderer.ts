@@ -25,7 +25,10 @@ export class ObjectControlRenderer extends AbstractControlRenderer implements On
     constructor(@Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any,@Inject('dataSchema') private _dataSchema:any,@Inject('uiSchemaRefs') uiSchemaRefs:any) {
         super(_uiSchema,_data);
         if(uiSchemaRefs!=null){
-            let resolvedRef=uiSchemaRefs[this._uiSchema['scope']['$ref']];
+            let foundKey=Object.keys(uiSchemaRefs).filter(key=>{return key.indexOf(this._uiSchema['scope']['$ref'])!=-1;});
+            if(foundKey==null || foundKey.length==0 )
+                return;
+            let resolvedRef=uiSchemaRefs[foundKey[0]];
             if(resolvedRef!=null)
                 this._refUri=resolvedRef.uri;
         }

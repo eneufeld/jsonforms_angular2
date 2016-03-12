@@ -1,11 +1,13 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import {Component} from 'angular2/core';
+import {Component,OnInit} from 'angular2/core';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
-import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2} from './GedcomXDummy';
+import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2,GEDCOMX_DATA} from './GedcomXDummy';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
+
+declare var JsonRefs;
 
 @Component({
     selector: 'my-app',
@@ -24,7 +26,7 @@ import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
         </ul>
         <h2>Rendered Form</h2>
         <div *ngIf="data3!=null">
-            <form-outlet  [data]="data3" [dataSchema]="dataschema2" [uiSchema]="uischema2" [root]="true"></form-outlet>
+            <form-outlet  [data]="data3" [dataSchema]="dataschema2.definitions.person" [uiSchema]="uischema2" [root]="true" [refs]="refs"></form-outlet><!--   -->
         </div>
         <span *ngIf="data3==null">No person selected!</span>
     `,
@@ -37,135 +39,42 @@ import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
   {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester}
 ])
 @UISchemaProviderConfig([
-    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:dataSchema=>{if(JSON.stringify(dataSchema) === JSON.stringify(GEDCOMX_PERSON_SCHEMA) ) return 10; return -1;}},
+
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSON_UISCHEMA,tester:(dataSchema,uriRef)=>{
+        if(uriRef==undefined || uriRef==null)
+            return -1;
+        let suffix="person";
+        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
+            return 10;
+        return -1;
+    }},
     {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:(dataSchema,uriRef)=>{
         if(uriRef==undefined || uriRef==null)
-        return -1;
+            return -1;
         let suffix="gender";
         if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
             return 10;
         return -1;
     }}
 ])
-export class AppComponent  {
-  uischema2:any=GEDCOMX_PERSON_UISCHEMA;
-  dataschema2:any=GEDCOMX_PERSON_SCHEMA;
-  persons:any[]=[GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2];
-  data3:any;
-  data2:any=GEDCOMX_PERSON_DATA;
-    uischema:any = {
-        "type": "VerticalLayout",
-        "label":"myGroup",
-        "elements": [
-            {
-              "type": "Control",
-              "scope": {
-                "$ref": "#/properties/firstName"
-              }
-            },
-            {
-              "type": "Control",
-              "scope": {
-                "$ref": "#/properties/lastName"
-              }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                  "$ref": "#/properties/personalData"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                  "$ref": "#/properties/nationality"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                  "$ref": "#/properties/vegetarian"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                "$ref": "#/properties/adresses"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                "$ref": "#/properties/numberArray"
-                }
-            }
-        ]
-    };
-data:any = {
-    firstName:"John",
-    lastName:"Doe",
-    adresses:[
-        {postalCode:"88888",street:"My Street",houseNumber:"123a"},
-        {city:"Berlin",postalCode:"12345",street:"My Street",houseNumber:"89b"}
-    ]
-};
-dataschema:any = {
-    "definitions": {
-        "personalData": {
-            "type": "object",
-            "properties": {
-                "age": {
-                  "type": "integer",
-                  "minimum":3,
-                },
-                "height": {
-                    "type": "number"
-                }
-            }
-        }
-    },
+export class AppComponent implements OnInit  {
+    uischema2:any=GEDCOMX_PERSON_UISCHEMA;
+    dataschema2:any=GEDCOMX_PERSON_SCHEMA;
+    persons:any[]=GEDCOMX_DATA.persons;
+    data3:any;
+    data2:any=GEDCOMX_DATA;
+    refs:any;
 
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "minLength": 10
-        },
-        "lastName": {
-          "type": "string",
-          "minLength": 5
-        },
-        "personalData":{ "$ref": "#/definitions/personalData" },
-        "nationality": {
-            "type": "string",
-            "enum": ["DE", "IT", "JP", "US", "RU", "Other"]
-        },
-        "vegetarian": {
-            "type": "boolean"
-        },
-        "adresses":{
-            "type":"array",
-            "items": {
-                "type":"object",
-                "properties": {
-                    "city": {"type": "string"},
-                    "postalCode": {"type": "string","minLength": 5,"maxLength": 5},
-                    "street": {"type": "string"},
-                    "houseNumber": {"type": "string"}
-                },
-                "required": ["city"]
-            },
-            "minItems":3
-        },
-        "numberArray":{
-            "type":"array",
-            "items": {
-                "type":"number",
-                "minimum":0.1
-            },
-            "minItems":1
-        }
-    },
-    "required": ["nationality"]
-};
+
+ngOnInit() {
+    JsonRefs.resolveRefs(this.dataschema2)
+        .then(res =>{
+            // Do something with the response
+            // res.refs: JSON Reference locations and details
+            // res.resolved: The document with the appropriate JSON References resolved
+            this.dataschema2=res.resolved;
+            this.refs=res.refs;
+        }, err => {console.log(err.stack);}
+    );
+}
 }

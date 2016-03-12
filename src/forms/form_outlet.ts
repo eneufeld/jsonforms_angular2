@@ -11,7 +11,7 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
     @Input("dataSchema") private _dataSchema: any;
     @Input("refUri") private _refUri: string;
     @Input("root") private _root: boolean;
-    private _refs:any;
+    @Input("refs") private _refs:any;
     private _keyValueDiffer: any;
     private _iterableDiffer: {[key:string]:any}={};
     private _initialized=false;
@@ -31,9 +31,6 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
 
 
     ngOnInit() {
-        if(this._root){
-            this.initRoot();
-        }
         if(this._dataSchema!=null){
             JsonRefs.resolveRefs(this._dataSchema)
                 .then(res =>{
@@ -43,12 +40,18 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
                     this._dataSchema=res.resolved;
                     if(Object.keys(res.refs).length!=0)
                         this._refs=res.refs;
+                    if(this._root){
+                        this.initRoot();
+                    }
                     this.render();
                 }, err => {console.log(err.stack);}
             );
         }
         else{
             this._dataSchema=this._oldDataSchema;
+            if(this._root){
+                this.initRoot();
+            }
             this.render();
         }
 
@@ -80,10 +83,16 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
             this._data=this._oldData;
         if(this._oldUiSchemaRefs!=null)
             this._refs=this._oldUiSchemaRefs;
-
-        let promise=this._loader.loadNextToLocation(this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data), this._elementRef,
-        Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema}),provide('uiSchemaRefs', {useValue: this._refs})]));
-        promise.then(result=>{this._renderedChild=result;})
+        let curcomponent=this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data);
+        if(curcomponent){
+            let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,
+            Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema}),provide('uiSchemaRefs', {useValue: this._refs})]));
+            promise.then(result=>{this._renderedChild=result;})
+        }
+        else{
+            console.log(JSON.stringify(this._uiSchema));
+            console.log(JSON.stringify(this._dataSchema));
+        }
     }
 
     ngDoCheck() {
