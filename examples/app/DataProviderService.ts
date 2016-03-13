@@ -29,4 +29,10 @@ export class DataProviderService {
   getRefs(){
     return this._refs;
   }
+  getPlaces(){
+    return Promise.resolve(GEDCOMX_DATA.places);
+  }
+  getPlace(id:string){
+    return Promise.resolve(GEDCOMX_DATA.places).then(places => places.filter(p => p.id === id)[0]);
+  }
 }

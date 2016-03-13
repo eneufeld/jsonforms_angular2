@@ -6,17 +6,21 @@ import {RouteConfig,ROUTER_DIRECTIVES,ROUTER_PROVIDERS } from 'angular2/router';
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
-import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2,GEDCOMX_DATA} from './GedcomXDummy';
+import {ReferenceControlRenderer,ReferenceControlRendererTester} from './custom_renderer/reference.component';
+import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2,GEDCOMX_DATA} from './GedcomXDummy';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 import {DataProviderService} from './DataProviderService';
 import {PersonsComponent} from './person/persons.component';
 import {PersonDetailComponent} from './person/person-detail.component';
+import {PlacesComponent} from './place/places.component';
+import {PlaceDetailComponent} from './place/place-detail.component';
 
 @Component({
     selector: 'my-app',
     template:`
     <div>
       <a [routerLink]="['Persons']">List of Persons</a>
+      <a [routerLink]="['Places']">List of Places</a>
       <button (click)="goBack()">Back</button>
     </div>
     <router-outlet></router-outlet>
@@ -50,7 +54,8 @@ import {PersonDetailComponent} from './person/person-detail.component';
 })
 @RendererConfig([
   {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester},
-  {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester}
+  {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester},
+  {renderer:ReferenceControlRenderer,tester:ReferenceControlRendererTester}
 ])
 @UISchemaProviderConfig([
 
@@ -69,11 +74,22 @@ import {PersonDetailComponent} from './person/person-detail.component';
         if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
             return 10;
         return -1;
-    }}
+    }},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PLACEREF_UISCHEMA,tester:(dataSchema,uriRef)=>{
+        if(uriRef==undefined || uriRef==null)
+            return -1;
+        let suffix="placeReference";
+        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
+            return 10;
+        return -1;
+    }},
+
 ])
 @RouteConfig([
   { path: '/personlist', component: PersonsComponent, name: 'Persons',useAsDefault: true },
   {path: '/person/:id', name: 'PersonDetail', component: PersonDetailComponent},
+  { path: '/placeslist', component: PlacesComponent, name: 'Places'},
+  {path: '/place/:id', name: 'PlaceDetail', component: PlaceDetailComponent}
 ])
 export class AppComponent implements OnInit  {
     uischema2:any=GEDCOMX_PERSON_UISCHEMA;

@@ -2,6 +2,97 @@
 	"$schema": "http://json-schema.org/schema#",
 
 	"definitions": {
+		"genderTypes": {
+			"enum": [
+				"http://gedcomx.org/Male",
+				"http://gedcomx.org/Female",
+				"http://gedcomx.org/Unknown"
+			]
+		},
+		"nameTypes": {
+			"enum": [
+				"http://gedcomx.org/BirthName",
+				"http://gedcomx.org/MarriedName",
+				"http://gedcomx.org/AlsoKnownAs",
+				"http://gedcomx.org/Nickname",
+				"http://gedcomx.org/AdoptiveName",
+				"http://gedcomx.org/FormalName",
+				"http://gedcomx.org/ReligiousName"
+			]
+		},
+		"namePartTypes": {
+			"enum": [
+				"http://gedcomx.org/Prefix",
+				"http://gedcomx.org/Suffix",
+				"http://gedcomx.org/Given",
+				"http://gedcomx.org/Surname"
+			]
+		},
+		"personFactTypes": {
+			"enum": [
+				"http://gedcomx.org/Adoption",
+				"http://gedcomx.org/AdultChristening",
+				"http://gedcomx.org/Amnesty",
+				"http://gedcomx.org/Apprenticeship",
+				"http://gedcomx.org/Arrest",
+				"http://gedcomx.org/Baptism",
+				"http://gedcomx.org/BarMitzvah",
+				"http://gedcomx.org/BatMitzvah",
+				"http://gedcomx.org/Birth",
+				"http://gedcomx.org/Blessing",
+				"http://gedcomx.org/Burial",
+				"http://gedcomx.org/Caste",
+				"http://gedcomx.org/Census",
+				"http://gedcomx.org/Christening",
+				"http://gedcomx.org/Circumcision",
+				"http://gedcomx.org/Clan",
+				"http://gedcomx.org/Confirmation",
+				"http://gedcomx.org/Cremation",
+				"http://gedcomx.org/Death",
+				"http://gedcomx.org/Education",
+				"http://gedcomx.org/Emigration",
+				"http://gedcomx.org/Ethnicity",
+				"http://gedcomx.org/Excommunication",
+				"http://gedcomx.org/FirstCommunion",
+				"http://gedcomx.org/Funeral",
+				"http://gedcomx.org/GenderChange",
+				"http://gedcomx.org/Heimat",
+				"http://gedcomx.org/Immigration",
+				"http://gedcomx.org/Imprisonment",
+				"http://gedcomx.org/LandTransaction",
+				"http://gedcomx.org/Language",
+				"http://gedcomx.org/Living",
+				"http://gedcomx.org/MaritalStatus",
+				"http://gedcomx.org/Medical",
+				"http://gedcomx.org/MilitaryAward",
+				"http://gedcomx.org/MilitaryDischarge",
+				"http://gedcomx.org/MilitaryDraftRegistration",
+				"http://gedcomx.org/MilitaryInduction",
+				"http://gedcomx.org/MilitaryService",
+				"http://gedcomx.org/Mission",
+				"http://gedcomx.org/MoveTo",
+				"http://gedcomx.org/MoveFrom",
+				"http://gedcomx.org/MultipleBirth",
+				"http://gedcomx.org/NationalId",
+				"http://gedcomx.org/Nationality",
+				"http://gedcomx.org/Naturalization",
+				"http://gedcomx.org/NumberOfChildren",
+				"http://gedcomx.org/NumberOfMarriages",
+				"http://gedcomx.org/Occupation",
+				"http://gedcomx.org/Ordination",
+				"http://gedcomx.org/Pardon",
+				"http://gedcomx.org/PhysicalDescription",
+				"http://gedcomx.org/Probate",
+				"http://gedcomx.org/Property",
+				"http://gedcomx.org/Religion",
+				"http://gedcomx.org/Residence",
+				"http://gedcomx.org/Retirement",
+				"http://gedcomx.org/Stillbirth",
+				"http://gedcomx.org/Will",
+				"http://gedcomx.org/Visit",
+				"http://gedcomx.org/Yahrzeit"
+			]
+		},
 		"uri": {
 			"type": "string"
 		},
@@ -139,14 +230,20 @@
       ]
 		},
 		"gender": {
-      "allOf": [
-        { "$ref": "#/definitions/conclusion" },
-        { "properties":{
-            "type": {"$ref": "#/definitions/uri"}
-          },
-          "required": ["type"]
-        }
-      ]
+			"allOf": [
+				{ "$ref": "#/definitions/conclusion" },
+				{
+					"properties": {
+						"type": {
+							"anyOf": [
+								{ "$ref": "#/definitions/uri" },
+								{ "$ref": "#/definitions/genderTypes" }
+							]
+						}
+					},
+					"required": ["type"]
+				}
+			]
 		},
 		"date": {
 			"type": "object",
@@ -172,7 +269,12 @@
         { "$ref": "#/definitions/conclusion" },
         {
           "properties":{
-            "type": {"$ref": "#/definitions/uri"},
+						"type": {
+							"anyOf": [
+								{ "$ref": "#/definitions/uri" },
+								{ "$ref": "#/definitions/nameTypes" }
+							]
+						},
             "date": {"$ref": "#/definitions/date"},
             "nameForms": {
               "type": "array",
@@ -186,7 +288,12 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "type": {"$ref": "#/definitions/uri"},
+												"type": {
+													"anyOf": [
+														{ "$ref": "#/definitions/uri" },
+														{ "$ref": "#/definitions/namePartTypes" }
+													]
+												},
                         "value": {"type":"string"},
                         "qualifiers": {
                           "type": "array",
@@ -208,7 +315,12 @@
       "allOf": [
         { "$ref": "#/definitions/conclusion" },
         { "properties":{
-            "type": {"$ref": "#/definitions/uri"},
+						"type": {
+							"anyOf": [
+								{ "$ref": "#/definitions/uri" },
+								{ "$ref": "#/definitions/personFactTypes" }
+							]
+						},
             "date": {"$ref": "#/definitions/date"},
             "place": {"$ref": "#/definitions/placeReference"},
             "value": {"type":"string"},

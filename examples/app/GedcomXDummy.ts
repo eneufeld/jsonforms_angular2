@@ -132,6 +132,14 @@ export var GEDCOMX_PERSON_SCHEMA: any =
         },
         "required": ["text"]
       },
+      "textValue": {
+        "type": "object",
+        "properties": {
+          "lang": { "$ref": "#/definitions/localeTag" },
+          "value": { "type": "string" }
+        },
+        "required": ["value"]
+      },
       "sourceReference": {
         "type": "object",
         "properties": {
@@ -320,15 +328,39 @@ export var GEDCOMX_PERSON_SCHEMA: any =
             "required": []
 		        }
         ]
+      },
+      "placeDescription": {
+        "allOf": [
+          { "$ref": "#/definitions/subject" },
+          {
+            "properties": {
+              "names": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/textValue" }
+              },
+              "type": { "$ref": "#/definitions/uri" },
+              "place": { "$ref": "#/definitions/resourceReference" },
+              "jurisdiction": { "$ref": "#/definitions/resourceReference" },
+              "latitude": { "type": "number" },
+              "longitude": { "type": "number" },
+              "temporalDescription": { "$ref": "#/definitions/date" },
+              "spatialDescription": { "$ref": "#/definitions/resourceReference" }
+            },
+            "required": ["names"]
+          }
+        ]
       }
     },
     "type": "object",
     "properties": {
-      "persons":
-      {
+      "persons": {
         "type": "array",
         "items": { "$ref": "#/definitions/person" }
-      }
+      },
+      "places": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/placeDescription" }
+      },
     }
 
   }
@@ -419,6 +451,27 @@ export var GEDCOMX_GENDER_UISCHEMA: any =
       }
     ]
   }
+
+  export var GEDCOMX_PLACEREF_UISCHEMA: any =
+    {
+      "type": "VerticalLayout",
+      "label": "Description",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": {
+  		        "$ref": "/properties/original"
+          }
+        },
+        {
+          "type": "Control",
+          "scope": {
+            "$ref": "/properties/description"
+          },
+          "navigateTo":"PlaceDetail"
+        }
+      ]
+    }
 
 export var GEDCOMX_PERSON_DATA: any =
   {
@@ -527,5 +580,27 @@ export var GEDCOMX_PERSON_DATA2: any =
     "id": "CCC-CCCC"
   };
 export var GEDCOMX_DATA: any = {
-  "persons": [GEDCOMX_PERSON_DATA, GEDCOMX_PERSON_DATA2]
+  "persons": [GEDCOMX_PERSON_DATA, GEDCOMX_PERSON_DATA2],
+  "places" : [ {
+    "names" : [ {
+      "value" : "Pope's Creek, Westmoreland, Virginia, United States"
+    } ],
+    "latitude" : 38.192353,
+    "longitude" : -76.904069,
+    "id" : "888"
+  }, {
+    "names" : [ {
+      "value" : "Mount Vernon, Fairfax County, Virginia, United States"
+    } ],
+    "latitude" : 38.721144,
+    "longitude" : -77.109461,
+    "id" : "999"
+  }, {
+    "names" : [ {
+      "value" : "Chestnut Grove, New Kent, Virginia, United States"
+    } ],
+    "latitude" : 37.518304,
+    "longitude" : -76.984148,
+    "id" : "KKK"
+  } ]
 };
