@@ -94,6 +94,35 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                     "http://gedcomx.org/Yahrzeit"
                 ]
             },
+            "coupleFactTypes": {
+                "enum": [
+                    "http://gedcomx.org/Annulment",
+                    "http://gedcomx.org/CommonLawMarriage",
+                    "http://gedcomx.org/CivilUnion",
+                    "http://gedcomx.org/DomesticPartnership",
+                    "http://gedcomx.org/Divorce",
+                    "http://gedcomx.org/DivorceFiling",
+                    "http://gedcomx.org/Engagement",
+                    "http://gedcomx.org/Marriage",
+                    "http://gedcomx.org/MarriageBanns",
+                    "http://gedcomx.org/MarriageContract",
+                    "http://gedcomx.org/MarriageLicense",
+                    "http://gedcomx.org/MarriageNotice",
+                    "http://gedcomx.org/NumberOfChildren",
+                    "http://gedcomx.org/Separation"
+                ]
+            },
+            "parentChildFactTypes": {
+                "enum": [
+                    "http://gedcomx.org/AdoptiveParent",
+                    "http://gedcomx.org/BiologicalParent",
+                    "http://gedcomx.org/FosterParent",
+                    "http://gedcomx.org/GuardianParent",
+                    "http://gedcomx.org/StepParent",
+                    "http://gedcomx.org/SociologicalParent",
+                    "http://gedcomx.org/SurrogateParent"
+                ]
+            },
             "uri": {
                 "type": "string"
             },
@@ -286,9 +315,27 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                     }
                 ]
             },
-            "fact": {
+            "factBase":{
                 "allOf": [
                     { "$ref": "#/definitions/conclusion" },
+                    {
+                        "properties": {
+
+                            "date": { "$ref": "#/definitions/date" },
+                            "place": { "$ref": "#/definitions/placeReference" },
+                            "value": { "type": "string" },
+                            "qualifiers": {
+                                "type": "array",
+                                "items": { "$ref": "#/definitions/qualifier" }
+                            }
+                        },
+                        "required": []
+                    }
+                ]
+            },
+            "factPerson": {
+                "allOf": [
+                    { "$ref": "#/definitions/factBase" },
                     {
                         "properties": {
                             "type": {
@@ -297,13 +344,38 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                                     { "$ref": "#/definitions/personFactTypes" }
                                 ]
                             },
-                            "date": { "$ref": "#/definitions/date" },
-                            "place": { "$ref": "#/definitions/placeReference" },
-                            "value": { "type": "string" },
-                            "qualifiers": {
-                                "type": "array",
-                                "items": { "$ref": "#/definitions/qualifier" }
-                            }
+                        },
+                        "required": ["type"]
+                    }
+                ]
+            },
+            "factCouple": {
+                "allOf": [
+                    { "$ref": "#/definitions/factBase" },
+                    {
+                        "properties": {
+                            "type": {
+                                "anyOf": [
+                                    { "$ref": "#/definitions/uri" },
+                                    { "$ref": "#/definitions/coupleFactTypes" }
+                                ]
+                            },
+                        },
+                        "required": ["type"]
+                    }
+                ]
+            },
+            "factParentChild": {
+                "allOf": [
+                    { "$ref": "#/definitions/factBase" },
+                    {
+                        "properties": {
+                            "type": {
+                                "anyOf": [
+                                    { "$ref": "#/definitions/uri" },
+                                    { "$ref": "#/definitions/parentChildFactTypes" }
+                                ]
+                            },
                         },
                         "required": ["type"]
                     }
@@ -321,7 +393,6 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 "allOf": [
                     { "$ref": "#/definitions/subject" },
                     {
-                        "type": "object",
                         "properties": {
                             "private": { "type": "boolean" },
                             "gender": { "$ref": "#/definitions/gender" },
@@ -331,7 +402,7 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                             },
                             "facts": {
                                 "type": "array",
-                                "items": { "$ref": "#/definitions/fact" }
+                                "items": { "$ref": "#/definitions/factPerson" }
                             }
                         },
                         "required": []
@@ -405,7 +476,37 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                     "repository": { "$ref": "#/definitions/resourceReference" }
                 },
                 "required": ["citations"]
-            }
+            },
+            "relationship": {
+    			"allOf": [
+                    { "$ref": "#/definitions/subject" },
+                    {
+    					"properties": {
+    						"type": {
+                                "anyOf":[
+                                    {"$ref": "#/definitions/uri"},
+                                    {"enum":[
+                                        "http://gedcomx.org/Couple",
+                                        "http://gedcomx.org/ParentChild"
+                                    ]}
+                                ]
+                            },
+    						"person1": {"$ref": "#/definitions/resourceReference"},
+    						"person2": {"$ref": "#/definitions/resourceReference"},
+    						"facts": {
+    							"type": "array",
+    							"items": {
+                                    "oneOf":[
+                                        {"$ref": "#/definitions/factCouple"},
+                                        {"$ref": "#/definitions/factParentChild"},
+                                    ]
+                                }
+    						}
+    					},
+    					"required": ["person1","person2"]
+    				}
+    			]
+    		},
         },
 
         "type": "object",
@@ -422,6 +523,10 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 "type": "array",
                 "items": { "$ref": "#/definitions/sourceDescription" }
             },
+            "relationships": {
+    			"type": "array",
+    			"items": {"$ref": "#/definitions/relationship"}
+    		},
         }
 
     }
@@ -702,5 +807,27 @@ export var GEDCOMX_DATA: any = {
             }],
             "about": "http://en.wikipedia.org/wiki/Martha_washington",
             "id": "FFF-FFFF"
-        }]
+        }],
+        "relationships" : [ {
+            "facts" : [ {
+              "type" : "http://gedcomx.org/Marriage",
+              "date" : {
+                "original" : "January 6, 1759",
+                "formal" : "+1759-01-06"
+              },
+              "place" : {
+                "original" : "White House Plantation"
+              }
+            } ],
+            "person1" : {
+              "resource" : "#BBB-BBBB"
+            },
+            "person2" : {
+              "resource" : "#CCC-CCCC"
+            },
+            "sources" : [ {
+              "description" : "#FFF-FFFF"
+            } ],
+            "id" : "DDD-DDDD"
+          } ],
 };

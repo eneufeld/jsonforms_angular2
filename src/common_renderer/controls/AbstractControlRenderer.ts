@@ -44,11 +44,39 @@ export var ControlRendererTester=function(type:string,specificity:number):FormsT
             return NOT_FITTING;
         let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
         if(
-            (currentDataSchema.type==undefined || currentDataSchema.type!=type) &&
-            (currentDataSchema.allOf==undefined || currentDataSchema.allOf.every(element=>{return element.type!=type})) &&
-            (currentDataSchema.anyOf==undefined || !currentDataSchema.anyOf.some(element=>{return element.type==type}))
+            !TypeCheckerHelper(currentDataSchema,type)
+            //(currentDataSchema.type==undefined || currentDataSchema.type!=type) &&
+            //(currentDataSchema.allOf==undefined || currentDataSchema.allOf.every(element=>{return element.type!=type})) &&
+            //(currentDataSchema.anyOf==undefined || !currentDataSchema.anyOf.some(element=>{return element.type==type})) &&
+            //(currentDataSchema.oneOf==undefined || !currentDataSchema.oneOf.some(element=>{return element.type!=type}))
         )
             return NOT_FITTING;
         return specificity;
     }
+}
+
+export var TypeCheckerHelper=function(dataSchema:any,type:string):boolean{
+    if(dataSchema.type!=undefined && dataSchema.type==type)
+        return true;
+    //all of means, that we merge the two together, we have to check that all the defined types equal the needed type
+    if(dataSchema.allOf!=undefined && dataSchema.allOf.every(element=>{return HasType(element)?TypeCheckerHelper(element,type):true}))
+        return true;
+    //any of means, that at least one of the elements must be valid, so we are happy if any of the element equal the needed type
+    if(dataSchema.anyOf!=undefined && dataSchema.anyOf.some(element=>{return HasType(element)?TypeCheckerHelper(element,type):true}))
+        return true;
+    //one of means, that exactly one of the elements must be valid, so we behave as if this is a anyOf
+    if(dataSchema.oneOf!=undefined && dataSchema.oneOf.some(element=>{return HasType(element)?TypeCheckerHelper(element,type):true}))
+        return true;
+    return false;
+}
+var HasType=function(dataSchema:any){
+    if(dataSchema.type!=undefined)
+        return true;
+    if(dataSchema.allOf!=undefined)
+        return dataSchema.allOf.some(element=>{return HasType(element)});
+    if(dataSchema.anyOf!=undefined)
+        return dataSchema.anyOf.some(element=>{return HasType(element)});
+    if(dataSchema.oneOf!=undefined)
+        return dataSchema.oneOf.some(element=>{return HasType(element)});
+    return false;
 }

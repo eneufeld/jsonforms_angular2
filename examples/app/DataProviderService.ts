@@ -51,4 +51,15 @@ export class DataProviderService {
     GEDCOMX_DATA.sourceDescriptions.push(newSource);
     return newSource.id;
   }
+  getRelationships(){
+    return Promise.resolve(GEDCOMX_DATA.relationships);
+  }
+  getRelationship(id:string){
+    return Promise.resolve(GEDCOMX_DATA.relationships).then(relationships => relationships.filter(r => r.id === id)[0]);
+  }
+  createRelationship(){
+    let newSource={id:"relationship_"+Math.round(Math.random()*100)};
+    GEDCOMX_DATA.relationships.push(newSource);
+    return newSource.id;
+  }
 }

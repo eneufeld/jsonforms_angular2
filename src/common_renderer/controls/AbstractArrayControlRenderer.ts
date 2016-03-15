@@ -1,6 +1,6 @@
 import {PathUtil} from '../PathUtil';
 import {FormsTester,NOT_FITTING} from './../../forms/forms';
-import {AbstractControlRenderer} from './AbstractControlRenderer';
+import {AbstractControlRenderer,TypeCheckerHelper} from './AbstractControlRenderer';
 
 export abstract class AbstractArrayControlRenderer extends AbstractControlRenderer {
 
@@ -32,8 +32,13 @@ export var ArrayControlRendererTester=function(type:string,specificity:number):F
             return NOT_FITTING;
         if(Array.isArray(currentDataSchema.items))
             return NOT_FITTING;
-        if((currentDataSchema.items.type==undefined || currentDataSchema.items.type!=type) &&
-          (currentDataSchema.items.allOf==undefined || currentDataSchema.items.allOf.every(element=>{return element.type!=type})))
+        if(
+            !TypeCheckerHelper(currentDataSchema.items,type)
+            //(currentDataSchema.items.type==undefined || currentDataSchema.items.type!=type) &&
+            //(currentDataSchema.items.allOf==undefined || currentDataSchema.items.allOf.every(element=>{return element.type!=type})) &&
+            //(currentDataSchema.items.anyOf==undefined || !currentDataSchema.items.anyOf.some(element=>{return element.type==type})) &&
+            //(currentDataSchema.items.oneOf==undefined || !currentDataSchema.items.oneOf.some(element=>{return element.type!=type}))
+        )
             return NOT_FITTING;
         return specificity;
     }

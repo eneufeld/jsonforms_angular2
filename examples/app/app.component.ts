@@ -16,6 +16,8 @@ import {PlacesComponent} from './place/places.component';
 import {PlaceDetailComponent} from './place/place-detail.component';
 import {SourcesComponent} from './source/sources.component';
 import {SourceDetailComponent} from './source/source-detail.component';
+import {RelationshipsComponent} from './relationship/relationships.component';
+import {RelationshipDetailComponent} from './relationship/relationship-detail.component';
 
 @Component({
     selector: 'my-app',
@@ -24,6 +26,7 @@ import {SourceDetailComponent} from './source/source-detail.component';
       <a [routerLink]="['Persons']">List of Persons</a>
       <a [routerLink]="['Places']">List of Places</a>
       <a [routerLink]="['Sources']">List of Sources</a>
+      <a [routerLink]="['Relationships']">List of Relationships</a>
       <button (click)="goBack()">Back</button>
     </div>
     <router-outlet></router-outlet>
@@ -102,7 +105,9 @@ import {SourceDetailComponent} from './source/source-detail.component';
   { path: '/placeslist', component: PlacesComponent, name: 'Places'},
   {path: '/place/:id', name: 'PlaceDetail', component: PlaceDetailComponent},
   { path: '/sourceslist', component: SourcesComponent, name: 'Sources'},
-  {path: '/source/:id', name: 'SourceDetail', component: SourceDetailComponent}
+  {path: '/source/:id', name: 'SourceDetail', component: SourceDetailComponent},
+  { path: '/relationshiplist', component: RelationshipsComponent, name: 'Relationships'},
+  {path: '/relationship/:id', name: 'RelationshipDetail', component: RelationshipDetailComponent}
 ])
 export class AppComponent implements OnInit  {
     uischema2:any=GEDCOMX_PERSON_UISCHEMA;
