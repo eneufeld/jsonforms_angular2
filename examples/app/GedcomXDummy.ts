@@ -529,7 +529,10 @@ export var GEDCOMX_PLACEREF_UISCHEMA: any =
                 "scope": {
                     "$ref": "/properties/description"
                 },
-                "navigateTo": "PlaceDetail"
+                "navigateTo": "PlaceDetail",
+                "dataService":"DataProviderService",
+                "create":"createPlace",
+                "select":"getPlaces"
             }
         ]
     }
@@ -543,7 +546,10 @@ export var GEDCOMX_SOURCEREF_UISCHEMA: any =
                 "scope": {
                     "$ref": "/properties/description"
                 },
-                "navigateTo": "SourceDetail"
+                "navigateTo": "SourceDetail",
+                "dataService":"DataProviderService",
+                "create":"createSource",
+                "select":"getSources"
             },
             {
                 "type": "Control",

@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit,Inject} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
 import {PlaceUtil} from './place-util';
@@ -25,7 +25,7 @@ export class PlaceDetailComponent implements OnInit {
     private _schema:any;
     private _refs:any;
 
-    constructor(private _dataProviderService: DataProviderService,
+    constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService,
         private _routeParams: RouteParams) {
           this._schema=this._dataProviderService.getSchema();
           this._refs=this._dataProviderService.getRefs();

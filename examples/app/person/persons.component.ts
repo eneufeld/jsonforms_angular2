@@ -1,4 +1,4 @@
-import {Component,OnInit} from 'angular2/core';
+import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
 import {PersonNamePipe} from './person-name.pipe';
@@ -34,7 +34,7 @@ import {PersonGenderPipe} from './person-gender.pipe';
 })
 export class PersonsComponent implements OnInit {
   public persons: any[];
-  constructor(private _dataProviderService: DataProviderService, private _router: Router) { }
+  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
   ngOnInit() {
     this.getPersons();
   }

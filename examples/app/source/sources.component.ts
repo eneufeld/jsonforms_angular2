@@ -1,4 +1,4 @@
-import {Component,OnInit} from 'angular2/core';
+import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
 
@@ -25,7 +25,7 @@ import {DataProviderService} from '../DataProviderService';
 })
 export class SourcesComponent implements OnInit {
   public sources: any[];
-  constructor(private _dataProviderService: DataProviderService, private _router: Router) { }
+  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
   ngOnInit() {
     this.getSources();
   }

@@ -35,10 +35,20 @@ export class DataProviderService {
   getPlace(id:string){
     return Promise.resolve(GEDCOMX_DATA.places).then(places => places.filter(p => p.id === id)[0]);
   }
+  createPlace(){
+      let newPlace={id:"place"+Math.round(Math.random()*100)};
+      GEDCOMX_DATA.places.push(newPlace);
+      return newPlace.id;
+  }
   getSources(){
     return Promise.resolve(GEDCOMX_DATA.sourceDescriptions);
   }
   getSource(id:string){
     return Promise.resolve(GEDCOMX_DATA.sourceDescriptions).then(sourceDescriptions => sourceDescriptions.filter(s => s.id === id)[0]);
+  }
+  createSource(){
+    let newSource={id:"source_"+Math.round(Math.random()*100)};
+    GEDCOMX_DATA.sourceDescriptions.push(newSource);
+    return newSource.id;
   }
 }

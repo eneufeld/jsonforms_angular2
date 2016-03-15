@@ -1,4 +1,4 @@
-import {Component,OnInit} from 'angular2/core';
+import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
 import {PlaceNamePipe} from './place-name.pipe';
@@ -26,7 +26,7 @@ import {PlaceNamePipe} from './place-name.pipe';
 })
 export class PlacesComponent implements OnInit {
   public places: any[];
-  constructor(private _dataProviderService: DataProviderService, private _router: Router) { }
+  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
   ngOnInit() {
     this.getPlaces();
   }

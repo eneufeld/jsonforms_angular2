@@ -1,6 +1,6 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import {Component,OnInit} from 'angular2/core';
+import {Component,OnInit,provide} from 'angular2/core';
 import {RouteConfig,ROUTER_DIRECTIVES,ROUTER_PROVIDERS } from 'angular2/router';
 
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
@@ -53,7 +53,7 @@ import {SourceDetailComponent} from './source/source-detail.component';
       }
     `],
     directives:[ROUTER_DIRECTIVES],
-    providers: [ROUTER_PROVIDERS,FORM_PROVIDERS,DatalistIdProvider,DataProviderService]
+    providers: [ROUTER_PROVIDERS,FORM_PROVIDERS,DatalistIdProvider,provide("DataProviderService", {useClass: DataProviderService})]
 })
 @RendererConfig([
   {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester},
