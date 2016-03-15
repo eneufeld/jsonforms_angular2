@@ -1,6 +1,6 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import { Directive, ElementRef, DynamicComponentLoader,ComponentRef, Input, OnInit, provide, Injector, Inject,Optional,KeyValueDiffers,IterableDiffers,AfterContentInit,DoCheck,OnChanges } from 'angular2/core';
+import { Directive, ElementRef, DynamicComponentLoader,ComponentRef, Input, OnInit, provide, Provider,Injector, Inject,Optional,KeyValueDiffers,IterableDiffers,AfterContentInit,DoCheck,OnChanges } from 'angular2/core';
 import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService} from './forms';
 declare var JsonRefs;
 
@@ -86,9 +86,19 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
         if(this._data==null)
           return;
         let curcomponent=this._rendererRegistry.getBestComponent(this._uiSchema,this._dataSchema,this._data);
+
         if(curcomponent){
-            let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,
-            Injector.resolve([provide('uiSchema', {useValue: this._uiSchema}),provide('data', {useValue: this._data}),provide('dataSchema', {useValue: this._dataSchema}),provide('uiSchemaRefs', {useValue: this._refs})]));
+            let toResolve:Array<Provider>=[
+                provide('uiSchema', {useValue: this._uiSchema}),
+                provide('data', {useValue: this._data}),
+                provide('dataSchema', {useValue: this._dataSchema}),
+                provide('uiSchemaRefs', {useValue: this._refs})
+            ];
+            if(this._refUri!=undefined){
+                toResolve.push(provide('refUri', {useValue: this._refUri}));
+            }
+
+            let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,Injector.resolve(toResolve));
             promise.then(result=>{this._renderedChild=result;})
         }
         else{

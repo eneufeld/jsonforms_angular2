@@ -1,7 +1,8 @@
-import {Component, Inject,OnInit} from 'angular2/core';
+import {Component, Inject,OnInit,Optional} from 'angular2/core';
 import {FormsTester,NOT_FITTING,RendererRegistry,FormOutlet} from '../../forms/forms';
 import {AbstractControlRenderer,ControlRendererTester} from './AbstractControlRenderer';
 import {PathUtil} from '../PathUtil';
+import {RefUriHelper} from './RefUriHelper';
 
 @Component({
     selector: 'ObjectControlRenderer',
@@ -22,19 +23,16 @@ import {PathUtil} from '../PathUtil';
 export class ObjectControlRenderer extends AbstractControlRenderer implements OnInit{
     private _subSchema:any;
     private _refUri:any;
-    constructor(@Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any,@Inject('dataSchema') private _dataSchema:any,@Inject('uiSchemaRefs') uiSchemaRefs:any) {
+    constructor(@Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any,@Inject('dataSchema') private _dataSchema:any,@Inject('uiSchemaRefs') private _uiSchemaRefs:any,@Optional() @Inject('refUri') private _parentRefUri:any) {
         super(_uiSchema,_data);
-        if(uiSchemaRefs!=null){
-            let foundKey=Object.keys(uiSchemaRefs).filter(key=>{return key.indexOf(this._uiSchema['scope']['$ref'])!=-1;});
-            if(foundKey==null || foundKey.length==0 )
-                return;
-            let resolvedRef=uiSchemaRefs[foundKey[0]];
-            if(resolvedRef!=null)
-                this._refUri=resolvedRef.uri;
-        }
+        if(this._parentRefUri==undefined)
+            this._parentRefUri="";
     }
     ngOnInit() {
         this._subSchema=PathUtil.resolveSchema(this._dataSchema,this._uiSchema['scope']['$ref']);
+        if(this._uiSchemaRefs!=null){
+            this._refUri=RefUriHelper.getRefUri(this._parentRefUri,this._uiSchema['scope']['$ref'],this._uiSchemaRefs);
+        }
     }
     createInstance():void {
         this._modelValue[this.fragment]={};
