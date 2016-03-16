@@ -349,7 +349,7 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                     }
                 ]
             },
-            "factCouple": {
+            "factRelationship": {
                 "allOf": [
                     { "$ref": "#/definitions/factBase" },
                     {
@@ -357,23 +357,12 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                             "type": {
                                 "anyOf": [
                                     { "$ref": "#/definitions/uri" },
-                                    { "$ref": "#/definitions/coupleFactTypes" }
-                                ]
-                            },
-                        },
-                        "required": ["type"]
-                    }
-                ]
-            },
-            "factParentChild": {
-                "allOf": [
-                    { "$ref": "#/definitions/factBase" },
-                    {
-                        "properties": {
-                            "type": {
-                                "anyOf": [
-                                    { "$ref": "#/definitions/uri" },
-                                    { "$ref": "#/definitions/parentChildFactTypes" }
+                                    { "oneOf":
+                                        [
+                                        { "$ref": "#/definitions/coupleFactTypes" },
+                                        { "$ref": "#/definitions/parentChildFactTypes" }
+                                        ]
+                                    }
                                 ]
                             },
                         },
@@ -495,12 +484,7 @@ export var GEDCOMX_PERSON_SCHEMA: any =
     						"person2": {"$ref": "#/definitions/resourceReference"},
     						"facts": {
     							"type": "array",
-    							"items": {
-                                    "oneOf":[
-                                        {"$ref": "#/definitions/factCouple"},
-                                        {"$ref": "#/definitions/factParentChild"},
-                                    ]
-                                }
+    							"items": {"$ref": "#/definitions/factRelationship"}
     						}
     					},
     					"required": ["person1","person2"]
@@ -617,7 +601,24 @@ export var GEDCOMX_GENDER_UISCHEMA: any =
             }
         ]
     }
-
+    export var GEDCOMX_COUPLEFACT_UISCHEMA: any =
+        {
+            "type": "VerticalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": {
+                        "$ref": "/properties/original"
+                    },
+                    "rule":{
+                        "scope": {
+                            "$ref": "/allOf/1/properties/type"
+                        },
+                        "value":{}
+                    }
+                }
+            ]
+        }
 export var GEDCOMX_PLACEREF_UISCHEMA: any =
     {
         "type": "VerticalLayout",

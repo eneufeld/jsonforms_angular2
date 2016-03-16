@@ -32,13 +32,7 @@ export var ArrayControlRendererTester=function(type:string,specificity:number):F
             return NOT_FITTING;
         if(Array.isArray(currentDataSchema.items))
             return NOT_FITTING;
-        if(
-            !TypeCheckerHelper(currentDataSchema.items,type)
-            //(currentDataSchema.items.type==undefined || currentDataSchema.items.type!=type) &&
-            //(currentDataSchema.items.allOf==undefined || currentDataSchema.items.allOf.every(element=>{return element.type!=type})) &&
-            //(currentDataSchema.items.anyOf==undefined || !currentDataSchema.items.anyOf.some(element=>{return element.type==type})) &&
-            //(currentDataSchema.items.oneOf==undefined || !currentDataSchema.items.oneOf.some(element=>{return element.type!=type}))
-        )
+        if(!TypeCheckerHelper(currentDataSchema.items,type))
             return NOT_FITTING;
         return specificity;
     }

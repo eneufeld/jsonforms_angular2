@@ -43,13 +43,7 @@ export var ControlRendererTester=function(type:string,specificity:number):FormsT
         if(element.type!='Control')
             return NOT_FITTING;
         let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
-        if(
-            !TypeCheckerHelper(currentDataSchema,type)
-            //(currentDataSchema.type==undefined || currentDataSchema.type!=type) &&
-            //(currentDataSchema.allOf==undefined || currentDataSchema.allOf.every(element=>{return element.type!=type})) &&
-            //(currentDataSchema.anyOf==undefined || !currentDataSchema.anyOf.some(element=>{return element.type==type})) &&
-            //(currentDataSchema.oneOf==undefined || !currentDataSchema.oneOf.some(element=>{return element.type!=type}))
-        )
+        if(!TypeCheckerHelper(currentDataSchema,type))
             return NOT_FITTING;
         return specificity;
     }

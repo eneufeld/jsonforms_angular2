@@ -31,12 +31,17 @@ export class TextDatalistControlRenderer extends AbstractControlRenderer{
     }
 
     private get options(){
-        return this._subSchema.anyOf.reduce(
-            (prev,element)=>{
-            if(element.hasOwnProperty('enum'))
-                return prev.concat(element.enum);
-            return prev;
-        },[]);
+        return this._subSchema.anyOf.reduce((prev,element)=>{return prev.concat(this.getOptions(element));},[]);
+    }
+    
+    private getOptions(schema:any):any[]{
+        if(schema.hasOwnProperty('enum'))
+            return schema.enum;
+        if(schema.hasOwnProperty('oneOf'))
+            return schema.oneOf.reduce((prev,element)=>{return prev.concat(this.getOptions(element))},[]);
+        if(schema.hasOwnProperty('allOf'))
+            return schema.allOf.reduce((prev,element)=>{return prev.concat(this.getOptions(element))},[]);
+        return [];
     }
 }
 export var TextDatalistControlRendererTester: FormsTester = function (element:IUISchemaElement, dataSchema:any, dataObject:any ){
@@ -46,8 +51,17 @@ export var TextDatalistControlRendererTester: FormsTester = function (element:IU
     let currentDataSchema=PathUtil.resolveSchema(dataSchema,element['scope']['$ref']);
     if(
         currentDataSchema.anyOf!=undefined &&
-        currentDataSchema.anyOf.reduce((prev,element)=>{return prev&&(element.hasOwnProperty('enum') || element.type=='string')},true)
+        currentDataSchema.anyOf.reduce((prev,element)=>{return prev&&IsEnumOrString(element)},true)
     )
         return 10;
     return NOT_FITTING;
+}
+var IsEnumOrString=function(element:any):boolean{
+    if(element.hasOwnProperty('enum') || element.type=='string')
+        return true;
+    if(element.hasOwnProperty('oneOf'))
+        return element.oneOf.reduce((prev,element)=>{return prev&&IsEnumOrString(element)},true);
+    if(element.hasOwnProperty('allOf'))
+        return element.allOf.reduce((prev,element)=>{return prev&&IsEnumOrString(element)},true)
+    return false;
 }
