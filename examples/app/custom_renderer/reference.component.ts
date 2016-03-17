@@ -16,13 +16,28 @@ import {PathUtil} from '../../../src/common_renderer/PathUtil';
             <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
         </div>
         <!-- must be an overlay. Check old app for this-->
-        <div *ngIf="_showSelect">
-            <div *ngFor="#entry of _selectList" (click)="_selectedEntry=entry">{{entry.id}}</div>
-            <button (click)="selectEntry(_selectedEntry)">OK</button>
+        <div class="overlay" *ngIf="_showSelect">
+            <div class="selectDialog">
+                <ul class="data">
+                    <li *ngFor="#entry of _selectList" (click)="_selectedEntry=entry" [ngClass]="{selected:_selectedEntry==entry }">{{entry.id}}</li>
+                </ul>
+                <div class="buttons">
+                    <button (click)="selectEntry(_selectedEntry)">OK</button>
+                    <button (click)="_showSelect=false">Cancel</button>
+                </div>
+            </div>
         </div>
     `
     ,
-    styles: [``],
+    styles: [`
+        .overlay{ position:fixed; top:0; left:0; background:rgba(0,0,0,0.6); z-index:5; width:100%; height:100%; }
+        .selectDialog { position:relative; z-index:10; background:#eee;height:75%;width:75%;margin:6.25% }
+        .data {height:100%; list-style-type: none;margin: 0;}
+        .data li {cursor: pointer;border-radius: 5px;}
+        .data li:hover {font-weight:bold}
+        .data li.selected {font-weight:bold}
+        .buttons{z-index:10; background:#eee}
+            `],
     directives:[],
     changeDetection:ChangeDetectionStrategy.OnPush
 })
