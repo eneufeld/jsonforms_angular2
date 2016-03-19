@@ -1,13 +1,13 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
-import {Component,OnInit,provide} from 'angular2/core';
+import {Component,provide} from 'angular2/core';
 import {RouteConfig,ROUTER_DIRECTIVES,ROUTER_PROVIDERS } from 'angular2/router';
 
 import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {ReferenceControlRenderer,ReferenceControlRendererTester} from './custom_renderer/reference.component';
-import {GEDCOMX_PERSON_SCHEMA,GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_PERSON_DATA,GEDCOMX_PERSON_DATA2,GEDCOMX_DATA} from './GedcomXDummy';
+import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA} from './GedcomX.uischema';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 import {DataProviderService} from './DataProviderService';
 import {PersonsComponent} from './person/persons.component';
@@ -18,15 +18,26 @@ import {SourcesComponent} from './source/sources.component';
 import {SourceDetailComponent} from './source/source-detail.component';
 import {RelationshipsComponent} from './relationship/relationships.component';
 import {RelationshipDetailComponent} from './relationship/relationship-detail.component';
+import {AgentsComponent} from './agent/agents.component';
+import {AgentDetailComponent} from './agent/agent-detail.component';
+import {EventsComponent} from './event/events.component';
+import {EventDetailComponent} from './event/event-detail.component';
+import {DocumentsComponent} from './document/documents.component';
+import {DocumentDetailComponent} from './document/document-detail.component';
+import {HomeComponent} from './home.component';
 
 @Component({
     selector: 'my-app',
     template:`
     <div>
+      <a [routerLink]="['Home']">Home</a>
       <a [routerLink]="['Persons']">List of Persons</a>
       <a [routerLink]="['Places']">List of Places</a>
       <a [routerLink]="['Sources']">List of Sources</a>
       <a [routerLink]="['Relationships']">List of Relationships</a>
+      <a [routerLink]="['Agents']">List of Agents</a>
+      <a [routerLink]="['Events']">List of Events</a>
+      <a [routerLink]="['Documents']">List of Documents</a>
       <button (click)="goBack()">Back</button>
     </div>
     <router-outlet></router-outlet>
@@ -100,27 +111,23 @@ import {RelationshipDetailComponent} from './relationship/relationship-detail.co
     }},
 ])
 @RouteConfig([
-  { path: '/personlist', component: PersonsComponent, name: 'Persons',useAsDefault: true },
+    { path: '/home', component: HomeComponent, name: 'Home',useAsDefault: true },
+  { path: '/personlist', component: PersonsComponent, name: 'Persons'},
   {path: '/person/:id', name: 'PersonDetail', component: PersonDetailComponent},
   { path: '/placeslist', component: PlacesComponent, name: 'Places'},
   {path: '/place/:id', name: 'PlaceDetail', component: PlaceDetailComponent},
   { path: '/sourceslist', component: SourcesComponent, name: 'Sources'},
   {path: '/source/:id', name: 'SourceDetail', component: SourceDetailComponent},
   { path: '/relationshiplist', component: RelationshipsComponent, name: 'Relationships'},
-  {path: '/relationship/:id', name: 'RelationshipDetail', component: RelationshipDetailComponent}
+  {path: '/relationship/:id', name: 'RelationshipDetail', component: RelationshipDetailComponent},
+  { path: '/agentslist', component: AgentsComponent, name: 'Agents'},
+  {path: '/agent/:id', name: 'AgentDetail', component: AgentDetailComponent},
+  { path: '/eventslist', component: EventsComponent, name: 'Events'},
+  {path: '/event/:id', name: 'EventDetail', component: EventDetailComponent},
+  { path: '/documentslist', component: DocumentsComponent, name: 'Documents'},
+  {path: '/document/:id', name: 'DocumentDetail', component: DocumentDetailComponent},
 ])
-export class AppComponent implements OnInit  {
-    uischema2:any=GEDCOMX_PERSON_UISCHEMA;
-    dataschema2:any=GEDCOMX_PERSON_SCHEMA;
-    persons:any[]=GEDCOMX_DATA.persons;
-    data3:any;
-    data2:any=GEDCOMX_DATA;
-    refs:any;
-
-
-ngOnInit() {
-
-}
+export class AppComponent{
 goBack() {
       window.history.back();
   }

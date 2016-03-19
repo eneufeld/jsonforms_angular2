@@ -1,26 +1,26 @@
 import {Component, OnInit,Inject} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
-import {DataProviderService} from '../DataProviderService';
-import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
+import {DataProviderService} from './DataProviderService';
+import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../src/forms/forms';
 
 @Component({
-    selector: 'source-detail',
+    selector: 'agent-detail',
     template:`
-    <div *ngIf="_source">
+    <div *ngIf="_attribution">
       <header>
         <!-- <nav>Ancestors Descendants</nav> -->
-        <h1>{{_source.citations[0].value}}</h1>
+        <h1>Data Status</h1>
       </header>
-      <form-outlet [data]="_source" [dataSchema]="_schema.definitions.sourceDescription" [root]="true" [refs]="_refs"></form-outlet>
+      <form-outlet [data]="_attribution" [dataSchema]="_schema.definitions.attribution" [root]="true" [refs]="_refs"></form-outlet>
     </div>
-    <div *ngIf="!_source">Loading...</div>
+    <div *ngIf="!_attribution">Loading...</div>
     `,
     styles: [``],
     pipes: [],
     directives:[FORM_DIRECTIVES]
 })
-export class SourceDetailComponent implements OnInit {
-    private _source: any;
+export class HomeComponent implements OnInit {
+    private _attribution: any;
     private _schema:any;
     private _refs:any;
 
@@ -31,10 +31,9 @@ export class SourceDetailComponent implements OnInit {
     ngOnInit() {
         this._schema=this._dataProviderService.getSchema().then(schema=>{this._schema=schema});
         this._refs=this._dataProviderService.getRefs().then(refs=>{this._refs=refs});
-        if (!this._source) {
-            let id = this._routeParams.get('id');
-            this._dataProviderService.getSource(id).then(
-              source => {this._source = source}
+        if (!this._attribution) {
+            this._dataProviderService.getRootAttribution().then(
+              attribution => {this._attribution = attribution}
             );
         }
     }

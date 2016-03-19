@@ -26,11 +26,11 @@ export class RelationshipDetailComponent implements OnInit {
 
     constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService,
         private _routeParams: RouteParams) {
-          this._schema=this._dataProviderService.getSchema();
-          this._refs=this._dataProviderService.getRefs();
     }
 
     ngOnInit() {
+        this._schema=this._dataProviderService.getSchema().then(schema=>{this._schema=schema});
+        this._refs=this._dataProviderService.getRefs().then(refs=>{this._refs=refs});
         if (!this._relationship) {
             let id = this._routeParams.get('id');
             this._dataProviderService.getRelationship(id).then(

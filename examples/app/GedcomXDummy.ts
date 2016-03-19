@@ -1,4 +1,4 @@
-export var GEDCOMX_PERSON_SCHEMA: any =
+export var GEDCOMX_SCHEMA: any =
     {
         "$schema": "http://json-schema.org/schema#",
 
@@ -147,7 +147,9 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 "properties": {
                     "contributor": { "$ref": "#/definitions/resourceReference" },
                     "modified": { "type": "integer" },
-                    "changeMessage": { "type": "string" }
+                    "changeMessage": { "type": "string" },
+                    "creator": { "$ref": "#/definitions/resourceReference" },
+                    "created": { "type": "integer" }
                 },
                 "required": []
             },
@@ -194,6 +196,31 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 },
                 "required": ["resource"]
             },
+            "onlineAccount": {
+    			"type": "object",
+    			"properties": {
+    				"serviceHomepage": {"$ref": "#/definitions/resourceReference"},
+    				"accountName":{"type":"string"}
+    			},
+    			"required": ["serviceHomepage","accountName"]
+    		},
+            "address": {
+    			"type": "object",
+    			"properties": {
+    				"value": {"type": "string"},
+    				"city": {"type": "string"},
+    				"country": {"type": "string"},
+    				"postalCode": {"type": "string"},
+    				"stateOrProvince": {"type": "string"},
+    				"street": {"type": "string"},
+    				"street2": {"type": "string"},
+    				"street3": {"type": "string"},
+    				"street4": {"type": "string"},
+    				"street5": {"type": "string"},
+    				"street6": {"type": "string"}
+    			},
+    			"required": []
+    		},
             "conclusion": {
                 "type": "object",
                 "properties": {
@@ -378,6 +405,27 @@ export var GEDCOMX_PERSON_SCHEMA: any =
                 },
                 "required": []
             },
+            "eventRole": {
+    			"allOf": [
+    				{ "$ref": "#/definitions/conclusion" },
+    				{
+    					"properties": {
+    						"person": {"$ref": "#/definitions/resourceReference"},
+    						"type": {"$ref": "#/definitions/uri"},
+    						"details": {"type":"string"}
+    					},
+    					"required": ["person"]
+    				}
+    			]
+    		},
+            "coverage": {
+    			"type": "object",
+    			"properties": {
+    				"spatial": {"$ref": "#/definitions/placeReference"},
+    				"temporal": {"$ref": "#/definitions/date"}
+    			},
+    			"required": []
+    		},
             "person": {
                 "allOf": [
                     { "$ref": "#/definitions/subject" },
@@ -491,6 +539,72 @@ export var GEDCOMX_PERSON_SCHEMA: any =
     				}
     			]
     		},
+            "agent": {
+    			"type": "object",
+    			"properties": {
+    				"id": {"type": "string"},
+    				"identifiers": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/identifier"}
+    				},
+    				"names": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/textValue"}
+    				},
+    				"homepage": {"$ref": "#/definitions/resourceReference"},
+    				"openid": {"$ref": "#/definitions/resourceReference"},
+    				"accounts": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/onlineAccount"}
+    				},
+    				"emails": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/resourceReference"}
+    				},
+    				"phones": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/resourceReference"}
+    				},
+    				"addresses": {
+    					"type": "array",
+    					"items": {"$ref": "#/definitions/address"}
+    				},
+    				"person": {"$ref": "#/definitions/resourceReference"}
+    			},
+    			"required": []
+    		},
+            "event": {
+    			"allOf": [
+            { "$ref": "#/definitions/subject" },
+            {
+    					"properties": {
+    						"type": {"$ref": "#/definitions/uri"},
+    						"date": {"$ref": "#/definitions/date"},
+    						"place": {"$ref": "#/definitions/placeReference"},
+    						"roles": {
+    							"type": "array",
+    							"items": {"$ref": "#/definitions/eventRole"}
+    						}
+    					},
+    					"required": []
+    				}
+    			]
+    		},
+    		"document": {
+    			"allOf": [
+            { "$ref": "#/definitions/conclusion" },
+            {
+    					"properties": {
+    						"type": {"$ref": "#/definitions/uri"},
+    						"extracted": {"type": "boolean"},
+    						"textType": {"type": "string"},
+    						"text": {"type": "string"},
+    						"attribution": {"$ref": "#/definitions/attribution"}
+    					},
+    					"required": ["text"]
+    				}
+    			]
+    		},
         },
 
         "type": "object",
@@ -511,324 +625,19 @@ export var GEDCOMX_PERSON_SCHEMA: any =
     			"type": "array",
     			"items": {"$ref": "#/definitions/relationship"}
     		},
+            "agents":{
+                "type": "array",
+    			"items": {"$ref": "#/definitions/agent"}
+            },
+            "events": {
+    			"type": "array",
+    			"items": {"$ref": "#/definitions/event"}
+    		},
+    		"documents": {
+    			"type": "array",
+    			"items": {"$ref": "#/definitions/document"}
+    		},
+            "attribution":{"$ref": "#/definitions/attribution"}
         }
 
     }
-
-export var GEDCOMX_PERSON_UISCHEMA: any =
-    {
-        "type": "VerticalLayout",
-        "elements": [
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/allOf/1/properties/private"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/allOf/1/properties/gender"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/allOf/1/properties/names"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/allOf/1/properties/facts"
-                }
-            }
-        ]
-    }
-
-export var GEDCOMX_GENDER_UISCHEMA: any =
-    {
-        "type": "GroupLayout",
-        "label": "Gender",
-        "elements": [
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/allOf/1/properties/type"
-                }
-            },
-            {
-                "type": "GroupLayout",
-                "label": "Conclusion",
-                "elements": [
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/id"
-                        }
-                    },
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/lang"
-                        }
-                    },
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/sources"
-                        }
-                    },
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/analysis"
-                        }
-                    },
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/notes"
-                        }
-                    },
-                    {
-                        "type": "Control",
-                        "scope": {
-                            "$ref": "/allOf/0/properties/confidence"
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    export var GEDCOMX_COUPLEFACT_UISCHEMA: any =
-        {
-            "type": "VerticalLayout",
-            "elements": [
-                {
-                    "type": "Control",
-                    "scope": {
-                        "$ref": "/properties/original"
-                    },
-                    "rule":{
-                        "scope": {
-                            "$ref": "/allOf/1/properties/type"
-                        },
-                        "value":{}
-                    }
-                }
-            ]
-        }
-export var GEDCOMX_PLACEREF_UISCHEMA: any =
-    {
-        "type": "VerticalLayout",
-        "label": "Description",
-        "elements": [
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/properties/original"
-                }
-            },
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/properties/description"
-                },
-                "navigateTo": "PlaceDetail",
-                "dataService":"DataProviderService",
-                "create":"createPlace",
-                "select":"getPlaces"
-            }
-        ]
-    }
-export var GEDCOMX_SOURCEREF_UISCHEMA: any =
-    {
-        "type": "VerticalLayout",
-        "label": "Description",
-        "elements": [
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/properties/description"
-                },
-                "navigateTo": "SourceDetail",
-                "dataService":"DataProviderService",
-                "create":"createSource",
-                "select":"getSources"
-            },
-            {
-                "type": "Control",
-                "scope": {
-                    "$ref": "/properties/attribution"
-                }
-            }
-        ]
-    }
-
-export var GEDCOMX_PERSON_DATA: any =
-    {
-        "names": [
-            {
-                "nameForms": [
-                    {
-                        "fullText": "George Washington",
-                        "parts": [
-                            {
-                                "value": "George",
-                                "type": "http://gedcomx.org/Given"
-                            },
-                            {
-                                "value": "Washington",
-                                "type": "http://gedcomx.org/Surname"
-                            }
-                        ]
-                    }
-                ],
-                "id": "789"
-            }
-        ],
-        "gender": {
-            "type": "http://gedcomx.org/Male",
-            "id": "gender_id_1",
-            "lang": "de"
-        },
-        "facts": [
-            {
-                "type": "http://gedcomx.org/Birth",
-                "date": {
-                    "original": "February 22, 1732",
-                    "formal": "+1732-02-22"
-                },
-                "place": {
-                    "original": "pope's creek, westmoreland, virginia, united states",
-                    "description": "#888"
-                },
-                "id": "123"
-            },
-            {
-                "type": "http://gedcomx.org/Death",
-                "date": {
-                    "original": "December 14, 1799",
-                    "formal": "+1799-12-14T22:00:00"
-                },
-                "place": {
-                    "original": "mount vernon, fairfax county, virginia, united states",
-                    "description": "#999"
-                },
-                "id": "456"
-            }
-        ],
-        "sources": [
-            {
-                "description": "#EEE-EEEE"
-            }
-        ],
-        "id": "BBB-BBBB"
-    }
-export var GEDCOMX_PERSON_DATA2: any =
-    {
-        "names": [{
-            "nameForms": [{
-                "fullText": "Martha Dandridge Custis",
-                "parts": [{
-                    "value": "Martha Dandridge",
-                    "type": "http://gedcomx.org/Given"
-                }, {
-                        "value": "Custis",
-                        "type": "http://gedcomx.org/Surname"
-                    }]
-            }],
-            "id": "987"
-        }],
-        "gender": {
-            "type": "http://gedcomx.org/Female"
-        },
-        "facts": [{
-            "type": "http://gedcomx.org/Birth",
-            "date": {
-                "original": "June 2, 1731",
-                "formal": "+1731-06-02"
-            },
-            "place": {
-                "original": "chestnut grove, new kent, virginia, united states",
-                "description": "#KKK"
-            },
-            "id": "321"
-        }, {
-                "type": "http://gedcomx.org/Death",
-                "date": {
-                    "original": "May 22, 1802",
-                    "formal": "+1802-05-22"
-                },
-                "place": {
-                    "original": "mount vernon, fairfax county, virginia, united states",
-                    "description": "#999"
-                },
-                "id": "654"
-            }],
-        "sources": [{
-            "description": "#FFF-FFFF"
-        }],
-        "id": "CCC-CCCC"
-    };
-export var GEDCOMX_DATA: any = {
-    "persons": [GEDCOMX_PERSON_DATA, GEDCOMX_PERSON_DATA2],
-    "places": [{
-        "names": [{
-            "value": "Pope's Creek, Westmoreland, Virginia, United States"
-        }],
-        "latitude": 38.192353,
-        "longitude": -76.904069,
-        "id": "888"
-    }, {
-            "names": [{
-                "value": "Mount Vernon, Fairfax County, Virginia, United States"
-            }],
-            "latitude": 38.721144,
-            "longitude": -77.109461,
-            "id": "999"
-        }, {
-            "names": [{
-                "value": "Chestnut Grove, New Kent, Virginia, United States"
-            }],
-            "latitude": 37.518304,
-            "longitude": -76.984148,
-            "id": "KKK"
-        }],
-    "sourceDescriptions": [{
-        "citations": [{
-            "value": "\"George Washington.\" Wikipedia, The Free Encyclopedia. Wikimedia Foundation, Inc. 24 October 2012."
-        }],
-        "about": "http://en.wikipedia.org/wiki/George_washington",
-        "id": "EEE-EEEE"
-    }, {
-            "citations": [{
-                "value": "\"Martha Washington.\" Wikipedia, The Free Encyclopedia. Wikimedia Foundation, Inc. 24 October 2012."
-            }],
-            "about": "http://en.wikipedia.org/wiki/Martha_washington",
-            "id": "FFF-FFFF"
-        }],
-        "relationships" : [ {
-            "facts" : [ {
-              "type" : "http://gedcomx.org/Marriage",
-              "date" : {
-                "original" : "January 6, 1759",
-                "formal" : "+1759-01-06"
-              },
-              "place" : {
-                "original" : "White House Plantation"
-              }
-            } ],
-            "person1" : {
-              "resource" : "#BBB-BBBB"
-            },
-            "person2" : {
-              "resource" : "#CCC-CCCC"
-            },
-            "sources" : [ {
-              "description" : "#FFF-FFFF"
-            } ],
-            "id" : "DDD-DDDD"
-          } ],
-};

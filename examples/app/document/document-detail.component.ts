@@ -1,27 +1,26 @@
 import {Component, OnInit,Inject} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
-import {PlaceUtil} from './place-util';
 import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
 
 @Component({
-    selector: 'place-detail',
+    selector: 'document-detail',
     template:`
-    <div *ngIf="_place">
+    <div *ngIf="_document">
       <header>
         <!-- <nav>Ancestors Descendants</nav> -->
-        <h1>{{getPlaceName()}}</h1>
+        <h1>{{_document.id}}</h1>
       </header>
-      <form-outlet [data]="_place" [dataSchema]="_schema.definitions.placeDescription" [root]="true" [refs]="_refs"></form-outlet>
+      <form-outlet [data]="_document" [dataSchema]="_schema.definitions.document" [root]="true" [refs]="_refs"></form-outlet>
     </div>
-    <div *ngIf="!_place">Loading...</div>
+    <div *ngIf="!_document">Loading...</div>
     `,
     styles: [``],
     pipes: [],
     directives:[FORM_DIRECTIVES]
 })
-export class PlaceDetailComponent implements OnInit {
-    private _place: any;
+export class DocumentDetailComponent implements OnInit {
+    private _document: any;
     private _schema:any;
     private _refs:any;
 
@@ -32,15 +31,11 @@ export class PlaceDetailComponent implements OnInit {
     ngOnInit() {
         this._schema=this._dataProviderService.getSchema().then(schema=>{this._schema=schema});
         this._refs=this._dataProviderService.getRefs().then(refs=>{this._refs=refs});
-        if (!this._place) {
+        if (!this._document) {
             let id = this._routeParams.get('id');
-            this._dataProviderService.getPlace(id).then(
-              place => {this._place = place}
+            this._dataProviderService.getDocument(id).then(
+              document => {this._document = document}
             );
         }
-    }
-
-    getPlaceName():string {
-      return PlaceUtil.getPlaceName(this._place);
     }
 }
