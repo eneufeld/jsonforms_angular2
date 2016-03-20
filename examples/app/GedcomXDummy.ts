@@ -124,7 +124,8 @@ export var GEDCOMX_SCHEMA: any =
                 ]
             },
             "uri": {
-                "type": "string"
+                "type": "string",
+                "pattern":"^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
             },
             "localeTag": {
                 "type": "string"
@@ -637,7 +638,10 @@ export var GEDCOMX_SCHEMA: any =
     			"type": "array",
     			"items": {"$ref": "#/definitions/document"}
     		},
-            "attribution":{"$ref": "#/definitions/attribution"}
+        "description": {"type": "string"},
+        "id": {"type": "string"},
+        "lang": {"$ref": "#/definitions/localeTag"},
+        "attribution": {"$ref": "#/definitions/attribution"}
         }
 
     }

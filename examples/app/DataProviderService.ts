@@ -44,9 +44,9 @@ export class DataProviderService {
                   this._callbacks.push(()=>{resolve(this._refs)});
           });
   }
-  private get data():any{return GEDCOMX_DATA3;}
-  getRootAttribution(){
-    return Promise.resolve(this.data.attribution);
+  private get data():any{return GEDCOMX_DATA2;}
+  getRoot(){
+    return Promise.resolve(this.data);
   }
   getPersons() {
     return Promise.resolve(this.data.persons);

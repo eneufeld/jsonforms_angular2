@@ -23,8 +23,8 @@ import {PersonGenderPipe} from './person-gender.pipe';
         </div>
         <div class="actions">
           <button (click)="gotoDetail(person)">Edit</button>
-          <button>Anc</button><!--Ancestors-->
-          <button>Des</button><!--Descendant-->
+          <button (click)="gotoAncestorTree(person)">Anc</button><!--Ancestors-->
+          <button (click)="gotoDescendantTree(person)">Des</button><!--Descendant-->
         </div>
       </li>
     </ul>
@@ -51,5 +51,11 @@ export class PersonsComponent implements OnInit {
   }
   gotoDetail(person:any) {
     this._router.navigate(['PersonDetail', { id: person.id }]);
+  }
+  gotoAncestorTree(person:any) {
+    this._router.navigate(['AncestorTree', { id: person.id }]);
+  }
+  gotoDescendantTree(person:any) {
+    this._router.navigate(['DescendantTree', { id: person.id }]);
   }
 }

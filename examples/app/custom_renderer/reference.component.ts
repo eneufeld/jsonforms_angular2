@@ -10,7 +10,7 @@ import {PathUtil} from '../../../src/common_renderer/PathUtil';
         <div class="forms_control">
             <label class="forms_referenceLabel forms_controlLabel">{{label}}</label>
             <span class="forms_controlInput">{{_modelValue[fragment]}}</span>
-            <button class="forms_controlReferenceNavigate" (click)="navigateTo()">Open</button>
+            <button class="forms_controlReferenceNavigate" (click)="navigateTo()" [disabled]="_modelValue[fragment]==undefined">Open</button>
             <button class="forms_controlReferenceSelect" (click)="select()">Select</button>
             <button class="forms_controlReferenceCreate" (click)="create()">Create</button>
             <div *ngFor="#error of getErrors(_uiSchema.validation)" class="forms_controlValidation">{{error|json}}</div>
@@ -58,7 +58,7 @@ export class ReferenceControlRenderer extends AbstractControlRenderer{
     private select(){
         if(this._dataService==null)
             return;
-        this._dataService[this._uiSchema['select']].call().then(list => {this._selectList = list;this._showSelect=true;});
+        this._dataService[this._uiSchema['select']].call(this._dataService).then(list => {this._selectList = list;this._showSelect=true;});
     }
     private selectEntry(entry){
         this._modelValue[this.fragment]="#"+entry.id;
@@ -67,7 +67,7 @@ export class ReferenceControlRenderer extends AbstractControlRenderer{
     private create(){
         if(this._dataService==null)
             return;
-        let newEntryId=this._dataService[this._uiSchema['create']].call();
+        let newEntryId=this._dataService[this._uiSchema['create']].call(this._dataService);
         console.log(newEntryId);
         this._modelValue[this.fragment]="#"+newEntryId;
     }

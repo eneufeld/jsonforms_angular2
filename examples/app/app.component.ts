@@ -25,6 +25,8 @@ import {EventDetailComponent} from './event/event-detail.component';
 import {DocumentsComponent} from './document/documents.component';
 import {DocumentDetailComponent} from './document/document-detail.component';
 import {HomeComponent} from './home.component';
+import {TreeAncestorsComponent} from './person/ancestors.component';
+import {TreeDescendantsComponent} from './person/person-descendants.component';
 
 @Component({
     selector: 'my-app',
@@ -126,6 +128,10 @@ import {HomeComponent} from './home.component';
   {path: '/event/:id', name: 'EventDetail', component: EventDetailComponent},
   { path: '/documentslist', component: DocumentsComponent, name: 'Documents'},
   {path: '/document/:id', name: 'DocumentDetail', component: DocumentDetailComponent},
+
+  {path: '/ancestortree/:id', name: 'AncestorTree', component: TreeAncestorsComponent},
+  {path: '/descendanttree/:id', name: 'DescendantTree', component: TreeDescendantsComponent},
+
 ])
 export class AppComponent{
 goBack() {
