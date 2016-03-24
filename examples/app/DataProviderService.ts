@@ -45,6 +45,15 @@ export class DataProviderService {
           });
   }
   private get data():any{return GEDCOMX_DATA4;}
+  private createNewObject(idPrefix:string):any{
+      return {id:idPrefix+"_"+Math.round(Math.random()*100)};
+  }
+  private setArrayValue(arrayName:string, value:any){
+      if(this.data[arrayName]==undefined){
+          this.data[arrayName]=[];
+      }
+      this.data[arrayName].push(value);
+  }
   getRoot(){
     return Promise.resolve(this.data);
   }
@@ -55,9 +64,9 @@ export class DataProviderService {
     return Promise.resolve(this.data.persons).then(persons => persons.filter(p => p.id === id)[0]);
   }
   createPerson(){
-      let newPlace={id:"person_"+Math.round(Math.random()*100)};
-      this.data.persons.push(newPlace);
-      return newPlace.id;
+      let newPerson=this.createNewObject("person");
+      this.setArrayValue("persons",newPerson);
+      return newPerson.id;
   }
   getPlaces(){
     return Promise.resolve(this.data.places);
@@ -66,8 +75,8 @@ export class DataProviderService {
     return Promise.resolve(this.data.places).then(places => places.filter(p => p.id === id)[0]);
   }
   createPlace(){
-      let newPlace={id:"place_"+Math.round(Math.random()*100)};
-      this.data.places.push(newPlace);
+      let newPlace=this.createNewObject("place");
+      this.setArrayValue("places",newPlace);
       return newPlace.id;
   }
   getSources(){
@@ -77,8 +86,8 @@ export class DataProviderService {
     return Promise.resolve(this.data.sourceDescriptions).then(sourceDescriptions => sourceDescriptions.filter(s => s.id === id)[0]);
   }
   createSource(){
-    let newSource={id:"source_"+Math.round(Math.random()*100)};
-    this.data.sourceDescriptions.push(newSource);
+    let newSource=this.createNewObject("source");
+    this.setArrayValue("sourceDescriptions",newSource);
     return newSource.id;
   }
   getRelationships(){
@@ -88,9 +97,9 @@ export class DataProviderService {
     return Promise.resolve(this.data.relationships).then(relationships => relationships.filter(r => r.id === id)[0]);
   }
   createRelationship(){
-    let newSource={id:"relationship_"+Math.round(Math.random()*100)};
-    this.data.relationships.push(newSource);
-    return newSource.id;
+    let newRelationship=this.createNewObject("relationship");
+    this.setArrayValue("relationships",newRelationship);
+    return newRelationship.id;
   }
   getAgents(){
     return Promise.resolve(this.data.agents);
@@ -99,9 +108,9 @@ export class DataProviderService {
     return Promise.resolve(this.data.agents).then(agents => agents.filter(a => a.id === id)[0]);
   }
   createAgent(){
-    let newSource={id:"agent_"+Math.round(Math.random()*100)};
-    this.data.agents.push(newSource);
-    return newSource.id;
+    let newAgent=this.createNewObject("agent");
+    this.setArrayValue("agents",newAgent);
+    return newAgent.id;
   }
   getEvents(){
     return Promise.resolve(this.data.events);
@@ -110,9 +119,9 @@ export class DataProviderService {
     return Promise.resolve(this.data.events).then(events => events.filter(e => e.id === id)[0]);
   }
   createEvent(){
-    let newSource={id:"event_"+Math.round(Math.random()*100)};
-    this.data.events.push(newSource);
-    return newSource.id;
+    let newEvent=this.createNewObject("event");
+    this.setArrayValue("events",newEvent);
+    return newEvent.id;
   }
   getDocuments(){
     return Promise.resolve(this.data.documents);
@@ -121,9 +130,9 @@ export class DataProviderService {
     return Promise.resolve(this.data.documents).then(documents => documents.filter(d => d.id === id)[0]);
   }
   createDocument(){
-    let newSource={id:"document_"+Math.round(Math.random()*100)};
-    this.data.documents.push(newSource);
-    return newSource.id;
+    let newDocument=this.createNewObject("document");
+    this.setArrayValue("documents",newDocument);
+    return newDocument.id;
   }
 }
 
