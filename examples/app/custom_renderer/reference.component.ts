@@ -1,4 +1,4 @@
-import {Component, Inject, ChangeDetectionStrategy,Injector} from 'angular2/core';
+import {Component, Inject, ChangeDetectionStrategy,Injector,OnInit,ChangeDetectorRef} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {FormsTester,NOT_FITTING} from '../../../src/forms/forms';
 import {AbstractControlRenderer,ControlRendererTester} from '../../../src/common_renderer/controls/AbstractControlRenderer';
@@ -9,7 +9,7 @@ import {PathUtil} from '../../../src/common_renderer/PathUtil';
     template: `
         <div class="forms_control">
             <label class="forms_referenceLabel forms_controlLabel">{{label}}</label>
-            <span class="forms_controlInput">{{_modelValue[fragment]}}</span>
+            <span class="forms_controlInput">{{getLinkName(_value)}}</span>
             <button class="forms_controlReferenceNavigate" (click)="navigateTo()" [disabled]="_modelValue[fragment]==undefined">Open</button>
             <button class="forms_controlReferenceSelect" (click)="select()">Select</button>
             <button class="forms_controlReferenceCreate" (click)="create()">Create</button>
@@ -19,7 +19,7 @@ import {PathUtil} from '../../../src/common_renderer/PathUtil';
         <div class="overlay" *ngIf="_showSelect">
             <div class="selectDialog">
                 <ul class="data">
-                    <li *ngFor="#entry of _selectList" (click)="_selectedEntry=entry" [ngClass]="{selected:_selectedEntry==entry }">{{entry.id}}</li>
+                    <li *ngFor="#entry of _selectList" (click)="_selectedEntry=entry" [ngClass]="{selected:_selectedEntry==entry }">{{getLinkName(entry)}}</li>
                 </ul>
                 <div class="buttons">
                     <button (click)="selectEntry(_selectedEntry)">OK</button>
@@ -41,15 +41,33 @@ import {PathUtil} from '../../../src/common_renderer/PathUtil';
     directives:[],
     changeDetection:ChangeDetectionStrategy.OnPush
 })
-export class ReferenceControlRenderer extends AbstractControlRenderer{
+export class ReferenceControlRenderer extends AbstractControlRenderer implements OnInit{
 
     private _dataService:any;
     private _showSelect:boolean=false;
     private _selectList:any;
+    private _value:any;
 
-    constructor( @Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any, @Inject('dataSchema') _dataSchema:any,private _router: Router, private injector:Injector) {
+    constructor( @Inject('uiSchema') _uiSchema:IControlObject, @Inject('data') _data:any, @Inject('dataSchema') _dataSchema:any,private _router: Router, private injector:Injector, private _changeDetectorRef: ChangeDetectorRef) {
         super(_uiSchema,_data);
         this._dataService=injector.getOptional(_uiSchema['dataService']);
+    }
+    ngOnInit(){
+        let value=this._modelValue[this.fragment];
+        if(value!=undefined && this._uiSchema['get']!=undefined){
+            let id:string=value.substr(1);
+            this._dataService[this._uiSchema['get']].call(this._dataService,id).then(a=>{this._value=a;this._changeDetectorRef.markForCheck()});
+        }
+    }
+    private getLinkName(object:any){
+        if(object==undefined)
+            return "";
+        if(this._uiSchema['linkName']==undefined)
+            return object.id;
+        let result=PathUtil.resolveInstanceFromPath(object,this._uiSchema['linkName'].$ref);
+        if(result==undefined)
+            return object.id;
+        return result;
     }
     private navigateTo(){
       let id:string=this._modelValue[this.fragment];
@@ -62,6 +80,7 @@ export class ReferenceControlRenderer extends AbstractControlRenderer{
     }
     private selectEntry(entry){
         this._modelValue[this.fragment]="#"+entry.id;
+        this._value=entry;
         this._showSelect=false;
     }
     private create(){

@@ -39,18 +39,17 @@ export class PersonsComponent implements OnInit {
     this.getPersons();
   }
   addPerson(){
-    if(this.persons==undefined){
-      this.persons = new Array<any>();
-    }
-    var person:any={id:"person_"+Math.round(Math.random()*100)};
-    this.persons.push(person);
-    this.gotoDetail(person);
+    var newPersonId=this._dataProviderService.createPerson();
+    this.gotoDetailById(newPersonId);
   }
   getPersons() {
     this._dataProviderService.getPersons().then(persons => this.persons = persons);
   }
   gotoDetail(person:any) {
-    this._router.navigate(['PersonDetail', { id: person.id }]);
+      this.gotoDetailById(person.id);
+  }
+  gotoDetailById(id:string){
+      this._router.navigate(['PersonDetail', { id: id }]);
   }
   gotoAncestorTree(person:any) {
     this._router.navigate(['AncestorTree', { id: person.id }]);

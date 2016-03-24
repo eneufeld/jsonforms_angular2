@@ -14,7 +14,7 @@ import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
         <!-- <nav>Ancestors Descendants</nav> -->
         <h1>{{getPersonName()}}</h1>
       </header>
-      <form-outlet [data]="_person" [dataSchema]="_schema.definitions.person" [root]="true" [refs]="_refs" refUri="#/definitions/person"></form-outlet>
+      <form-outlet [data]="_person" [dataSchema]="_schema.definitions.person" [root]="true" [refs]="_refs"></form-outlet>
     </div>
     <div *ngIf="!_person">Loading...</div>
     `,

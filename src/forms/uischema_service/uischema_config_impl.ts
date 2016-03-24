@@ -15,5 +15,11 @@ export interface UISchemaProvider {
   tester?:UISchemaProviderTester;
 }
 export interface UISchemaProviderTester {
-    (dataSchema:any, refUri:string):number;
+    (dataSchema:any, uiSchemaParameter:UISchemaParameter):number;
+}
+
+export interface UISchemaParameter{
+    refUri:string;
+    property:string;
+    //parentData?:any;
 }

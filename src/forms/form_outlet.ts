@@ -1,7 +1,7 @@
 /// <reference path="../../typings/uischema.d.ts"/>
 
 import { Directive, ElementRef, DynamicComponentLoader,ComponentRef, Input, OnInit, provide, Provider,Injector, Inject,Optional,KeyValueDiffers,IterableDiffers,AfterContentInit,DoCheck,OnChanges } from 'angular2/core';
-import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService} from './forms';
+import {RendererRegistry,ChangeNotification,FormsService,FormServiceFactory,UISchemaProviderService,UISchemaParameter} from './forms';
 declare var JsonRefs;
 
 @Directive({selector: 'form-outlet'})
@@ -9,7 +9,8 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
     @Input("uiSchema") private _uiSchema: IUISchemaElement;
     @Input("data") private _data: any;
     @Input("dataSchema") private _dataSchema: any;
-    @Input("refUri") private _refUri: string;
+    @Input("uiSchemaParameter") private _uiSchemaParameter: UISchemaParameter;
+
     @Input("root") private _root: boolean;
     @Input("refs") private _refs:any;
     private _keyValueDiffer: any;
@@ -58,7 +59,7 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
     }
     private initRoot(){
         if(this._uiSchema==null){
-            this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema,this._refUri);
+            this._uiSchema=this._uiSchemaProvider.getBestComponent(this._dataSchema,this._uiSchemaParameter);
         }
         this._serviceFactories.forEach(serviceFactory=>{
           this._services.push(serviceFactory.createFormService(this._dataSchema,this._uiSchema,this._data));
@@ -94,8 +95,8 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
                 provide('dataSchema', {useValue: this._dataSchema}),
                 provide('uiSchemaRefs', {useValue: this._refs})
             ];
-            if(this._refUri!=undefined){
-                toResolve.push(provide('refUri', {useValue: this._refUri}));
+            if(this._uiSchemaParameter!=undefined){
+                toResolve.push(provide('uiSchemaParameter', {useValue: this._uiSchemaParameter}));
             }
 
             let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,Injector.resolve(toResolve));

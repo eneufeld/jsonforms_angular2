@@ -3,11 +3,11 @@
 import {Component,provide} from 'angular2/core';
 import {RouteConfig,ROUTER_DIRECTIVES,ROUTER_PROVIDERS } from 'angular2/router';
 
-import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig} from '../../src/forms/forms';
+import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig,UISchemaParameter} from '../../src/forms/forms';
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {ReferenceControlRenderer,ReferenceControlRendererTester} from './custom_renderer/reference.component';
-import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA} from './GedcomX.uischema';
+import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_ANALYSIS_UISCHEMA,GEDCOMX_AGENT_UISCHEMA} from './GedcomX.uischema';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 import {DataProviderService} from './DataProviderService';
 import {PersonsComponent} from './person/persons.component';
@@ -87,27 +87,57 @@ import {TreeDescendantsComponent} from './person/person-descendants.component';
         return -1;
     }},
     */
-    {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:(dataSchema,uriRef)=>{
-        if(uriRef==undefined || uriRef==null)
+    {uischemaElement:<IUISchemaElement>GEDCOMX_GENDER_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
             return -1;
         let suffix="gender";
-        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
+        if(uiSchemaParameter.refUri.indexOf(suffix, uiSchemaParameter.refUri.length - suffix.length) !== -1)
             return 10;
         return -1;
     }},
-    {uischemaElement:<IUISchemaElement>GEDCOMX_PLACEREF_UISCHEMA,tester:(dataSchema,uriRef)=>{
-        if(uriRef==undefined || uriRef==null)
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PLACEREF_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
             return -1;
         let suffix="placeReference";
-        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
+        if(uiSchemaParameter.refUri.indexOf(suffix, uiSchemaParameter.refUri.length - suffix.length) !== -1)
             return 10;
         return -1;
     }},
-    {uischemaElement:<IUISchemaElement>GEDCOMX_SOURCEREF_UISCHEMA,tester:(dataSchema,uriRef)=>{
-        if(uriRef==undefined || uriRef==null)
+    {uischemaElement:<IUISchemaElement>GEDCOMX_SOURCEREF_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
             return -1;
         let suffix="/sourceReference";
-        if(uriRef.indexOf(suffix, uriRef.length - suffix.length) !== -1)
+        let property="sources"
+        if(uiSchemaParameter.refUri.indexOf(suffix, uiSchemaParameter.refUri.length - suffix.length) !== -1&&
+            uiSchemaParameter.property.indexOf(property, uiSchemaParameter.property.length - property.length) !== -1
+    )
+            return 10;
+        return -1;
+    }},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_ANALYSIS_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
+            return -1;
+        let ref="/resourceReference";
+        let property="analysis"
+        if(uiSchemaParameter.refUri.indexOf(ref, uiSchemaParameter.refUri.length - ref.length) !== -1 &&
+            uiSchemaParameter.property.indexOf(property, uiSchemaParameter.property.length - property.length) !== -1
+        )
+            return 10;
+        return -1;
+    }},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_AGENT_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
+            return -1;
+        let ref="/resourceReference";
+        let property1="contributor";
+        let property2="creator";
+        if(uiSchemaParameter.refUri.indexOf(ref, uiSchemaParameter.refUri.length - ref.length) !== -1 &&
+            (
+                uiSchemaParameter.property.indexOf(property1, uiSchemaParameter.property.length - property1.length) !== -1
+                ||
+                uiSchemaParameter.property.indexOf(property2, uiSchemaParameter.property.length - property2.length) !== -1
+            )
+        )
             return 10;
         return -1;
     }},

@@ -66,7 +66,11 @@ var UI_SCHEMA:any={
             "navigateTo": "AgentDetail",
             "dataService":"DataProviderService",
             "create":"createAgent",
-            "select":"getAgents"
+            "select":"getAgents",
+            "get":"getAgent",
+            "linkName":{
+                "$ref": "/names/0/value"
+            }
         },
         {
             "type": "Control",
@@ -88,7 +92,11 @@ var UI_SCHEMA:any={
             "navigateTo": "AgentDetail",
             "dataService":"DataProviderService",
             "create":"createAgent",
-            "select":"getAgents"
+            "select":"getAgents",
+            "get":"getAgent",
+            "linkName":{
+                "$ref": "/names/0/value"
+            }
         },
         {
             "type": "Control",

@@ -121,7 +121,11 @@ export var GEDCOMX_PLACEREF_UISCHEMA: any =
                 "navigateTo": "PlaceDetail",
                 "dataService":"DataProviderService",
                 "create":"createPlace",
-                "select":"getPlaces"
+                "select":"getPlaces",
+                "get":"getPlace",
+                "linkName":{
+                    "$ref": "/names/0/value"
+                }
             }
         ]
     }
@@ -138,7 +142,11 @@ export var GEDCOMX_SOURCEREF_UISCHEMA: any =
                 "navigateTo": "SourceDetail",
                 "dataService":"DataProviderService",
                 "create":"createSource",
-                "select":"getSources"
+                "select":"getSources",
+                "get":"getSource",
+                "linkName":{
+                    "$ref": "/citations/0/value"
+                }
             },
             {
                 "type": "Control",
@@ -148,3 +156,42 @@ export var GEDCOMX_SOURCEREF_UISCHEMA: any =
             }
         ]
     }
+    export var GEDCOMX_ANALYSIS_UISCHEMA: any =
+        {
+            "type": "VerticalLayout",
+            "label": "Analysis",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": {
+                        "$ref": "/properties/resource"
+                    },
+                    "navigateTo": "DocumentDetail",
+                    "dataService":"DataProviderService",
+                    "create":"createDocument",
+                    "select":"getDocuments",
+                    "get":"getDocument",
+                }
+            ]
+        }
+        export var GEDCOMX_AGENT_UISCHEMA: any =
+            {
+                "type": "VerticalLayout",
+                "label": "Analysis",
+                "elements": [
+                    {
+                        "type": "Control",
+                        "scope": {
+                            "$ref": "/properties/resource"
+                        },
+                        "navigateTo": "AgentDetail",
+                        "dataService":"DataProviderService",
+                        "create":"createAgent",
+                        "select":"getAgents",
+                        "get":"getAgent",
+                        "linkName":{
+                            "$ref": "/names/0/value"
+                        }
+                    }
+                ]
+            }

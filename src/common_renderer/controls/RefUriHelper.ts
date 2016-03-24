@@ -1,11 +1,12 @@
+import {UISchemaParameter} from '../../forms/forms';
 export class RefUriHelper {
-    public static getRefUri(parentRefUri:string,controlPath:string,schemaRefs:any):string{
+    public static getRefUri(parentUISchemaParameter:UISchemaParameter,controlPath:string,schemaRefs:any):string{
         let searchKeys:Array<string>=[];
         let indexOfProperties=controlPath.indexOf("properties");
         searchKeys.push(controlPath.substr(indexOfProperties));
         let lastIndexOfAllOf=controlPath.lastIndexOf("allOf");
         searchKeys.push(controlPath.substr(lastIndexOfAllOf));
-        searchKeys.push(parentRefUri+controlPath);
+        searchKeys.push(parentUISchemaParameter.refUri+controlPath);
 
         let foundKeys=Object.keys(schemaRefs).filter(key=>{return searchKeys.some(searchKey=>{return key.indexOf(searchKey)!=-1;})});
         if(foundKeys==null || foundKeys.length==0 )

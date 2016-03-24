@@ -44,7 +44,7 @@ export class DataProviderService {
                   this._callbacks.push(()=>{resolve(this._refs)});
           });
   }
-  private get data():any{return GEDCOMX_DATA2;}
+  private get data():any{return GEDCOMX_DATA4;}
   getRoot(){
     return Promise.resolve(this.data);
   }
@@ -56,7 +56,7 @@ export class DataProviderService {
   }
   createPerson(){
       let newPlace={id:"person_"+Math.round(Math.random()*100)};
-      this.data.places.push(newPlace);
+      this.data.persons.push(newPlace);
       return newPlace.id;
   }
   getPlaces(){

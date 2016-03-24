@@ -6,7 +6,7 @@ import {
   CONST_EXPR
 } from 'angular2/src/facade/lang';
 import {reflector} from 'angular2/src/core/reflection/reflection';
-import {UISchemaProviderConfig,UISchemaProvider,UISchemaProviderTester} from './uischema_config_impl';
+import {UISchemaProviderConfig,UISchemaProvider,UISchemaProviderTester,UISchemaParameter} from './uischema_config_impl';
 import {ViewGenerator} from './ViewGenerator';
 
 @Injectable()
@@ -39,11 +39,11 @@ export class UISchemaProviderService {
   register(uischemaElement:IUISchemaElement,tester:UISchemaProviderTester):void {
     this.uiSchemaProviders.push({uischemaElement:uischemaElement,tester:tester});
   }
-  getBestComponent(dataSchema:any,refUri:string):IUISchemaElement {
+  getBestComponent(dataSchema:any,uiSchemaParameter:UISchemaParameter):IUISchemaElement {
     var bestUISchema:IUISchemaElement;
     var highestSpecificity:number=-1;
     for (var uiSchemaProvider of this.uiSchemaProviders) {
-      var currentSpecificity:number=uiSchemaProvider.tester(dataSchema,refUri);
+      var currentSpecificity:number=uiSchemaProvider.tester(dataSchema,uiSchemaParameter);
       if (currentSpecificity>highestSpecificity){
         highestSpecificity=currentSpecificity;
         bestUISchema=uiSchemaProvider.uischemaElement;

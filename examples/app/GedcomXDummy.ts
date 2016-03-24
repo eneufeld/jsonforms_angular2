@@ -236,7 +236,17 @@ export var GEDCOMX_SCHEMA: any =
                         "type": "array",
                         "items": { "$ref": "#/definitions/note" }
                     },
-                    "confidence": { "$ref": "#/definitions/uri" }
+                    "confidence": {
+                        "anyOf":[
+                            {"$ref": "#/definitions/uri"},
+                            {"enum":[
+                                "http://gedcomx.org/High",
+                                "http://gedcomx.org/Medium",
+                                "http://gedcomx.org/Low"
+                                ]
+                            }
+                        ]
+                         }
                 },
                 "required": []
             },
@@ -473,7 +483,17 @@ export var GEDCOMX_SCHEMA: any =
                 "type": "object",
                 "properties": {
                     "id": { "type": "string" },
-                    "resourceType": { "$ref": "#/definitions/uri" },
+                    "resourceType": {
+                        "anyOf":[
+                            {"$ref": "#/definitions/uri"},
+                            {"enum":[
+                                "http://gedcomx.org/Collection",
+                                "http://gedcomx.org/PhysicalArtifact",
+                                "http://gedcomx.org/DigitalArtifact",
+                                "http://gedcomx.org/Record"
+                            ]}
+                        ]
+                    },
                     "citations": {
                         "type": "array",
                         "items": { "$ref": "#/definitions/sourceCitation" }
@@ -596,7 +616,17 @@ export var GEDCOMX_SCHEMA: any =
             { "$ref": "#/definitions/conclusion" },
             {
     					"properties": {
-    						"type": {"$ref": "#/definitions/uri"},
+    						"type": {
+                                "anyOf":[
+                                    {"$ref": "#/definitions/uri"},
+                                    {"enum":[
+                                        "http://gedcomx.org/Abstract",
+                                        "http://gedcomx.org/Transcription",
+                                        "http://gedcomx.org/Translation",
+                                        "http://gedcomx.org/Analysis"
+                                    ]}
+                                ]
+                            },
     						"extracted": {"type": "boolean"},
     						"textType": {"type": "string"},
     						"text": {"type": "string"},
