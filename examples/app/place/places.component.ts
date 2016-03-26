@@ -1,47 +1,25 @@
 import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
-import {PlaceNamePipe} from './place-name.pipe';
-
+import {ListComponent} from '../list/list-abstract.component';
+import {PlaceUtil} from './place-util';
 @Component({
     selector: 'places-list',
-    template:`
-    <h2>All Places</h2>
-    <button (click)="addPlace()">Add Place</button>
-    <ul class="places">
-      <li *ngFor= "#place of places"  (click)="gotoDetail(place)">
-        <div class="info">
-          <div class="name">
-            {{place | placeName}}
-          </div>
-        </div>
-        <div class="actions">
-          <button (click)="gotoDetail(place)">Edit</button>
-        </div>
-      </li>
-    </ul>
-    `,
-    styleUrls:["app/place/places.component.css"],
-    pipes: [PlaceNamePipe]
+    templateUrl:"app/list/list-template.html",
+    styleUrls:["app/list/list.css"],
+    pipes: []
 })
-export class PlacesComponent implements OnInit {
-  public places: any[];
-  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
+export class PlacesComponent extends ListComponent implements OnInit {
+  constructor(@Inject('DataProviderService')_dataProviderService: DataProviderService, _router: Router) {
+    super(_dataProviderService,_router);
+  }
   ngOnInit() {
-    this.getPlaces();
+    this.getValues();
   }
-  addPlace(){
-    if(this.places==undefined){
-      this.places = new Array<any>();
-    }
-    var place:any={id:"place_"+Math.round(Math.random()*100)};
-    this.places.push(place);
-    this.gotoDetail(place);
-  }
-  getPlaces() {
-    this._dataProviderService.getPlaces().then(places => this.places = places);
-  }
-  gotoDetail(place:any) {
-    this._router.navigate(['PlaceDetail', { id: place.id }]);
-  }
+  protected getCreateMethodName():string{return "createPlace";};
+  protected getValuesMethodName():string{return "getPlaces";};
+  protected getDetailName():string{return "PlaceDetail";};
+  protected getName(value:any):string{return PlaceUtil.getPlaceName(value);};
+  protected getHeader():string{return "All Places";};
+  protected getAddValue():string{return "Add Place";};
 }

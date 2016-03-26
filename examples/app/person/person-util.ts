@@ -21,4 +21,48 @@ export class PersonUtil {
     }
     return JSON.stringify(person);
   }
+  private static isMale(person:any){
+    if(person.gender==undefined)
+      return false;
+    return person.gender.type=="http://gedcomx.org/Male";
+  }
+  private static isFemale(person:any){
+    if(person.gender==undefined)
+      return false;
+    return person.gender.type=="http://gedcomx.org/Female";
+  }
+  private static isUnknown(person:any){
+    if(person.gender==undefined)
+      return true;
+    return person.gender.type=="http://gedcomx.org/Unknown";
+  }
+  static getGenderClass(person:any):string{
+    if(PersonUtil.isMale(person))
+      return "male";
+    if(PersonUtil.isFemale(person))
+      return "female";
+    if(PersonUtil.isUnknown(person))
+      return "unknown";
+    return "unknown";
+  }
+  static getBirthDate(person:any):string{
+    if (person.facts!=undefined && person.facts.length>0){
+      for (var fact of person.facts) {
+        if (fact.type == "http://gedcomx.org/Birth"){
+          return fact.date.original;
+        }
+      }
+    }
+    return "No birth date defined";
+  }
+  static getDeathDate(person:any):string{
+    if (person.facts!=undefined && person.facts.length>0){
+      for (var fact of person.facts) {
+        if (fact.type == "http://gedcomx.org/Death"){
+          return fact.date.original;
+        }
+      }
+    }
+    return "No death date defined";
+  }
 }

@@ -66,6 +66,7 @@ export var GEDCOMX_DATA3: any ={
     "id" : "C-1"
   } ],
   "relationships" : [ {
+    "id" : "R-1",
     "type" : "http://gedcomx.org/ParentChild",
     "person1" : {
       "resource" : "#P-2"

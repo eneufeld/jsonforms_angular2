@@ -1,78 +1,8 @@
-.persons {
-  list-style-type: none;
-  margin: 0;
-  margin-top: 2em;
-  padding: 0;
-  border: none;
-}
-.persons li {
-  cursor: pointer;
-  margin-top: 0;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 11px;
-  /*5 px margin + 6px from the border*/
-  color: #fff;
-  height: 70px;
-}
-.persons li:last-child {
-  margin-bottom: 0;
-}
-.persons li .info {
-  height: 100%;
-  border-width: 0;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-}
-
-.persons li .info .name {
-  font-size: 30px
-}
-.persons li .info .additional {
-  font-size: 20px;
-}
-.persons li .info .birth {
-  margin-right: 20px;
-}
 /*asterix and space*/
-.persons li .info .birth:before {
+.values li .info .birth:before {
   content: "\002A \00a0"
 }
 /*latin cross and space*/
-.persons li .info .death:before {
+.values li .info .death:before {
   content: "\271D \00a0"
-}
-.persons li .actions {
-  position: relative;
-  top: -70px;
-  height: 100%;
-  margin-left: auto;
-  margin-right: 0;
-  width: 130px;
-  padding-right: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.persons li .actions button {
-  text-decoration: none;
-  background-color: #fff;
-  color: #000;
-  padding: 5px;
-  text-align: center;
-  border-width: 0;
-  border-radius: 3px;
-  border-color: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-}
-.persons li .actions button:hover {
-  background-color: #ccc;
-}
-.persons li .actions button:active {
-  background-color: #aaa;
 }

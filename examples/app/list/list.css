@@ -1,11 +1,11 @@
-.places {
+.values {
   list-style-type: none;
   margin: 0;
   margin-top: 2em;
   padding: 0;
   border: none;
 }
-.places li {
+.values li {
   cursor: pointer;
   margin-top: 0;
   margin-left: 0;
@@ -15,10 +15,10 @@
   color: #fff;
   height: 70px;
 }
-.places li:last-child {
+.values li:last-child {
   margin-bottom: 0;
 }
-.places li .info {
+.values li .info {
   height: 100%;
   border-width: 0;
   border-radius: 5px;
@@ -31,13 +31,20 @@
   border-color: #6e6e6e;
 }
 
-.places li .info .name {
-  font-size: 30px
+.values li .info .name {
+  font-size: 30px;
+  margin-right:180px;
 }
-.places li .info .additional {
+.values li .info .additional {
   font-size: 20px;
 }
-.places li .actions {
+.values li .info .additional > span {
+  margin-right: 20px;
+}
+.values li .info .additional > span:last-child {
+  margin-right: 0;
+}
+.values li .actions {
   position: relative;
   top: -70px;
   height: 100%;
@@ -50,7 +57,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.places li .actions button {
+.values li .actions button {
   text-decoration: none;
   background-color: #fff;
   color: #000;
@@ -61,9 +68,9 @@
   border-color: #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 }
-.places li .actions button:hover {
+.values li .actions button:hover {
   background-color: #ccc;
 }
-.places li .actions button:active {
+.values li .actions button:active {
   background-color: #aaa;
 }

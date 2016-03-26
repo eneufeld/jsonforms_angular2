@@ -1,8 +1,6 @@
 import {Component, OnInit,Inject} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
-import {PersonNamePipe} from './person-name.pipe';
-import {PersonGenderPipe} from './person-gender.pipe';
 import {PersonUtil} from './person-util';
 import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
 
@@ -10,7 +8,7 @@ import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
     selector: 'person-detail',
     template:`
     <div *ngIf="_person">
-      <header [ngClass]="{male:isMale(), female:isFemale(), unknown:isUnknown()}">
+      <header [ngClass]="getGenderClass()">
         <!-- <nav>Ancestors Descendants</nav> -->
         <h1>{{getPersonName()}}</h1>
       </header>
@@ -19,7 +17,7 @@ import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
     <div *ngIf="!_person">Loading...</div>
     `,
     styles: [``],
-    pipes: [PersonNamePipe,PersonGenderPipe],
+    pipes: [],
     directives:[FORM_DIRECTIVES]
 })
 export class PersonDetailComponent implements OnInit {
@@ -41,7 +39,7 @@ export class PersonDetailComponent implements OnInit {
             );
         }
     }
-
+    /*
     isMale(){
       if(this._person.gender==undefined)
         return false;
@@ -56,6 +54,10 @@ export class PersonDetailComponent implements OnInit {
       if(this._person.gender==undefined)
         return true;
       return this._person.gender.type=="http://gedcomx.org/Unknown";
+    }
+    */
+    getGenderClass(){
+      return PersonUtil.getGenderClass(this._person);
     }
 
     getPersonName():string {

@@ -44,7 +44,7 @@ export class DataProviderService {
                   this._callbacks.push(()=>{resolve(this._refs)});
           });
   }
-  private get data():any{return GEDCOMX_DATA4;}
+  private get data():any{return GEDCOMX_DATA3;}
   private createNewObject(idPrefix:string):any{
       return {id:idPrefix+"_"+Math.round(Math.random()*100)};
   }

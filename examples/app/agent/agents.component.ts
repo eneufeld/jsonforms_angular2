@@ -1,46 +1,25 @@
 import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
+import {ListComponent} from '../list/list-abstract.component';
 
 @Component({
     selector: 'agent-list',
-    template:`
-    <h2>All Agents</h2>
-    <button (click)="addAgent()">Add Agent</button>
-    <ul class="places">
-      <li *ngFor= "#agent of agents"  (click)="gotoDetail(agent)">
-        <div class="info">
-          <div class="name">
-            {{agent.names?agent.names[0].value:agent.id}}
-          </div>
-        </div>
-        <div class="actions">
-          <button (click)="gotoDetail(agent)">Edit</button>
-        </div>
-      </li>
-    </ul>
-    `,
-    styleUrls:["app/place/places.component.css"],
+    templateUrl:"app/list/list-template.html",
+    styleUrls:["app/list/list.css"],
     pipes: []
 })
-export class AgentsComponent implements OnInit {
-  public agents: any[];
-  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
+export class AgentsComponent extends ListComponent implements OnInit {
+  constructor(@Inject('DataProviderService') _dataProviderService: DataProviderService,  _router: Router) {
+    super(_dataProviderService,_router);
+  }
   ngOnInit() {
-    this.getAgents();
+    this.getValues();
   }
-  addAgent(){
-    if(this.agents==undefined){
-      this.agents = new Array<any>();
-    }
-    var source:any={id:"source_"+Math.round(Math.random()*100)};
-    this.agents.push(source);
-    this.gotoDetail(source);
-  }
-  getAgents() {
-    this._dataProviderService.getAgents().then(agents => this.agents = agents);
-  }
-  gotoDetail(place:any) {
-    this._router.navigate(['AgentDetail', { id: place.id }]);
-  }
+  protected getCreateMethodName():string{return "createAgent";};
+  protected getValuesMethodName():string{return "getAgents";};
+  protected getDetailName():string{return "AgentDetail";};
+  protected getName(value:any):string{return value.names?value.names[0].value:value.id};
+  protected getHeader():string{return "All Agents";};
+  protected getAddValue():string{return "Add Agent";};
 }

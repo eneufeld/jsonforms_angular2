@@ -1,60 +1,40 @@
 import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
-import {PersonNamePipe} from './person-name.pipe';
-import {PersonBirthDatePipe} from './person-birth-date.pipe';
-import {PersonDeathDatePipe} from './person-death-date.pipe';
-import {PersonGenderPipe} from './person-gender.pipe';
+import {ListComponent,AdditionalInfo,AdditionalButton} from '../list/list-abstract.component';
+import {PersonUtil} from './person-util';
 
 @Component({
     selector: 'person-list',
-    template:`
-    <h2>All Persons</h2>
-    <button (click)="addPerson()">Add Person</button>
-    <ul class="persons">
-      <li *ngFor= "#person of persons"  (click)="gotoDetail(person)">
-        <div class="info" [ngClass]="person | personGender | slice:19 | lowercase">
-          <div class="name">
-            {{person | personName}}
-          </div>
-          <div class="additional">
-            <span class="birth">{{person | personBirthDate}}</span> <span class="death">{{person | personDeathDate}}</span>
-          </div>
-        </div>
-        <div class="actions">
-          <button (click)="gotoDetail(person)">Edit</button>
-          <button (click)="gotoAncestorTree(person)">Anc</button><!--Ancestors-->
-          <button (click)="gotoDescendantTree(person)">Des</button><!--Descendant-->
-        </div>
-      </li>
-    </ul>
-    `,
-    styleUrls:["app/person/persons.component.css"],
-    pipes: [PersonNamePipe,PersonBirthDatePipe,PersonDeathDatePipe,PersonGenderPipe]
+    templateUrl:"app/list/list-template.html",
+    styleUrls:["app/list/list.css","app/person/persons.component.css"],
+    pipes: []
 })
-export class PersonsComponent implements OnInit {
-  public persons: any[];
-  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
+export class PersonsComponent extends ListComponent implements OnInit {
+  constructor(@Inject('DataProviderService') _dataProviderService: DataProviderService,  _router: Router) {
+    super(_dataProviderService,_router);
+  }
   ngOnInit() {
-    this.getPersons();
+    this.getValues();
   }
-  addPerson(){
-    var newPersonId=this._dataProviderService.createPerson();
-    this.gotoDetailById(newPersonId);
-  }
-  getPersons() {
-    this._dataProviderService.getPersons().then(persons => this.persons = persons);
-  }
-  gotoDetail(person:any) {
-      this.gotoDetailById(person.id);
-  }
-  gotoDetailById(id:string){
-      this._router.navigate(['PersonDetail', { id: id }]);
-  }
-  gotoAncestorTree(person:any) {
+  protected getCreateMethodName():string{return "createPerson";};
+  protected getValuesMethodName():string{return "getPersons";};
+  protected getDetailName():string{return "PersonDetail";};
+  protected getName(value:any):string{return PersonUtil.getPersonName(value);};
+  protected getHeader():string{return "All Persons";};
+  protected getAddValue():string{return "Add Person";};
+  protected getAdditionalClassesOnInfo(value:any):string{return PersonUtil.getGenderClass(value)};
+  protected getAdditionalInfos(value:any):Array<AdditionalInfo>{return [{class:"birth",value:PersonUtil.getBirthDate(value)},{class:"death",value:PersonUtil.getDeathDate(value)}]};
+  protected getAdditionalButtons(value:any):Array<AdditionalButton>{
+    return [
+      {click:()=>this.gotoAncestorTree(value),value:"Anc"},
+      {click:()=>this.gotoDescendantTree(value),value:"Des"},
+    ]
+  };
+  private gotoAncestorTree(person:any) {
     this._router.navigate(['AncestorTree', { id: person.id }]);
   }
-  gotoDescendantTree(person:any) {
+  private gotoDescendantTree(person:any) {
     this._router.navigate(['DescendantTree', { id: person.id }]);
   }
 }

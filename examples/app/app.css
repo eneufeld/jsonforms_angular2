@@ -65,32 +65,32 @@ input[type='checkbox'].forms_controlInput{
 }
 
 .male {
-  background-color: #2175bc;
-  border-color: #2175bc;
+  background-color: #2175bc !important;
+  border-color: #2175bc !important;
 }
 .male:hover {
-  background-color: #2586d7;
+  background-color: #2586d7 !important;
 }
 .male:active {
-  background-color: #3b94dd;
+  background-color: #3b94dd !important;
 }
 .female{
-  background-color: #bc2121;
-  border-color: #bc2121;
+  background-color: #bc2121 !important;
+  border-color: #bc2121 !important;
 }
 .female:hover {
-  background-color: #d72525;
+  background-color: #d72525 !important;
 }
 .female:active {
-  background-color: #dd3b3b;
+  background-color: #dd3b3b !important;
 }
 .unknown{
-  background-color: #6e6e6e;
-  border-color: #6e6e6e;
+  background-color: #6e6e6e !important;
+  border-color: #6e6e6e !important;
 }
 .unknown:hover {
-  background-color: #7e7e7e;
+  background-color: #7e7e7e !important;
 }
 .unknown:active {
-  background-color: #8c8c8c;
+  background-color: #8c8c8c !important;
 }

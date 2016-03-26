@@ -1,46 +1,26 @@
 import {Component,OnInit,Inject} from 'angular2/core';
 import {Router} from 'angular2/router';
 import {DataProviderService} from '../DataProviderService';
+import {ListComponent} from '../list/list-abstract.component';
 
 @Component({
     selector: 'document-list',
-    template:`
-    <h2>All Documents</h2>
-    <button (click)="addDocument()">Add Document</button>
-    <ul class="places">
-      <li *ngFor= "#document of documents"  (click)="gotoDetail(document)">
-        <div class="info">
-          <div class="name">
-            {{document.id}}
-          </div>
-        </div>
-        <div class="actions">
-          <button (click)="gotoDetail(document)">Edit</button>
-        </div>
-      </li>
-    </ul>
-    `,
-    styleUrls:["app/place/places.component.css"],
+    templateUrl:"app/list/list-template.html",
+    styleUrls:["app/list/list.css"],
     pipes: []
 })
-export class DocumentsComponent implements OnInit {
-  public documents: any[];
-  constructor(@Inject('DataProviderService')private _dataProviderService: DataProviderService, private _router: Router) { }
+export class DocumentsComponent extends ListComponent implements OnInit {
+
+  constructor(@Inject('DataProviderService') _dataProviderService: DataProviderService,  _router: Router) {
+      super(_dataProviderService,_router);
+  }
   ngOnInit() {
-    this.getEvents();
+    this.getValues();
   }
-  addEvent(){
-    if(this.documents==undefined){
-      this.documents = new Array<any>();
-    }
-    var source:any={id:"document_"+Math.round(Math.random()*100)};
-    this.documents.push(source);
-    this.gotoDetail(source);
-  }
-  getEvents() {
-    this._dataProviderService.getDocuments().then(documents => this.documents = documents);
-  }
-  gotoDetail(event:any) {
-    this._router.navigate(['DocumentDetail', { id: event.id }]);
-  }
+  protected getCreateMethodName():string{return "createDocument";};
+  protected getValuesMethodName():string{return "getDocuments";};
+  protected getDetailName():string{return "DocumentDetail";};
+  protected getName(value:any):string{return value.id;};
+  protected getHeader():string{return "All Documents";};
+  protected getAddValue():string{return "Add Document";};
 }
