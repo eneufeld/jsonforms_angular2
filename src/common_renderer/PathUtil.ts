@@ -38,20 +38,28 @@ static resolveSchema=function  (schema: any, path: string): any  {
         return undefined;
     }
 };
-static resolveInstanceFromPath=function  (instance:any, schemaPath:string):any  {
-    return PathUtil.resolveInstanceFromFragments(instance,PathUtil.toPropertyFragments(PathUtil.toInstancePath(schemaPath)));
+static resolveInstanceFromPath=function  (instance:any, schemaPath:string,createDummy=true):any  {
+    return PathUtil.resolveInstanceFromFragments(instance,PathUtil.toPropertyFragments(PathUtil.toInstancePath(schemaPath)),createDummy);
 };
-static resolveInstanceFromFragments=function  (instance:any, fragments:string[]):any  {
+static resolveInstanceFromFragments=function  (instance:any, fragments:string[],createDummy=true):any  {
     return fragments.reduce(function (currObj, fragment) {
-        if (currObj instanceof Array) {
-            return currObj.map(function (item) {
-                return item[fragment];
-            });
-        }
-        if(!currObj.hasOwnProperty(fragment)){
-            currObj[fragment]={};
-        }
-        return currObj[fragment];
+      if(currObj==undefined)
+        return undefined;
+      if (currObj instanceof Array) {
+        /*
+          return currObj.map(function (item) {
+              return item[fragment];
+          });
+          */
+          return currObj[fragment];
+      }
+      if(!currObj.hasOwnProperty(fragment)){
+        if(createDummy)
+          currObj[fragment]={};
+        else
+          return undefined;
+      }
+      return currObj[fragment];
     }, instance);
 };
 

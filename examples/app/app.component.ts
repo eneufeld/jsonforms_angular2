@@ -7,7 +7,7 @@ import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig,UIS
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {ReferenceControlRenderer,ReferenceControlRendererTester} from './custom_renderer/reference.component';
-import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_ANALYSIS_UISCHEMA,GEDCOMX_AGENT_UISCHEMA} from './GedcomX.uischema';
+import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSONREF_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_ANALYSIS_UISCHEMA,GEDCOMX_AGENT_UISCHEMA} from './GedcomX.uischema';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 import {DataProviderService} from './DataProviderService';
 import {PersonsComponent} from './person/persons.component';
@@ -131,12 +131,35 @@ import {TreeDescendantsComponent} from './person/person-descendants.component';
         let ref="/resourceReference";
         let property1="contributor";
         let property2="creator";
+        let property3="repository";
+        let property4="mediator";
         if(uiSchemaParameter.refUri.indexOf(ref, uiSchemaParameter.refUri.length - ref.length) !== -1 &&
             (
                 uiSchemaParameter.property.indexOf(property1, uiSchemaParameter.property.length - property1.length) !== -1
                 ||
                 uiSchemaParameter.property.indexOf(property2, uiSchemaParameter.property.length - property2.length) !== -1
+                ||
+                uiSchemaParameter.property.indexOf(property3, uiSchemaParameter.property.length - property3.length) !== -1
+                ||
+                uiSchemaParameter.property.indexOf(property4, uiSchemaParameter.property.length - property4.length) !== -1
             )
+        )
+            return 10;
+        return -1;
+    }},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_PERSONREF_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
+            return -1;
+        let ref="/resourceReference";
+        let property1="person"
+        let property2="person1"
+        let property3="person2"
+        if(uiSchemaParameter.refUri.indexOf(ref, uiSchemaParameter.refUri.length - ref.length) !== -1 &&
+        uiSchemaParameter.property.indexOf(property1, uiSchemaParameter.property.length - property1.length) !== -1
+        ||
+        uiSchemaParameter.property.indexOf(property2, uiSchemaParameter.property.length - property2.length) !== -1
+        ||
+        uiSchemaParameter.property.indexOf(property3, uiSchemaParameter.property.length - property3.length) !== -1
         )
             return 10;
         return -1;

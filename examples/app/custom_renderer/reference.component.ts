@@ -64,7 +64,7 @@ export class ReferenceControlRenderer extends AbstractControlRenderer implements
             return "";
         if(this._uiSchema['linkName']==undefined)
             return object.id;
-        let result=PathUtil.resolveInstanceFromPath(object,this._uiSchema['linkName'].$ref);
+        let result=PathUtil.resolveInstanceFromFragments(object,PathUtil.toPropertyFragments(this._uiSchema['linkName'].$ref),false);
         if(result==undefined)
             return object.id;
         return result;

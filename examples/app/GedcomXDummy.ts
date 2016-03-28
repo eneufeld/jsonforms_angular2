@@ -176,7 +176,6 @@ export var GEDCOMX_SCHEMA: any =
     			"type": "object",
     			"properties": {
     				"lang":{"$ref": "#/definitions/localeTag"},
-    				"textType":{"type":"string"},
     				"value":{"type":"string"}
     			},
     			"required": ["value"]
