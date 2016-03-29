@@ -1,6 +1,6 @@
 export class PersonUtil {
   static getPersonName(person:any){
-    if (person.names!=undefined && person.names.length>0){
+    if (person.names!=undefined && person.names.length>0 && person.names[0].nameForms!=undefined && person.names[0].nameForms.length>0){
       var nameForm=person.names[0].nameForms[0];
       if (nameForm.fullText!==undefined){
         return nameForm.fullText;
