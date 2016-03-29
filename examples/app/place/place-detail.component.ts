@@ -12,7 +12,7 @@ import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
         <!-- <nav>Ancestors Descendants</nav> -->
         <h1>{{getPlaceName()}}</h1>
       </header>
-      <form-outlet [data]="_place" [dataSchema]="_schema.definitions.placeDescription" [root]="true" [refs]="_refs"></form-outlet>
+      <form-outlet [data]="_place" [dataSchema]="_schema.definitions.placeDescription" [root]="true" [refs]="_refs" [uiSchemaParameter]="{refUri:'#/definitions/placeDescription',property:''}"></form-outlet>
     </div>
     <div *ngIf="!_place">Loading...</div>
     `,
