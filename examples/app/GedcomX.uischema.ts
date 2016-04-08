@@ -174,6 +174,28 @@ export var GEDCOMX_ANALYSIS_UISCHEMA: any =
       }
     ]
   }
+  export var GEDCOMX_RESOURCEREFPLACE_UISCHEMA: any =
+    {
+      "type": "VerticalLayout",
+      "label": "Analysis",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": {
+            "$ref": "/properties/resource"
+          },
+          "navigateTo": "PlaceDetail",
+          "dataService": "DataProviderService",
+          "create": "createPlace",
+          "select": "getPlaces",
+          "get": "getPlace",
+          "linkName": {
+            "$ref": "/names/0/value"
+          }
+        }
+      ]
+    }
+
 export var GEDCOMX_AGENT_UISCHEMA: any =
   {
     "type": "VerticalLayout",

@@ -123,6 +123,52 @@ export var GEDCOMX_SCHEMA: any =
                     "http://gedcomx.org/SurrogateParent"
                 ]
             },
+            "eventTypes":{
+                "enum":[
+                    "http://gedcomx.org/Adoption",
+                    "http://gedcomx.org/AdultChristening",
+                    "http://gedcomx.org/Annulment",
+                    "http://gedcomx.org/Baptism",
+                    "http://gedcomx.org/BarMitzvah",
+                    "http://gedcomx.org/BatMitzvah",
+                    "http://gedcomx.org/Birth",
+                    "http://gedcomx.org/Blessing",
+                    "http://gedcomx.org/Burial",
+                    "http://gedcomx.org/Census",
+                    "http://gedcomx.org/Christening",
+                    "http://gedcomx.org/Circumcision",
+                    "http://gedcomx.org/Confirmation",
+                    "http://gedcomx.org/Cremation",
+                    "http://gedcomx.org/Death",
+                    "http://gedcomx.org/Divorce",
+                    "http://gedcomx.org/DivorceFiling",
+                    "http://gedcomx.org/Education",
+                    "http://gedcomx.org/Engagement",
+                    "http://gedcomx.org/Emigration",
+                    "http://gedcomx.org/Excommunication",
+                    "http://gedcomx.org/FirstCommunion",
+                    "http://gedcomx.org/Funeral",
+                    "http://gedcomx.org/Immigration",
+                    "http://gedcomx.org/LandTransaction",
+                    "http://gedcomx.org/Marriage",
+                    "http://gedcomx.org/MilitaryAward",
+                    "http://gedcomx.org/MilitaryDischarge",
+                    "http://gedcomx.org/Mission",
+                    "http://gedcomx.org/MoveFrom",
+                    "http://gedcomx.org/MoveTo",
+                    "http://gedcomx.org/Naturalization",
+                    "http://gedcomx.org/Ordination",
+                    "http://gedcomx.org/Retirement"
+                ]
+            },
+            "eventRoleTypes":{
+    			"enum":[
+    				"http://gedcomx.org/Principal",
+    				"http://gedcomx.org/Participant",
+    				"http://gedcomx.org/Official",
+    				"http://gedcomx.org/Witness"
+    			]
+    		},
             "uri": {
                 "type": "string",
                 "pattern":"^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"
@@ -421,7 +467,12 @@ export var GEDCOMX_SCHEMA: any =
     				{
     					"properties": {
     						"person": {"$ref": "#/definitions/resourceReference"},
-    						"type": {"$ref": "#/definitions/uri"},
+                            "type": {
+    							"anyOf":[
+    								{"$ref": "#/definitions/uri"},
+    								{"$ref": "#/definitions/eventRoleTypes"}
+    							]
+    						},
     						"details": {"type":"string"}
     					},
     					"required": ["person"]
@@ -598,7 +649,12 @@ export var GEDCOMX_SCHEMA: any =
             { "$ref": "#/definitions/subject" },
             {
     					"properties": {
-    						"type": {"$ref": "#/definitions/uri"},
+    						"type": {
+                                "anyOf":[
+                                    {"$ref": "#/definitions/uri"},
+                                    {"$ref": "#/definitions/eventTypes"}
+                                ]
+                            },
     						"date": {"$ref": "#/definitions/date"},
     						"place": {"$ref": "#/definitions/placeReference"},
     						"roles": {

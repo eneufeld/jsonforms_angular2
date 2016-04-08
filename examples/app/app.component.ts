@@ -7,7 +7,8 @@ import {RendererConfig,FORM_PROVIDERS,FORM_DIRECTIVES,UISchemaProviderConfig,UIS
 import {CollapsibleGroupLayoutRenderer,CollapsibleGroupLayoutRendererTester} from './custom_renderer/collapsibleFieldset.component';
 import {TextDatalistControlRenderer,TextDatalistControlRendererTester} from './custom_renderer/TextDatalistControlRenderer';
 import {ReferenceControlRenderer,ReferenceControlRendererTester} from './custom_renderer/reference.component';
-import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSONREF_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_ANALYSIS_UISCHEMA,GEDCOMX_AGENT_UISCHEMA} from './GedcomX.uischema';
+import {GedcomXDateControlRenderer,GedcomXDateControlRendererTester} from './custom_renderer/GedcomXDate.component';
+import {GEDCOMX_PERSON_UISCHEMA,GEDCOMX_GENDER_UISCHEMA,GEDCOMX_PERSONREF_UISCHEMA,GEDCOMX_PLACEREF_UISCHEMA,GEDCOMX_RESOURCEREFPLACE_UISCHEMA,GEDCOMX_SOURCEREF_UISCHEMA,GEDCOMX_ANALYSIS_UISCHEMA,GEDCOMX_AGENT_UISCHEMA} from './GedcomX.uischema';
 import {DatalistIdProvider} from './custom_renderer/DatalistIdProvider';
 import {DataProviderService} from './DataProviderService';
 import {PersonsComponent} from './person/persons.component';
@@ -74,7 +75,8 @@ import {TreeDescendantsComponent} from './person/person-descendants.component';
 @RendererConfig([
   {renderer:CollapsibleGroupLayoutRenderer,tester:CollapsibleGroupLayoutRendererTester},
   {renderer:TextDatalistControlRenderer,tester:TextDatalistControlRendererTester},
-  {renderer:ReferenceControlRenderer,tester:ReferenceControlRendererTester}
+  {renderer:ReferenceControlRenderer,tester:ReferenceControlRendererTester},
+  {renderer:GedcomXDateControlRenderer,tester:GedcomXDateControlRendererTester}
 ])
 @UISchemaProviderConfig([
     /*
@@ -103,13 +105,33 @@ import {TreeDescendantsComponent} from './person/person-descendants.component';
             return 10;
         return -1;
     }},
+    {uischemaElement:<IUISchemaElement>GEDCOMX_RESOURCEREFPLACE_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
+        if(uiSchemaParameter==undefined || uiSchemaParameter==null)
+            return -1;
+        let ref="/resourceReference";
+        let property="jurisdiction"
+        if(uiSchemaParameter.refUri.indexOf(ref, uiSchemaParameter.refUri.length - ref.length) !== -1 &&
+            uiSchemaParameter.property.indexOf(property, uiSchemaParameter.property.length - property.length) !== -1
+        )
+            return 10;
+        return -1;
+    }},
     {uischemaElement:<IUISchemaElement>GEDCOMX_SOURCEREF_UISCHEMA,tester:(dataSchema,uiSchemaParameter)=>{
         if(uiSchemaParameter==undefined || uiSchemaParameter==null)
             return -1;
         let suffix="/sourceReference";
-        let property="sources"
+        let property1="sources";
+        let property2="media";
+        let property3="componentOf";
+
         if(uiSchemaParameter.refUri.indexOf(suffix, uiSchemaParameter.refUri.length - suffix.length) !== -1&&
-            uiSchemaParameter.property.indexOf(property, uiSchemaParameter.property.length - property.length) !== -1
+            (
+                uiSchemaParameter.property.indexOf(property1, uiSchemaParameter.property.length - property1.length) !== -1
+                ||
+                uiSchemaParameter.property.indexOf(property2, uiSchemaParameter.property.length - property2.length) !== -1
+                ||
+                uiSchemaParameter.property.indexOf(property3, uiSchemaParameter.property.length - property3.length) !== -1
+            )
     )
             return 10;
         return -1;

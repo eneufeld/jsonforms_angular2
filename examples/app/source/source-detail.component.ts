@@ -9,7 +9,7 @@ import {FORM_PROVIDERS,FORM_DIRECTIVES} from '../../../src/forms/forms';
     <div *ngIf="_source">
       <header>
         <!-- <nav>Ancestors Descendants</nav> -->
-        <h1>{{_source.citations[0].value}}</h1>
+        <h1>{{label}}</h1>
       </header>
       <form-outlet [data]="_source" [dataSchema]="_schema.definitions.sourceDescription" [root]="true" [refs]="_refs"></form-outlet>
     </div>
@@ -37,5 +37,11 @@ export class SourceDetailComponent implements OnInit {
               source => {this._source = source}
             );
         }
+    }
+
+    private get label():string {
+        if(this._source.citations==undefined || this._source.citations.length==0)
+            return this._source.id;
+        return this._source.citations[0].value;
     }
 }
