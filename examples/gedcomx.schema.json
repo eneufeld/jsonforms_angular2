@@ -93,6 +93,14 @@
 				"http://gedcomx.org/Yahrzeit"
 			]
 		},
+		"eventRoleTypes":{
+			"enum":[
+				"http://gedcomx.org/Principal",
+				"http://gedcomx.org/Participant",
+				"http://gedcomx.org/Official",
+				"http://gedcomx.org/Witness"
+			]
+		},
 		"uri": {
 			"type": "string"
 		},
@@ -338,7 +346,12 @@
 				{
 					"properties": {
 						"person": {"$ref": "#/definitions/resourceReference"},
-						"type": {"$ref": "#/definitions/uri"},
+						"type": {
+							"anyOf":[
+								{"$ref": "#/definitions/uri"},
+								{"$ref": "#/definitions/eventRoleTypes"}
+							]
+						},
 						"details": {"type":"string"}
 					},
 					"required": ["person"]
@@ -434,10 +447,7 @@
 					"type": "array",
 					"items": {"$ref": "#/definitions/textValue"}
 				},
-				"identifiers": {
-					"type": "array",
-					"items": {"$ref": "#/definitions/identifier"}
-				},
+				"identifiers": {"$ref": "#/definitions/identifier"},
 				"created": {"type": "integer"},
 				"modified": {"type": "integer"},
 				"repository": {"$ref": "#/definitions/resourceReference"}
@@ -448,10 +458,7 @@
 			"type": "object",
 			"properties": {
 				"id": {"type": "string"},
-				"identifiers": {
-					"type": "array",
-					"items": {"$ref": "#/definitions/identifier"}
-				},
+				"identifiers": {"$ref": "#/definitions/identifier"},
 				"names": {
 					"type": "array",
 					"items": {"$ref": "#/definitions/textValue"}
