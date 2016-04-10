@@ -12,7 +12,8 @@
     "tests"
   ],
   "dependencies": {
-    "json-refs": "2.1.5"
+    "json-refs": "2.1.5",
+    "bootstrap": "*"
   },
   "devDependencies": {
   }

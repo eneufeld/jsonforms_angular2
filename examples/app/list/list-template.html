@@ -1,18 +1,56 @@
-<h2>{{getHeader()}}</h2>
-<button (click)="addValue()">{{getAddValue()}}</button>
-<ul class="values">
-  <li *ngFor= "#value of values"  (click)="goToDetail(value)">
-    <div class="info" [ngClass]="getAdditionalClassesOnInfo(value)">
-      <div class="name">
-        {{getName(value)}}
-      </div>
-      <div class="additional">
-        <span *ngFor= "#additional of getAdditionalInfos(value)" [ngClass]="additional.class">{{additional.value}}</span>
-      </div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>{{getHeader()}}</h1>
+        </div>
     </div>
-    <div class="actions">
-      <button (click)="goToDetail(value)">Edit</button>
-      <button *ngFor= "#button of getAdditionalButtons(value)" (click)="button.click()">{{button.value}}</button>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="addValue()">{{getAddValue()}}</button>
     </div>
-  </li>
-</ul>
+
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-12">
+
+        <ul class="list-group">
+
+            <li *ngFor="#value of values" (click)="goToDetail(value)" class="list-group-item">
+
+                <div class="row">
+                    <div class="col-md-10">
+
+                        <div class="info" [ngClass]="getAdditionalClassesOnInfo(value)">
+                            <div class="name">
+                                {{getName(value)}}
+                            </div>
+                            <div class="additional">
+                                <span *ngFor="#additional of getAdditionalInfos(value)" [ngClass]="additional.class">{{additional.value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" (click)="goToDetail(value)">Edit</button>
+                            <button *ngFor="#button of getAdditionalButtons(value)" type="button"
+                                    class="btn btn-default"
+                                    (click)="button.click()">{{button.value}}
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+
+        </ul>
+    </div>
+
+</div>
+
