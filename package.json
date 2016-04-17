@@ -6,24 +6,37 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "start": "npm run lite",
-    "test": "live-server --open=examples/unit-tests.html"
+    "test": "live-server --open=examples/unit-tests.html",
+    "typings": "typings",
+    "postinstall": "typings install"
   },
   "license": "MIT",
   "dependencies": {
-    "angular2": "^2.0.0-beta.7",
+    "angular2": "^2.0.0-beta.15",
     "systemjs": "^0.19.6",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
+    "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "zone.js": "0.5.15",
+    "zone.js": "0.6.10",
     "tv4": "1.2.7",
     "json-refs": "2.1.5"
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
     "jasmine-core": "2.4.1",
+    "jspm": "^0.16.33",
     "lite-server": "^2.1.0",
-    "typescript": "^1.8.7"
+    "typescript": "^1.8.7",
+    "typings":"^0.7.12"
+  },
+  "jspm": {
+    "dependencies": {
+      "angular2": "npm:angular2@^2.0.0-beta.15",
+      "ts": "github:frankwallis/plugin-typescript@^4.0.5"
+    },
+    "devDependencies": {
+      "typescript": "npm:typescript@^1.8.7"
+    }
   }
 }

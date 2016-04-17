@@ -1,8 +1,0 @@
-/*asterix and space*/
-.values li .info .birth:before {
-  content: "\002A \00a0"
-}
-/*latin cross and space*/
-.values li .info .death:before {
-  content: "\271D \00a0"
-}

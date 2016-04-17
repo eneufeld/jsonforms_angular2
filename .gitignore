@@ -1,6 +1,11 @@
 **/*.js
 **/*.js.map
 node_modules/
+jspm_packages/
 test_stuff/
 bower_components/
 todo.md
+typings/browser
+typings/main
+typings/browser.d.ts
+typings/main.d.ts

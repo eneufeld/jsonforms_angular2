@@ -99,7 +99,7 @@ export class FormOutlet implements OnInit,DoCheck,AfterContentInit,OnChanges{
                 toResolve.push(provide('uiSchemaParameter', {useValue: this._uiSchemaParameter}));
             }
 
-            let promise=this._loader.loadNextToLocation(curcomponent, this._elementRef,Injector.resolve(toResolve));
+            let promise:Promise<ComponentRef>=this._loader.loadNextToLocation(curcomponent, this._elementRef,Injector.resolve(toResolve));
             promise.then(result=>{this._renderedChild=result;})
         }
         else{
