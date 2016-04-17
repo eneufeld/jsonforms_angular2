@@ -9,3 +9,16 @@ typings/browser
 typings/main
 typings/browser.d.ts
 typings/main.d.ts
+#-------------------------------------------------------------------------------
+# OS generated files
+#-------------------------------------------------------------------------------
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.idea
