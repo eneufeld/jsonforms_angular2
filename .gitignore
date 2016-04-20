@@ -10,6 +10,7 @@ typings/main
 typings/browser.d.ts
 typings/main.d.ts
 !forms_a2/bundle.js
+!gulpfile.js
 #-------------------------------------------------------------------------------
 # OS generated files
 #-------------------------------------------------------------------------------
