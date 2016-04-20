@@ -1,4 +1,4 @@
-System.register("forms_a2/common_renderer/renderer", ["forms_a2/common_renderer/layouts/VerticalLayoutRenderer", "forms_a2/common_renderer/layouts/HorizontalLayoutRenderer", "forms_a2/common_renderer/layouts/GroupLayoutRenderer", "forms_a2/common_renderer/controls/TextControlRenderer", "forms_a2/common_renderer/controls/NumberControlRenderer", "forms_a2/common_renderer/controls/IntegerControlRenderer", "forms_a2/common_renderer/controls/BooleanControlRenderer", "forms_a2/common_renderer/controls/EnumControlRenderer", "forms_a2/common_renderer/controls/ObjectControlRenderer", "forms_a2/common_renderer/controls/ObjectArrayControlRenderer", "forms_a2/common_renderer/controls/NumberArrayControlRenderer", "forms_a2/common_renderer/controls/AbstractControlRenderer", "forms_a2/common_renderer/controls/AbstractArrayControlRenderer", "forms_a2/common_renderer/controls/RefUriHelper", "forms_a2/common_renderer/PathUtil"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/renderer", ["./layouts/VerticalLayoutRenderer", "./layouts/HorizontalLayoutRenderer", "./layouts/GroupLayoutRenderer", "./controls/TextControlRenderer", "./controls/NumberControlRenderer", "./controls/IntegerControlRenderer", "./controls/BooleanControlRenderer", "./controls/EnumControlRenderer", "./controls/ObjectControlRenderer", "./controls/ObjectArrayControlRenderer", "./controls/NumberArrayControlRenderer", "./controls/AbstractControlRenderer", "./controls/AbstractArrayControlRenderer", "./controls/RefUriHelper", "./PathUtil"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   function exportStar_1(m) {
@@ -45,7 +45,7 @@ System.register("forms_a2/common_renderer/renderer", ["forms_a2/common_renderer/
   };
 });
 
-System.register("forms_a2/common_services/RuleService", ["forms_a2/forms/forms", "forms_a2/common_renderer/PathUtil"], function(exports_1, context_1) {
+System.register("forms_a2/common_services/RuleService", ["./../forms/forms", "../common_renderer/PathUtil"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -170,7 +170,7 @@ System.register("forms_a2/common_services/RuleService", ["forms_a2/forms/forms",
   };
 });
 
-System.register("forms_a2/forms/renderer_config_decorator", ["forms_a2/forms/renderer_config_impl", "angular2/src/core/util/decorators"], function(exports_1, context_1) {
+System.register("forms_a2/forms/renderer_config_decorator", ["./renderer_config_impl", "angular2/src/core/util/decorators"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var renderer_config_impl_1,
@@ -188,7 +188,7 @@ System.register("forms_a2/forms/renderer_config_decorator", ["forms_a2/forms/ren
   };
 });
 
-System.register("forms_a2/forms/service_config_impl", ["forms_a2/common_renderer/PathUtil"], function(exports_1, context_1) {
+System.register("forms_a2/forms/service_config_impl", ["../common_renderer/PathUtil"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var PathUtil_1;
@@ -252,7 +252,7 @@ System.register("forms_a2/forms/service_config_impl", ["forms_a2/common_renderer
   };
 });
 
-System.register("forms_a2/forms/uischema_service/uischema_config_decorator", ["forms_a2/forms/uischema_service/uischema_config_impl", "angular2/src/core/util/decorators"], function(exports_1, context_1) {
+System.register("forms_a2/forms/uischema_service/uischema_config_decorator", ["./uischema_config_impl", "angular2/src/core/util/decorators"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var uischema_config_impl_1,
@@ -308,7 +308,7 @@ System.register("forms_a2/forms/renderer_config_impl", ["angular2/src/facade/lan
   };
 });
 
-System.register("forms_a2/forms/renderer_registry", ["angular2/core", "angular2/src/facade/lang", "angular2/src/core/reflection/reflection", "forms_a2/forms/renderer_config_impl"], function(exports_1, context_1) {
+System.register("forms_a2/forms/renderer_registry", ["angular2/core", "angular2/src/facade/lang", "angular2/src/core/reflection/reflection", "./renderer_config_impl"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -494,7 +494,7 @@ System.register("forms_a2/forms/uischema_service/ViewGenerator", [], function(ex
   };
 });
 
-System.register("forms_a2/forms/uischema_service/uischema_registry", ["angular2/core", "angular2/src/facade/lang", "angular2/src/core/reflection/reflection", "forms_a2/forms/uischema_service/uischema_config_impl", "forms_a2/forms/uischema_service/ViewGenerator"], function(exports_1, context_1) {
+System.register("forms_a2/forms/uischema_service/uischema_registry", ["angular2/core", "angular2/src/facade/lang", "angular2/src/core/reflection/reflection", "./uischema_config_impl", "./ViewGenerator"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -591,7 +591,7 @@ System.register("forms_a2/forms/uischema_service/uischema_registry", ["angular2/
   };
 });
 
-System.register("forms_a2/forms/form_outlet", ["angular2/core", "forms_a2/forms/forms"], function(exports_1, context_1) {
+System.register("forms_a2/forms/form_outlet", ["angular2/core", "./forms"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -781,7 +781,7 @@ System.register("forms_a2/forms/form_outlet", ["angular2/core", "forms_a2/forms/
   };
 });
 
-System.register("forms_a2/common_renderer/layouts/VerticalLayoutRenderer", ["angular2/core", "forms_a2/forms/forms"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/layouts/VerticalLayoutRenderer", ["angular2/core", "./../../forms/forms"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -840,7 +840,7 @@ System.register("forms_a2/common_renderer/layouts/VerticalLayoutRenderer", ["ang
   };
 });
 
-System.register("forms_a2/common_renderer/layouts/HorizontalLayoutRenderer", ["angular2/core", "forms_a2/forms/forms"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/layouts/HorizontalLayoutRenderer", ["angular2/core", "./../../forms/forms"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -899,7 +899,7 @@ System.register("forms_a2/common_renderer/layouts/HorizontalLayoutRenderer", ["a
   };
 });
 
-System.register("forms_a2/common_renderer/layouts/GroupLayoutRenderer", ["angular2/core", "forms_a2/forms/forms"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/layouts/GroupLayoutRenderer", ["angular2/core", "./../../forms/forms"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
@@ -958,7 +958,7 @@ System.register("forms_a2/common_renderer/layouts/GroupLayoutRenderer", ["angula
   };
 });
 
-System.register("forms_a2/common_renderer/controls/TextControlRenderer", ["angular2/core", "forms_a2/common_renderer/controls/AbstractControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/TextControlRenderer", ["angular2/core", "./AbstractControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1022,7 +1022,7 @@ System.register("forms_a2/common_renderer/controls/TextControlRenderer", ["angul
   };
 });
 
-System.register("forms_a2/common_renderer/controls/NumberControlRenderer", ["angular2/core", "forms_a2/common_renderer/controls/AbstractControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/NumberControlRenderer", ["angular2/core", "./AbstractControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1086,7 +1086,7 @@ System.register("forms_a2/common_renderer/controls/NumberControlRenderer", ["ang
   };
 });
 
-System.register("forms_a2/common_renderer/controls/IntegerControlRenderer", ["angular2/core", "forms_a2/common_renderer/controls/AbstractControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/IntegerControlRenderer", ["angular2/core", "./AbstractControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1150,7 +1150,7 @@ System.register("forms_a2/common_renderer/controls/IntegerControlRenderer", ["an
   };
 });
 
-System.register("forms_a2/common_renderer/controls/BooleanControlRenderer", ["angular2/core", "forms_a2/common_renderer/controls/AbstractControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/BooleanControlRenderer", ["angular2/core", "./AbstractControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1214,7 +1214,7 @@ System.register("forms_a2/common_renderer/controls/BooleanControlRenderer", ["an
   };
 });
 
-System.register("forms_a2/common_renderer/controls/EnumControlRenderer", ["angular2/core", "forms_a2/forms/forms", "forms_a2/common_renderer/controls/AbstractControlRenderer", "forms_a2/common_renderer/PathUtil"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/EnumControlRenderer", ["angular2/core", "./../../forms/forms", "./AbstractControlRenderer", "../PathUtil"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1317,7 +1317,7 @@ System.register("forms_a2/common_renderer/controls/EnumControlRenderer", ["angul
   };
 });
 
-System.register("forms_a2/common_renderer/controls/ObjectControlRenderer", ["angular2/core", "forms_a2/forms/forms", "forms_a2/common_renderer/controls/AbstractControlRenderer", "forms_a2/common_renderer/PathUtil", "forms_a2/common_renderer/controls/RefUriHelper"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/ObjectControlRenderer", ["angular2/core", "../../forms/forms", "./AbstractControlRenderer", "../PathUtil", "./RefUriHelper"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1453,7 +1453,7 @@ System.register("forms_a2/common_renderer/controls/RefUriHelper", [], function(e
   };
 });
 
-System.register("forms_a2/common_renderer/controls/ObjectArrayControlRenderer", ["angular2/core", "forms_a2/forms/forms", "forms_a2/common_renderer/controls/AbstractArrayControlRenderer", "forms_a2/common_renderer/PathUtil", "forms_a2/common_renderer/controls/RefUriHelper"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/ObjectArrayControlRenderer", ["angular2/core", "../../forms/forms", "./AbstractArrayControlRenderer", "../PathUtil", "./RefUriHelper"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1555,7 +1555,7 @@ System.register("forms_a2/common_renderer/controls/ObjectArrayControlRenderer", 
   };
 });
 
-System.register("forms_a2/common_renderer/controls/AbstractControlRenderer", ["forms_a2/common_renderer/PathUtil", "forms_a2/forms/forms", "angular2/src/facade/lang"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/AbstractControlRenderer", ["../PathUtil", "./../../forms/forms", "angular2/src/facade/lang"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var PathUtil_1,
@@ -1662,7 +1662,7 @@ System.register("forms_a2/common_renderer/controls/AbstractControlRenderer", ["f
   };
 });
 
-System.register("forms_a2/common_renderer/controls/AbstractArrayControlRenderer", ["forms_a2/common_renderer/PathUtil", "forms_a2/forms/forms", "forms_a2/common_renderer/controls/AbstractControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/AbstractArrayControlRenderer", ["../PathUtil", "./../../forms/forms", "./AbstractControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1726,7 +1726,7 @@ System.register("forms_a2/common_renderer/controls/AbstractArrayControlRenderer"
   };
 });
 
-System.register("forms_a2/common_renderer/controls/NumberArrayControlRenderer", ["angular2/core", "forms_a2/common_renderer/controls/AbstractArrayControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/controls/NumberArrayControlRenderer", ["angular2/core", "./AbstractArrayControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1793,7 +1793,7 @@ System.register("forms_a2/common_renderer/controls/NumberArrayControlRenderer", 
   };
 });
 
-System.register("forms_a2/common_renderer/common_renderer", ["forms_a2/common_renderer/layouts/VerticalLayoutRenderer", "forms_a2/common_renderer/layouts/HorizontalLayoutRenderer", "forms_a2/common_renderer/layouts/GroupLayoutRenderer", "forms_a2/common_renderer/controls/TextControlRenderer", "forms_a2/common_renderer/controls/NumberControlRenderer", "forms_a2/common_renderer/controls/IntegerControlRenderer", "forms_a2/common_renderer/controls/BooleanControlRenderer", "forms_a2/common_renderer/controls/EnumControlRenderer", "forms_a2/common_renderer/controls/ObjectControlRenderer", "forms_a2/common_renderer/controls/ObjectArrayControlRenderer", "forms_a2/common_renderer/controls/NumberArrayControlRenderer"], function(exports_1, context_1) {
+System.register("forms_a2/common_renderer/common_renderer", ["./layouts/VerticalLayoutRenderer", "./layouts/HorizontalLayoutRenderer", "./layouts/GroupLayoutRenderer", "./controls/TextControlRenderer", "./controls/NumberControlRenderer", "./controls/IntegerControlRenderer", "./controls/BooleanControlRenderer", "./controls/EnumControlRenderer", "./controls/ObjectControlRenderer", "./controls/ObjectArrayControlRenderer", "./controls/NumberArrayControlRenderer"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var VerticalLayoutRenderer_1,
@@ -1884,7 +1884,7 @@ System.register("forms_a2/common_renderer/common_renderer", ["forms_a2/common_re
   };
 });
 
-System.register("forms_a2/common_services/LogService", ["forms_a2/forms/forms"], function(exports_1, context_1) {
+System.register("forms_a2/common_services/LogService", ["./../forms/forms"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -1926,7 +1926,7 @@ System.register("forms_a2/common_services/LogService", ["forms_a2/forms/forms"],
   };
 });
 
-System.register("forms_a2/common_services/common_services", ["forms_a2/common_services/LogService", "forms_a2/common_services/ValidationService"], function(exports_1, context_1) {
+System.register("forms_a2/common_services/common_services", ["./LogService", "./ValidationService"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var LogService_1,
@@ -1948,7 +1948,7 @@ System.register("forms_a2/common_services/common_services", ["forms_a2/common_se
   };
 });
 
-System.register("forms_a2/forms/forms", ["forms_a2/forms/renderer_config_decorator", "forms_a2/forms/service_config_impl", "forms_a2/forms/uischema_service/uischema_config_decorator", "forms_a2/forms/renderer_registry", "forms_a2/forms/uischema_service/uischema_registry", "forms_a2/forms/form_outlet", "angular2/core", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "forms_a2/common_renderer/common_renderer", "forms_a2/common_services/common_services"], function(exports_1, context_1) {
+System.register("forms_a2/forms/forms", ["./renderer_config_decorator", "./service_config_impl", "./uischema_service/uischema_config_decorator", "./renderer_registry", "./uischema_service/uischema_registry", "./form_outlet", "angular2/core", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "../common_renderer/common_renderer", "../common_services/common_services"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var core_1,
@@ -2110,7 +2110,7 @@ System.register("forms_a2/common_renderer/PathUtil", [], function(exports_1, con
   };
 });
 
-System.register("forms_a2/common_services/ValidationService", ["forms_a2/forms/forms", "forms_a2/common_renderer/PathUtil"], function(exports_1, context_1) {
+System.register("forms_a2/common_services/ValidationService", ["./../forms/forms", "../common_renderer/PathUtil"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -2224,7 +2224,7 @@ System.register("forms_a2/common_services/ValidationService", ["forms_a2/forms/f
   };
 });
 
-System.register("forms_a2/common_services/services", ["forms_a2/common_services/LogService", "forms_a2/common_services/RuleService", "forms_a2/common_services/ValidationService"], function(exports_1, context_1) {
+System.register("forms_a2/common_services/services", ["./LogService", "./RuleService", "./ValidationService"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   function exportStar_1(m) {
@@ -2247,7 +2247,7 @@ System.register("forms_a2/common_services/services", ["forms_a2/common_services/
   };
 });
 
-System.register("forms_a2/forms_a2", ["forms_a2/forms/forms", "forms_a2/common_renderer/renderer", "forms_a2/common_services/services"], function(exports_1, context_1) {
+System.register("forms_a2/forms_a2", ["./forms/forms", "./common_renderer/renderer", "./common_services/services"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   function exportStar_1(m) {
@@ -2269,5 +2269,3 @@ System.register("forms_a2/forms_a2", ["forms_a2/forms/forms", "forms_a2/common_r
     execute: function() {}
   };
 });
-
-//# sourceMappingURL=bundle.map

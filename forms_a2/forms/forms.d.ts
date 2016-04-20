@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/uischema.d.ts" />
+/// <reference path="../../typings/uischema.d.ts" />
 export * from './renderer_config_decorator';
 export * from './service_config_impl';
 export * from './uischema_service/uischema_config_decorator';

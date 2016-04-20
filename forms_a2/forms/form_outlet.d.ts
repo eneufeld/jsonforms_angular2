@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/uischema.d.ts" />
+/// <reference path="../../typings/uischema.d.ts" />
 import { ElementRef, DynamicComponentLoader, OnInit, KeyValueDiffers, IterableDiffers, AfterContentInit, DoCheck, OnChanges } from 'angular2/core';
 import { RendererRegistry, FormServiceFactory, UISchemaProviderService } from './forms';
 export declare class FormOutlet implements OnInit, DoCheck, AfterContentInit, OnChanges {
